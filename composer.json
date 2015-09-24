@@ -1,0 +1,32 @@
+{
+    "name": "t4web/admin",
+    "description": "ZF2 Admin module",
+    "type": "library",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "zf2",
+        "admin"
+    ],
+    "homepage": "https://github.com/t4web/Admin",
+    "authors": [
+        {
+            "name": "Sebaks"
+        }
+    ],
+    "require": {
+        "php": ">=5.5",
+        "zendframework/zendframework": "~2.5"
+    },
+    "require-dev" : {
+        "phpunit/phpunit": "4.5.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "T4webAdmin": "src/",
+            "T4webAdminTest": "tests/"
+        },
+        "classmap": [
+            "./Module.php"
+        ]
+    }
+}

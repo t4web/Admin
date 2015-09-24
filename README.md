@@ -1,2 +1,2 @@
-# SeAdmin
+# Admin
 Admin module
