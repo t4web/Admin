@@ -20,7 +20,7 @@ class CrudController extends AbstractActionController
      */
     public function listAction(
         array $query,
-        Filter $inputFilter,
+         $inputFilter,
         Finder $finder,
         ListViewModel $listViewModel
     ) {

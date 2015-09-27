@@ -8,9 +8,30 @@ use T4webBase\Domain\Collection;
 class ListViewModel extends ViewModel
 {
     /**
+     * @var string
+     */
+    private $routeName;
+
+    /**
      * @var Collection
      */
     private $mainCollection;
+
+    /**
+     * @return string
+     */
+    public function getRouteName()
+    {
+        return $this->routeName;
+    }
+
+    /**
+     * @param string $routeName
+     */
+    public function setRouteName($routeName)
+    {
+        $this->routeName = $routeName;
+    }
 
     /**
      * @param Collection $collection
@@ -28,4 +49,5 @@ class ListViewModel extends ViewModel
     {
         return $this->mainCollection;
     }
+
 }

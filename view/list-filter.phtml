@@ -1,0 +1,22 @@
+<?php
+/** @var Zend\View\Helper\ViewModel $viewModelHelper */
+$viewModelHelper = $this->viewModel();
+/** @var T4webAdmin\View\Model\ListFilterViewModel $viewModel */
+$viewModel = $viewModelHelper->getCurrent();
+?>
+
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">Filter</h3>
+    </div>
+    <div class="box-body">
+        <form action="<?= $this->url($viewModel->getRouteName()) ?>" method="get">
+            <?php $filter = $viewModel->getFilter(); ?>
+
+            <div class="box-footer text-right">
+                <button class="btn btn-primary" type="submit">Search</button>
+                    <a href="<?=$this->url($viewModel->getRouteName())?>" class="btn btn-success">Clear</a>
+            </div>
+        </form>
+    </div>
+</div>
