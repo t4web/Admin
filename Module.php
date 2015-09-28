@@ -6,11 +6,16 @@ use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Router\Http\Segment;
+use Zend\Console\Request as ConsoleRequest;
 
 class Module implements AutoloaderProviderInterface, ConfigProviderInterface
 {
     public function onBootstrap(MvcEvent $e)
     {
+        if ($e->getRequest() instanceof ConsoleRequest) {
+            return;
+        }
+
         $eventManager = $e->getApplication()->getEventManager();
 
         $eventManager->attach(MvcEvent::EVENT_ROUTE, function(MvcEvent $e) {

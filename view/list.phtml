@@ -7,39 +7,29 @@ $viewModel = $this->viewModel()->getCurrent();
     <h1>List of entities</h1>
 </section>
 <section class="content">
+
     <?= $viewModel->filter ?>
+
     <div class="box-body text-right">
         <a class="btn btn-primary" href="<?= $this->url(
-            $viewModel->getRouteName(),
+            $viewModel->route,
             ['action' => 'new']
         ) ?>">New entity</a>
     </div>
+
     <div class="box">
         <div class="box-body">
-            <?php if (!$viewModel->getMainCollection()->count()): ?>
-                <span class="box-title">Entities not found</span>
-            <?php else: ?>
-                <table class="table" style="table-layout:fixed;">
-                    <tr>
-                        <th>#</th>
 
+            <?php
+            $tableViewModel = $viewModel->getTableViewModel();
+            $tableViewModel->setEntities($viewModel->getMainCollection());
 
+            echo $this->render($tableViewModel);
+            ?>
 
-                        <th>Actions</th>
-                    </tr>
-                    <?php /** @var $entity T4webBase\Domain\Entity */ ?>
-                    <?php foreach($viewModel->getMainCollection() as $entity): ?>
-                        <?php
-                            $listRowViewModel = $viewModel->getListRowViewModel();
-                            $listRowViewModel->setEntity($entity);
-                            echo $this->render($listRowViewModel);
-                        ?>
-                    <?php endforeach; ?>
-                </table>
-                <div class="pull-right">
-                    <?= $viewModel->paginator ?>
-                </div>
-            <?php endif; ?>
+            <div class="pull-right">
+                <?= $viewModel->paginator ?>
+            </div>
         </div>
     </div>
 </section>

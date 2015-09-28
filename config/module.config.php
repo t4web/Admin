@@ -7,7 +7,11 @@ return [
         'template_map' => [
             't4web-admin/list' => __DIR__ . '/../view/list.phtml',
             't4web-admin/list-filter' => __DIR__ . '/../view/list-filter.phtml',
-            't4web-admin/list-row' => __DIR__ . '/../view/list-row.phtml',
+            't4web-admin/list-table' => __DIR__ . '/../view/list-table.phtml',
+            't4web-admin/list-table-head' => __DIR__ . '/../view/list-table-head.phtml',
+            't4web-admin/list-table-head-column' => __DIR__ . '/../view/list-table-head-column.phtml',
+            't4web-admin/list-table-row' => __DIR__ . '/../view/list-table-row.phtml',
+            't4web-admin/list-table-row-column' => __DIR__ . '/../view/list-table-row-column.phtml',
             't4web-admin/paginator' => __DIR__ . '/../view/paginator.phtml',
         ],
     ],
@@ -34,34 +38,104 @@ return [
                 $criteriaFactory = $serviceLocator->get("$umodule\\$uentity\Criteria\CriteriaFactory");
                 $finder = new T4webBase\Domain\Service\BaseFinder($repository, $criteriaFactory);
 
+                // View
+
                 $viewModel = new T4webAdmin\View\Model\ListViewModel();
                 $viewModel->setTemplate('t4web-admin/list');
-                $viewModel->setRouteName('admin-' . $module . '-' . $entity);
+                $viewModel->setVariable('route', 'admin-' . $module . '-' . $entity);
 
+                // FilterView
                 $filterViewModel = new T4webAdmin\View\Model\ListFilterViewModel($inputFilter);
                 $filterViewModel->setTemplate('t4web-admin/list-filter');
-                $viewModel->setRouteName('admin-' . $module . '-' . $entity);
 
+                // PaginatorView
                 $paginatorViewModel = new T4webAdmin\View\Model\PaginatorViewModel($inputFilter, $finder);
                 $paginatorViewModel->setTemplate('t4web-admin/paginator');
 
-                $listRowHeadViewModel = new T4webAdmin\View\Model\ListRowHeadViewModel();
-                $listRowHeadViewModel->setTemplate('t4web-admin/list-row');
+                // TableView
+                $tableViewModel = new T4webAdmin\View\Model\TableViewModel();
+                $tableViewModel->setTemplate('t4web-admin/list-table');
+                $tableViewModel->setVariables($viewModel->getVariables());
 
 
-                $listColumns = [
-                    'Id',
-                    'Name',
-                    'Link'
-                ];
+                // head
 
-                $listRowViewModel = new T4webAdmin\View\Model\ListRowViewModel();
-                $listRowViewModel->setTemplate('t4web-admin/list-row');
-                $viewModel->setRouteName('admin-' . $module . '-' . $entity);
+                $tableHeadView = new T4webAdmin\View\Model\TableHeadViewModel();
+                $tableHeadView->setTemplate('t4web-admin/list-table-head');
+                $tableHeadView->setVariables($tableViewModel->getVariables());
+
+
+
+                $tableHeadColumnView = new T4webAdmin\View\Model\TableHeadColumnViewModel();
+                $tableHeadColumnView->setTemplate('t4web-admin/list-table-head-column');
+                $tableHeadColumnView->setVariables($tableViewModel->getVariables());
+                $tableHeadColumnView->setValue('#');
+
+                $tableHeadView->addColumnView($tableHeadColumnView);
+
+                $tableHeadColumnView = new T4webAdmin\View\Model\TableHeadColumnViewModel();
+                $tableHeadColumnView->setTemplate('t4web-admin/list-table-head-column');
+                $tableHeadColumnView->setVariables($tableViewModel->getVariables());
+                $tableHeadColumnView->setValue('Name');
+
+                $tableHeadView->addColumnView($tableHeadColumnView);
+
+                $tableHeadColumnView = new T4webAdmin\View\Model\TableHeadColumnViewModel();
+                $tableHeadColumnView->setTemplate('t4web-admin/list-table-head-column');
+                $tableHeadColumnView->setVariables($tableViewModel->getVariables());
+                $tableHeadColumnView->setValue('Link');
+
+                $tableHeadView->addColumnView($tableHeadColumnView);
+
+                $tableHeadColumnView = new T4webAdmin\View\Model\TableHeadColumnViewModel();
+                $tableHeadColumnView->setTemplate('t4web-admin/list-table-head-column');
+                $tableHeadColumnView->setVariables($tableViewModel->getVariables());
+                $tableHeadColumnView->setValue('Actions');
+
+                $tableHeadView->addColumnView($tableHeadColumnView);
+
+
+
+                $tableViewModel->setHeadView($tableHeadView);
+
+
+
+                // row
+
+                $tableRowView = new T4webAdmin\View\Model\TableRowViewModel();
+                $tableRowView->setTemplate('t4web-admin/list-table-row');
+                $tableRowView->setVariables($tableViewModel->getVariables());
+
+                $tableColumnView = new T4webAdmin\View\Model\TableColumnViewModel();
+                $tableColumnView->setTemplate('t4web-admin/list-table-row-column');
+                $tableColumnView->setVariables($tableRowView->getVariables());
+                $tableColumnView->setEntityAttribute('id');
+
+                $tableRowView->addColumnView($tableColumnView);
+
+                $tableColumnView = new T4webAdmin\View\Model\TableColumnViewModel();
+                $tableColumnView->setTemplate('t4web-admin/list-table-row-column');
+                $tableColumnView->setVariables($tableRowView->getVariables());
+                $tableColumnView->setEntityAttribute('name');
+
+                $tableRowView->addColumnView($tableColumnView);
+
+                $tableColumnView = new T4webAdmin\View\Model\TableColumnViewModel();
+                $tableColumnView->setTemplate('t4web-admin/list-table-row-column');
+                $tableColumnView->setVariables($tableRowView->getVariables());
+                $tableColumnView->setEntityAttribute('link');
+
+                $tableRowView->addColumnView($tableColumnView);
+
+                $tableViewModel->setRowView($tableRowView);
+
+                //
+
+
 
                 $viewModel->addChild($filterViewModel, 'filter');
-                $viewModel->addChild($paginatorViewModel, 'paginator');
-                $viewModel->setListRowViewModel($listRowViewModel);
+                $viewModel->addChild($paginatorViewModel, 'paginator', true);
+                $viewModel->setTableViewModel($tableViewModel);
 
                 $instance = new T4webAdmin\Controller\ListController(
                     $query,

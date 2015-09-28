@@ -1,0 +1,30 @@
+<?php
+/** @var T4webAdmin\View\Model\TableRowViewModel $viewModel */
+$viewModel = $this->viewModel()->getCurrent();
+$entity = $viewModel->getEntity();
+$columnsViewModels = $viewModel->getColumnsViewModels();
+?>
+
+<tr>
+    <?php
+        /** @var T4webAdmin\View\Model\TableColumnViewModel $columnViewModel */
+        foreach ($columnsViewModels as $columnViewModel) {
+            $columnViewModel->setEntity($entity);
+
+            echo $this->render($columnViewModel);
+        }
+    ?>
+    <td>
+        <a class="btn btn-primary btn-xs" href="<?= $this->url(
+            $viewModel->route,
+            ['action' => 'read', 'id' => $entity->getId()]
+        ) ?>">Edit</a>
+        <a class="delete-btn btn btn-danger btn-xs" href="<?= $this->url(
+            $viewModel->route,
+            ['action' => 'delete', 'id' => $entity->getId()]
+        ) ?>">
+            <i class="fa fa-times"></i>
+            Delete
+        </a>
+    </td>
+</tr>

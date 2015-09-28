@@ -18,9 +18,9 @@ class ListViewModel extends ViewModel
     private $mainCollection;
 
     /**
-     * @var ListRowViewModel
+     * @var TableViewModel
      */
-    private $listRowViewModel;
+    private $tableViewModel;
 
     /**
      * @return string
@@ -56,18 +56,18 @@ class ListViewModel extends ViewModel
     }
 
     /**
-     * @return ListRowViewModel
+     * @return TableViewModel
      */
-    public function getListRowViewModel()
+    public function getTableViewModel()
     {
-        return $this->listRowViewModel;
+        return $this->tableViewModel;
     }
 
     /**
-     * @param ListRowViewModel $listRowViewModel
+     * @param TableViewModel $tableViewModel
      */
-    public function setListRowViewModel(ListRowViewModel $listRowViewModel)
+    public function setTableViewModel($tableViewModel)
     {
-        $this->listRowViewModel = $listRowViewModel;
+        $this->tableViewModel = $tableViewModel;
     }
 }
