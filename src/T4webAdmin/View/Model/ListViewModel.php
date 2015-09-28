@@ -18,6 +18,11 @@ class ListViewModel extends ViewModel
     private $mainCollection;
 
     /**
+     * @var ListRowViewModel
+     */
+    private $listRowViewModel;
+
+    /**
      * @return string
      */
     public function getRouteName()
@@ -50,4 +55,19 @@ class ListViewModel extends ViewModel
         return $this->mainCollection;
     }
 
+    /**
+     * @return ListRowViewModel
+     */
+    public function getListRowViewModel()
+    {
+        return $this->listRowViewModel;
+    }
+
+    /**
+     * @param ListRowViewModel $listRowViewModel
+     */
+    public function setListRowViewModel(ListRowViewModel $listRowViewModel)
+    {
+        $this->listRowViewModel = $listRowViewModel;
+    }
 }

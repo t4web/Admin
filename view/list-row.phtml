@@ -1,0 +1,28 @@
+<?php
+/** @var Zend\View\Helper\ViewModel $viewModelHelper */
+$viewModelHelper = $this->viewModel();
+/** @var T4webAdmin\View\Model\ListRowViewModel $viewModel */
+$viewModel = $viewModelHelper->getCurrent();
+
+$entity = $viewModel->getEntity();
+$colsValues = $entity->extract();
+?>
+
+<tr class="list">
+    <?php foreach ($colsValues as $col => $value): ?>
+        <td><?= $value ?></td>
+    <?php endforeach; ?>
+    <td>
+        <a class="btn btn-primary btn-xs" href="<?= $this->url(
+            $viewModel->getRouteName(),
+            ['action' => 'read', 'id' => $entity->getId()]
+        ) ?>">Edit</a>
+        <a class="delete-btn btn btn-danger btn-xs" href="<?= $this->url(
+            $viewModel->getRouteName(),
+            ['action' => 'delete', 'id' => $entity->getId()]
+        ) ?>">
+            <i class="fa fa-times"></i>
+            Delete
+        </a>
+    </td>
+</tr>

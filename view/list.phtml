@@ -1,5 +1,7 @@
-<?php /** @var T4webAdmin\View\Model\ListViewModel $viewModel */ ?>
-<?php $viewModel = $this->viewModel()->getCurrent(); ?>
+<?php
+/** @var T4webAdmin\View\Model\ListViewModel $viewModel */
+$viewModel = $this->viewModel()->getCurrent();
+?>
 
 <section class="content-header">
     <h1>List of entities</h1>
@@ -27,25 +29,11 @@
                     </tr>
                     <?php /** @var $entity T4webBase\Domain\Entity */ ?>
                     <?php foreach($viewModel->getMainCollection() as $entity): ?>
-                        <tr class="list">
-                            <td><?= $entity->getId() ?></td>
-
-
-
-                            <td>
-                                <a class="btn btn-primary btn-xs" href="<?= $this->url(
-                                    $viewModel->getRouteName(),
-                                    ['action' => 'read', 'id' => $entity->getId()]
-                                ) ?>">Edit</a>
-                                <a class="delete-btn btn btn-danger btn-xs" href="<?= $this->url(
-                                    $viewModel->getRouteName(),
-                                    ['action' => 'delete', 'id' => $entity->getId()]
-                                ) ?>">
-                                    <i class="fa fa-times"></i>
-                                    Delete
-                                </a>
-                            </td>
-                        </tr>
+                        <?php
+                            $listRowViewModel = $viewModel->getListRowViewModel();
+                            $listRowViewModel->setEntity($entity);
+                            echo $this->render($listRowViewModel);
+                        ?>
                     <?php endforeach; ?>
                 </table>
                 <div class="pull-right">

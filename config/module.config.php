@@ -7,6 +7,7 @@ return [
         'template_map' => [
             't4web-admin/list' => __DIR__ . '/../view/list.phtml',
             't4web-admin/list-filter' => __DIR__ . '/../view/list-filter.phtml',
+            't4web-admin/list-row' => __DIR__ . '/../view/list-row.phtml',
             't4web-admin/paginator' => __DIR__ . '/../view/paginator.phtml',
         ],
     ],
@@ -44,8 +45,23 @@ return [
                 $paginatorViewModel = new T4webAdmin\View\Model\PaginatorViewModel($inputFilter, $finder);
                 $paginatorViewModel->setTemplate('t4web-admin/paginator');
 
+                $listRowHeadViewModel = new T4webAdmin\View\Model\ListRowHeadViewModel();
+                $listRowHeadViewModel->setTemplate('t4web-admin/list-row');
+
+
+                $listColumns = [
+                    'Id',
+                    'Name',
+                    'Link'
+                ];
+
+                $listRowViewModel = new T4webAdmin\View\Model\ListRowViewModel();
+                $listRowViewModel->setTemplate('t4web-admin/list-row');
+                $viewModel->setRouteName('admin-' . $module . '-' . $entity);
+
                 $viewModel->addChild($filterViewModel, 'filter');
                 $viewModel->addChild($paginatorViewModel, 'paginator');
+                $viewModel->setListRowViewModel($listRowViewModel);
 
                 $instance = new T4webAdmin\Controller\ListController(
                     $query,
