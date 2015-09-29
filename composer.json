@@ -23,9 +23,15 @@
             "url": "https://github.com/t4web/base.git"
         }
     ],
+
     "require": {
         "php": ">=5.5",
-        "zendframework/zendframework": "~2.5",
+        "zendframework/zend-console": "~2.5.0",
+        "zendframework/zend-eventmanager": "~2.5.0",
+        "zendframework/zend-modulemanager": "~2.5.0",
+        "zendframework/zend-mvc": "~2.5.0",
+        "zendframework/zend-paginator": "~2.5.0",
+        "zendframework/zend-view": "~2.5.0",
         "t4web/base": "dev-master",
         "t4web/actioninjections": "dev-master"
     },
