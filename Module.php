@@ -4,13 +4,15 @@ namespace T4webAdmin;
 
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
+use Zend\ModuleManager\Feature\BootstrapListenerInterface;
+use Zend\EventManager\EventInterface;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Router\Http\Segment;
 use Zend\Console\Request as ConsoleRequest;
 
-class Module implements AutoloaderProviderInterface, ConfigProviderInterface
+class Module implements AutoloaderProviderInterface, ConfigProviderInterface, BootstrapListenerInterface
 {
-    public function onBootstrap(MvcEvent $e)
+    public function onBootstrap(EventInterface $e)
     {
         if ($e->getRequest() instanceof ConsoleRequest) {
             return;
@@ -18,7 +20,7 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
 
         $eventManager = $e->getApplication()->getEventManager();
 
-        $eventManager->attach(MvcEvent::EVENT_ROUTE, function(MvcEvent $e) {
+        $eventManager->attach(MvcEvent::EVENT_ROUTE, function(EventInterface $e) {
             $serviceManager = $e->getApplication()->getServiceManager();
 
             $config = $serviceManager->get('config');
