@@ -18,8 +18,11 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface, Bo
             return;
         }
 
+        /** @var \Zend\EventManager\EventManager $eventManager */
         $eventManager = $e->getApplication()->getEventManager();
 
+        //$routeListener = new RouteListener();
+        //$eventManager->attachAggregate($routeListener);
         $eventManager->attach(MvcEvent::EVENT_ROUTE, function(EventInterface $e) {
             $serviceManager = $e->getApplication()->getServiceManager();
 
