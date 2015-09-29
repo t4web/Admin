@@ -59,78 +59,46 @@ return [
 
 
                 // head
+                $config = $serviceLocator->get('config');
 
-                $tableHeadView = new T4webAdmin\View\Model\TableHeadViewModel();
-                $tableHeadView->setTemplate('t4web-admin/list-table-head');
-                $tableHeadView->setVariables($tableViewModel->getVariables());
+                if (!empty($config['t4web-admin'][$module][$entity]['list']['table']['head'])) {
+                    $headConfig = $config['t4web-admin'][$module][$entity]['list']['table']['head'];
 
+                    $tableHeadView = new T4webAdmin\View\Model\TableHeadViewModel();
+                    $tableHeadView->setTemplate('t4web-admin/list-table-head');
+                    $tableHeadView->setVariables($tableViewModel->getVariables());
 
+                    foreach ($headConfig as $head) {
+                        $tableHeadColumnView = new T4webAdmin\View\Model\TableHeadColumnViewModel();
+                        $tableHeadColumnView->setTemplate('t4web-admin/list-table-head-column');
+                        $tableHeadColumnView->setVariables($tableViewModel->getVariables());
+                        $tableHeadColumnView->setValue($head);
 
-                $tableHeadColumnView = new T4webAdmin\View\Model\TableHeadColumnViewModel();
-                $tableHeadColumnView->setTemplate('t4web-admin/list-table-head-column');
-                $tableHeadColumnView->setVariables($tableViewModel->getVariables());
-                $tableHeadColumnView->setValue('#');
+                        $tableHeadView->addColumnView($tableHeadColumnView);
+                    }
 
-                $tableHeadView->addColumnView($tableHeadColumnView);
-
-                $tableHeadColumnView = new T4webAdmin\View\Model\TableHeadColumnViewModel();
-                $tableHeadColumnView->setTemplate('t4web-admin/list-table-head-column');
-                $tableHeadColumnView->setVariables($tableViewModel->getVariables());
-                $tableHeadColumnView->setValue('Name');
-
-                $tableHeadView->addColumnView($tableHeadColumnView);
-
-                $tableHeadColumnView = new T4webAdmin\View\Model\TableHeadColumnViewModel();
-                $tableHeadColumnView->setTemplate('t4web-admin/list-table-head-column');
-                $tableHeadColumnView->setVariables($tableViewModel->getVariables());
-                $tableHeadColumnView->setValue('Link');
-
-                $tableHeadView->addColumnView($tableHeadColumnView);
-
-                $tableHeadColumnView = new T4webAdmin\View\Model\TableHeadColumnViewModel();
-                $tableHeadColumnView->setTemplate('t4web-admin/list-table-head-column');
-                $tableHeadColumnView->setVariables($tableViewModel->getVariables());
-                $tableHeadColumnView->setValue('Actions');
-
-                $tableHeadView->addColumnView($tableHeadColumnView);
-
-
-
-                $tableViewModel->setHeadView($tableHeadView);
-
-
+                    $tableViewModel->setHeadView($tableHeadView);
+                }
 
                 // row
+                if (!empty($config['t4web-admin'][$module][$entity]['list']['table']['row'])) {
+                    $rowConfig = $config['t4web-admin'][$module][$entity]['list']['table']['row'];
 
-                $tableRowView = new T4webAdmin\View\Model\TableRowViewModel();
-                $tableRowView->setTemplate('t4web-admin/list-table-row');
-                $tableRowView->setVariables($tableViewModel->getVariables());
+                    $tableRowView = new T4webAdmin\View\Model\TableRowViewModel();
+                    $tableRowView->setTemplate('t4web-admin/list-table-row');
+                    $tableRowView->setVariables($tableViewModel->getVariables());
 
-                $tableColumnView = new T4webAdmin\View\Model\TableColumnViewModel();
-                $tableColumnView->setTemplate('t4web-admin/list-table-row-column');
-                $tableColumnView->setVariables($tableRowView->getVariables());
-                $tableColumnView->setEntityAttribute('id');
+                    foreach ($rowConfig as $row) {
+                        $tableColumnView = new T4webAdmin\View\Model\TableColumnViewModel();
+                        $tableColumnView->setTemplate('t4web-admin/list-table-row-column');
+                        $tableColumnView->setVariables($tableRowView->getVariables());
+                        $tableColumnView->setEntityAttribute($row);
 
-                $tableRowView->addColumnView($tableColumnView);
+                        $tableRowView->addColumnView($tableColumnView);
+                    }
 
-                $tableColumnView = new T4webAdmin\View\Model\TableColumnViewModel();
-                $tableColumnView->setTemplate('t4web-admin/list-table-row-column');
-                $tableColumnView->setVariables($tableRowView->getVariables());
-                $tableColumnView->setEntityAttribute('name');
-
-                $tableRowView->addColumnView($tableColumnView);
-
-                $tableColumnView = new T4webAdmin\View\Model\TableColumnViewModel();
-                $tableColumnView->setTemplate('t4web-admin/list-table-row-column');
-                $tableColumnView->setVariables($tableRowView->getVariables());
-                $tableColumnView->setEntityAttribute('link');
-
-                $tableRowView->addColumnView($tableColumnView);
-
-                $tableViewModel->setRowView($tableRowView);
-
-                //
-
+                    $tableViewModel->setRowView($tableRowView);
+                }
 
 
                 $viewModel->addChild($filterViewModel, 'filter');
