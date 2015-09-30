@@ -120,6 +120,7 @@ return [
         'abstract_factories' => [
         ],
         'factories' => [
+            'T4WebAdmin\RouteGenerator' => 'T4WebAdmin\RouteGeneratorFactory',
         ],
     ],
 ];

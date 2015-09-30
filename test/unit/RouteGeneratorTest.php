@@ -2,31 +2,15 @@
 
 namespace T4webAdmin\UnitTest;
 
-use T4webAdmin\RouteListener;
+use T4webAdmin\RouteGenerator;
 
-class RouteListenerTest extends \PHPUnit_Framework_TestCase {
+class RouteGeneratorTest extends \PHPUnit_Framework_TestCase {
 
     public function testOnRoute()
     {
-        $routeListener = new RouteListener();
-
-        $appMock = $this->getMockBuilder('Zend\Mvc\Application')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $smMock = $this->getMockBuilder('\Zend\ServiceManager\ServiceLocatorInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $eventMock = $this->getMockBuilder('Zend\Mvc\MvcEvent')
             ->disableOriginalConstructor()
             ->getMock();
-
-        $eventMock->method('getApplication')
-            ->will($this->returnValue($appMock));
-
-        $appMock->method('getServiceManager')
-            ->will($this->returnValue($smMock));
 
         $config = [
             't4web-admin' => [
@@ -43,11 +27,9 @@ class RouteListenerTest extends \PHPUnit_Framework_TestCase {
         $eventMock->method('getRouter')
             ->will($this->returnValue($routerStack));
 
-        $smMock->method('get')
-            ->with('config')
-            ->will($this->returnValue($config));
+        $routeGenerator = new RouteGenerator($eventMock, $config);
 
-        $routeListener->onRoute($eventMock);
+        $routeGenerator->generate();
 
         $compiledRoutes = $routerStack->getRoutes()->toArray();
         $this->assertArrayHasKey('admin-banners-banner', $compiledRoutes);
