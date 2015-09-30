@@ -17,11 +17,11 @@ $columnsViewModels = $viewModel->getColumnsViewModels();
     <td>
         <a class="btn btn-primary btn-xs" href="<?= $this->url(
             $viewModel->route,
-            ['action' => 'read', 'id' => $entity->getId()]
+            ['controller' => 'read', 'id' => $entity->getId()]
         ) ?>">Edit</a>
         <a class="delete-btn btn btn-danger btn-xs" href="<?= $this->url(
             $viewModel->route,
-            ['action' => 'delete', 'id' => $entity->getId()]
+            ['controller' => 'delete', 'id' => $entity->getId()]
         ) ?>">
             <i class="fa fa-times"></i>
             Delete

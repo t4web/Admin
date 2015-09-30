@@ -16,7 +16,7 @@ return [
     'controllers' => [
         'factories' => [
             'T4webAdmin\Controller\List' => 'T4webAdmin\Controller\ListControllerFactory',
-			'T4webAdmin\Controller\New' => function(ControllerManager $controllerManager) {
+			'T4webAdmin\Controller\New' => function() {
                 return new T4webAdmin\Controller\NewController();
             }
         ],
