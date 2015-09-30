@@ -11,13 +11,27 @@ return [
             't4web-admin/list-table-row' => __DIR__ . '/../view/list-table-row.phtml',
             't4web-admin/list-table-row-column' => __DIR__ . '/../view/list-table-row-column.phtml',
             't4web-admin/paginator' => __DIR__ . '/../view/paginator.phtml',
+            't4web-admin/new' => __DIR__ . '/../view/new.phtml',
         ],
     ],
     'controllers' => [
         'factories' => [
             'T4webAdmin\Controller\List' => 'T4webAdmin\Controller\ListControllerFactory',
-			'T4webAdmin\Controller\New' => function() {
-                return new T4webAdmin\Controller\NewController();
+			'T4webAdmin\Controller\New' => function($controllerManager) {
+                $serviceLocator = $controllerManager->getServiceLocator();
+                /** @var \Zend\Mvc\Application $app */
+                $app = $serviceLocator->get('Application');
+                /** @var \Zend\Mvc\Router\Http\RouteMatch $routeMatch */
+                $routeMatch = $app->getMvcEvent()->getRouteMatch();
+
+                $module = $this->module = $routeMatch->getParam('module');
+                $entity = $this->entity = $routeMatch->getParam('entity');
+
+                $viewModel = new Zend\View\Model\ViewModel();
+                $viewModel->setTemplate('t4web-admin/new');
+                $viewModel->setVariable('route', 'admin-' . $module . '-' . $entity);
+
+                return new T4webAdmin\Controller\NewController($viewModel);
             }
         ],
     ],

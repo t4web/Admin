@@ -2,14 +2,30 @@
 
 namespace T4webAdmin\Controller;
 
-use T4webActionInjections\Mvc\Controller\AbstractActionController;
-use T4webBase\InputFilter\Filter;
-use T4webBase\Domain\Service\BaseFinder as Finder;
-use T4webAdmin\View\Model\ListViewModel;
+use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\ViewModel;
 
 class NewController extends AbstractActionController
 {
+    /**
+     * @var ViewModel
+     */
+    private $viewModel;
+
+    /**
+     * NewController constructor.
+     * @param ViewModel $viewModel
+     */
+    public function __construct(ViewModel $viewModel)
+    {
+        $this->viewModel = $viewModel;
+    }
+
+    /**
+     * @return ViewModel
+     */
     public function indexAction()
     {
+        return $this->viewModel;
     }
 }
