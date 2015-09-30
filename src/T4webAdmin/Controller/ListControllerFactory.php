@@ -4,56 +4,108 @@ namespace T4webAdmin\Controller;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\ServiceManager;
+use T4webAdmin\InputFilter\ListInputFilter;
+use T4webBase\Domain\Service\BaseFinder;
 
 class ListControllerFactory implements FactoryInterface
 {
+    /**
+     * @var ServiceManager
+     */
+    private $serviceLocator;
+
+    /**
+     * @var ListInputFilter
+     */
+    private $inputFilter;
+
+    private $module;
+    private $entity;
+
+    /**
+     * @var BaseFinder
+     */
+    private $finder;
+
     public function createService(ServiceLocatorInterface $controllerManager)
     {
-        /** @var \Zend\ServiceManager\ServiceManager $serviceLocator */
-        $serviceLocator = $controllerManager->getServiceLocator();
+        $this->serviceLocator = $controllerManager->getServiceLocator();
         /** @var \Zend\Mvc\Application $app */
-        $app = $serviceLocator->get('Application');
+        $app = $this->serviceLocator->get('Application');
         /** @var \Zend\Mvc\Router\Http\RouteMatch $routeMatch */
         $routeMatch = $app->getMvcEvent()->getRouteMatch();
 
-        $module = $routeMatch->getParam('module');
-        $entity = $routeMatch->getParam('entity');
-        $umodule = ucfirst($module);
-        $uentity = ucfirst($entity);
-
-        $query = $serviceLocator->get('request')->getQuery()->toArray();
-        $inputFilter = new \T4webAdmin\InputFilter\ListInputFilter($umodule, $uentity);
-
-
-        $repository = $serviceLocator->get("$umodule\\$uentity\Repository\DbRepository");
-        $criteriaFactory = $serviceLocator->get("$umodule\\$uentity\Criteria\CriteriaFactory");
-        $finder = new \T4webBase\Domain\Service\BaseFinder($repository, $criteriaFactory);
+        $module = $this->module = $routeMatch->getParam('module');
+        $entity = $this->entity = $routeMatch->getParam('entity');
 
         // View
-
         $viewModel = new \T4webAdmin\View\Model\ListViewModel();
         $viewModel->setTemplate('t4web-admin/list');
         $viewModel->setVariable('route', 'admin-' . $module . '-' . $entity);
 
         // FilterView
-        $filterViewModel = new \T4webAdmin\View\Model\ListFilterViewModel($inputFilter);
+        $filterViewModel = new \T4webAdmin\View\Model\ListFilterViewModel($this->getInputFilter());
         $filterViewModel->setTemplate('t4web-admin/list-filter');
 
         // PaginatorView
-        $paginatorViewModel = new \T4webAdmin\View\Model\PaginatorViewModel($inputFilter, $finder);
+        $paginatorViewModel = new \T4webAdmin\View\Model\PaginatorViewModel($this->getInputFilter(), $this->getFinder());
         $paginatorViewModel->setTemplate('t4web-admin/paginator');
 
+        $viewModel->addChild($filterViewModel, 'filter');
+        $viewModel->addChild($paginatorViewModel, 'paginator', true);
+        $viewModel->setTableViewModel($this->getTableView($viewModel));
+
+        $instance = new \T4webAdmin\Controller\ListController(
+            $this->getQuery(),
+            $this->getInputFilter(),
+            $this->getFinder(),
+            $viewModel
+        );
+
+        return $instance;
+    }
+
+    private function getQuery()
+    {
+        return $this->serviceLocator->get('request')->getQuery()->toArray();
+    }
+
+    private function getInputFilter()
+    {
+        if (is_null($this->inputFilter)) {
+            $this->inputFilter = new ListInputFilter(ucfirst($this->module), ucfirst($this->entity));
+        }
+
+        return $this->inputFilter;
+    }
+
+    private function getFinder()
+    {
+        if (is_null($this->finder)) {
+            $umodule = ucfirst($this->module);
+            $uentity = ucfirst($this->entity);
+            $repository = $this->serviceLocator->get("$umodule\\$uentity\Repository\DbRepository");
+            $criteriaFactory = $this->serviceLocator->get("$umodule\\$uentity\Criteria\CriteriaFactory");
+            $this->finder = new \T4webBase\Domain\Service\BaseFinder($repository, $criteriaFactory);
+        }
+
+        return $this->finder;
+    }
+
+    private function getTableView($parentViewModel)
+    {
         // TableView
         $tableViewModel = new \T4webAdmin\View\Model\TableViewModel();
         $tableViewModel->setTemplate('t4web-admin/list-table');
-        $tableViewModel->setVariables($viewModel->getVariables());
+        $tableViewModel->setVariables($parentViewModel->getVariables());
 
 
         // head
-        $config = $serviceLocator->get('config');
+        $config = $this->serviceLocator->get('config');
 
-        if (!empty($config['t4web-admin'][$module][$entity]['list']['table']['head'])) {
-            $headConfig = $config['t4web-admin'][$module][$entity]['list']['table']['head'];
+        if (!empty($config['t4web-admin'][$this->module][$this->entity]['list']['table']['head'])) {
+            $headConfig = $config['t4web-admin'][$this->module][$this->entity]['list']['table']['head'];
 
             $tableHeadView = new \T4webAdmin\View\Model\TableHeadViewModel();
             $tableHeadView->setTemplate('t4web-admin/list-table-head');
@@ -72,8 +124,8 @@ class ListControllerFactory implements FactoryInterface
         }
 
         // row
-        if (!empty($config['t4web-admin'][$module][$entity]['list']['table']['row'])) {
-            $rowConfig = $config['t4web-admin'][$module][$entity]['list']['table']['row'];
+        if (!empty($config['t4web-admin'][$this->module][$this->entity]['list']['table']['row'])) {
+            $rowConfig = $config['t4web-admin'][$this->module][$this->entity]['list']['table']['row'];
 
             $tableRowView = new \T4webAdmin\View\Model\TableRowViewModel();
             $tableRowView->setTemplate('t4web-admin/list-table-row');
@@ -91,18 +143,6 @@ class ListControllerFactory implements FactoryInterface
             $tableViewModel->setRowView($tableRowView);
         }
 
-
-        $viewModel->addChild($filterViewModel, 'filter');
-        $viewModel->addChild($paginatorViewModel, 'paginator', true);
-        $viewModel->setTableViewModel($tableViewModel);
-
-        $instance = new \T4webAdmin\Controller\ListController(
-            $query,
-            $inputFilter,
-            $finder,
-            $viewModel
-        );
-
-        return $instance;
+        return $tableViewModel;
     }
 }
