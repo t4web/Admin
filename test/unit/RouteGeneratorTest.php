@@ -6,7 +6,7 @@ use T4webAdmin\RouteGenerator;
 
 class RouteGeneratorTest extends \PHPUnit_Framework_TestCase {
 
-    public function testOnRoute()
+    public function testGenerate()
     {
         $eventMock = $this->getMockBuilder('Zend\Mvc\MvcEvent')
             ->disableOriginalConstructor()
