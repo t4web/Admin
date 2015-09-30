@@ -114,6 +114,9 @@ return [
 
                 return $instance;
             },
+            'T4webAdmin\Controller\New' => function(ControllerManager $controllerManager) {
+                return new T4webAdmin\Controller\NewController();
+            }
         ],
     ],
     'service_manager' => [

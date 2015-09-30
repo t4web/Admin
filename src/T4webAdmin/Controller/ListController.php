@@ -3,11 +3,12 @@
 namespace T4webAdmin\Controller;
 
 use T4webActionInjections\Mvc\Controller\AbstractActionController;
+use Zend\Mvc\Controller\AbstractActionController as ZendAbstractActionController;
 use T4webBase\InputFilter\Filter;
 use T4webBase\Domain\Service\BaseFinder as Finder;
 use T4webAdmin\View\Model\ListViewModel;
 
-class ListController extends AbstractActionController
+class ListController extends ZendAbstractActionController
 {
     /**
      * @var array
@@ -52,7 +53,7 @@ class ListController extends AbstractActionController
     /**
      * @return ListViewModel
      */
-    public function listAction()
+    public function indexAction()
     {
         $query = $this->inputFilter->filter($this->query);
 

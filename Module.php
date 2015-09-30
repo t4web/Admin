@@ -21,8 +21,6 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface, Bo
         /** @var \Zend\EventManager\EventManager $eventManager */
         $eventManager = $e->getApplication()->getEventManager();
 
-        //$routeListener = new RouteListener();
-        //$eventManager->attachAggregate($routeListener);
         $eventManager->attach(MvcEvent::EVENT_ROUTE, function(EventInterface $e) {
             $serviceManager = $e->getApplication()->getServiceManager();
 
@@ -38,11 +36,11 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface, Bo
                     $router = $e->getRouter();
 
                     $route = Segment::factory(array(
-                        'route' => '/admin/' . $module . '/' . $entity . '[/:action][/:id]',
+                        'route' => '/admin/' . $module . '/' . $entity . '[/:controller][/:id]',
                         'defaults' => array(
                             '__NAMESPACE__' => 'T4webAdmin\Controller',
-                            'controller' => 'List',
-                            'action' => 'list',
+                            'controller' => 'list',
+                            'action' => 'index',
                             'module' => $module,
                             'entity' => $entity,
                         )
