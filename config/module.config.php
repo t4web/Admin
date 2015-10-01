@@ -27,9 +27,43 @@ return [
                 $module = $this->module = $routeMatch->getParam('module');
                 $entity = $this->entity = $routeMatch->getParam('entity');
 
-                $viewModel = new Zend\View\Model\ViewModel();
+                $factory = new Zend\Form\Factory();
+                $form    = $factory->createForm(array(
+                    'elements' => array(
+                        array(
+                            'spec' => array(
+                                'type' => 'Zend\Form\Element\Text',
+                                'name' => 'name',
+                                'options' => array(
+                                    'label' => 'Name ',
+                                ),
+                            ),
+                        ),
+                        array(
+                            'spec' => array(
+                                'type' => 'Zend\Form\Element\Text',
+                                'name' => 'link',
+                                'options' => array(
+                                    'label' => 'Link ',
+                                ),
+                            ),
+                        ),
+                        array(
+                            'spec' => array(
+                                'name' => 'send',
+                                'type'  => 'Submit',
+                                'attributes' => array(
+                                    'value' => 'Submit',
+                                ),
+                            ),
+                        ),
+                    ),
+                ));
+
+                $viewModel = new T4webAdmin\View\Model\NewViewModel();
                 $viewModel->setTemplate('t4web-admin/new');
                 $viewModel->setVariable('route', 'admin-' . $module . '-' . $entity);
+                $viewModel->setForm($form);
 
                 return new T4webAdmin\Controller\NewController($viewModel);
             }
