@@ -16,10 +16,6 @@
     "repositories": [
         {
             "type": "git",
-            "url": "https://github.com/t4web/actioninjections.git"
-        },
-        {
-            "type": "git",
             "url": "https://github.com/t4web/base.git"
         }
     ],
