@@ -251,6 +251,40 @@ return [
 
                 return new T4webAdmin\Controller\UpdateController($id, $post, $updater, $viewModel, $route);
             },
+            'T4webAdmin\Controller\Delete' => function($controllerManager) {
+
+                $serviceLocator = $controllerManager->getServiceLocator();
+
+                $config = $serviceLocator->get('config');
+
+                /** @var \Zend\Mvc\Application $app */
+                $app = $serviceLocator->get('Application');
+                /** @var \Zend\Mvc\Router\Http\RouteMatch $routeMatch */
+                $routeMatch = $app->getMvcEvent()->getRouteMatch();
+
+                $module = $routeMatch->getParam('module');
+                $entity = $routeMatch->getParam('entity');
+                $umodule = ucfirst($module);
+                $uentity = ucfirst($entity);
+
+                $route = 'admin-' . $module . '-' . $entity;
+
+                /** @var EventManager $eventManager */
+                $eventManager = $serviceLocator->get('EventManager');
+                $eventManager->addIdentifiers("$umodule\\$uentity\Service\Deleter");
+
+                $deleter = new T4webBase\Domain\Service\Delete(
+                    $serviceLocator->get("$umodule\\$uentity\Repository\DbRepository"),
+                    $serviceLocator->get("$umodule\\$uentity\Factory\CriteriaFactory"),
+                    $eventManager
+                );
+
+                $viewModel = new T4webAdmin\View\Model\DeleteViewModel();
+
+                $id = $routeMatch->getParam('id');
+
+                return new T4webAdmin\Controller\DeleteController($id, $deleter, $viewModel, $route);
+            },
         ],
     ],
     'service_manager' => [
