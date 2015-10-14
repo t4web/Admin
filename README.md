@@ -1,7 +1,7 @@
 # Admin
 Admin module
 
-Problem: when you create entity, you must coding the same CRUD with different entity fields. Typicaly CRUD Controllers:
+Problem: when you create entity, you must coding the same CRUD with different entity fields everytime for each entity. Typicaly CRUD Controllers:
 ```php
 class ListController
 {
