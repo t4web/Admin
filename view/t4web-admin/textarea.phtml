@@ -1,0 +1,9 @@
+<?php
+/** @var T4webAdmin\View\Model\TextareaViewModel $viewModel */
+$viewModel = $this->viewModel()->getCurrent();
+?>
+
+<div class="form-group">
+    <label><?= $viewModel->label ?></label>
+    <textarea name="text" rows="3" placeholder="<?= $viewModel->placeholder ?>" class="form-control"></textarea>
+</div>

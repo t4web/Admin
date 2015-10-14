@@ -1,0 +1,16 @@
+<?php
+/** @var T4webAdmin\View\Model\FormViewModel $viewModel */
+$viewModel = $this->viewModel()->getCurrent();
+?>
+
+<form method="post" action="<?= $this->url($viewModel->route, ['controller' => 'create']) ?>">
+    <div class="box-body">
+        <?php foreach ($viewModel->getChildren() as $children): ?>
+            <?= $this->render($children) ?>
+        <?php endforeach; ?>
+    </div>
+    <div class="box-footer">
+        <button type="submit" class="btn btn-success" style="margin: 10px 10px">Create</button>
+        <a class="btn btn-default" href="<?= $this->url($viewModel->route) ?>">Cancel</a>
+    </div>
+</form>
