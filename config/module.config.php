@@ -25,13 +25,13 @@ return [
 
                 $route = 'admin-' . $module . '-' . $entity;
 
-                $viewModel = new Zend\View\Model\ViewModel();
-                $viewModel->setTemplate('t4web-admin/new');
+                $viewModel = new T4webAdmin\View\Model\CreateViewModel();
+                $viewModel->setTemplate('t4web-admin/create');
                 $viewModel->setVariable('route', $route);
 
-                $formView = new Zend\View\Model\ViewModel();
-                $formView->setTemplate('t4web-admin/form');
-                $formView->setVariable('route', $route);
+                $formViewModel = new T4webAdmin\View\Model\FormViewModel();
+                $formViewModel->setTemplate('t4web-admin/form');
+                $formViewModel->setVariable('route', $route);
 
                 if (!empty($config['t4web-admin'][$module][$entity]['new']['form'])) {
                     $formConfig = $config['t4web-admin'][$module][$entity]['new']['form'];
@@ -43,17 +43,20 @@ return [
                         $elementView->setTemplate($template);
                         $elementView->setVariables($element['variables']);
 
-                        $formView->addChild($elementView);
+                        $formViewModel->addChild($elementView);
                     }
                 }
 
-                $viewModel->addChild($formView, 'form');
+                $viewModel->setFormViewModel($formViewModel);
 
                 return new T4webAdmin\Controller\NewController($viewModel);
             },
             'T4webAdmin\Controller\Create' => function($controllerManager) {
 
                 $serviceLocator = $controllerManager->getServiceLocator();
+
+                $config = $serviceLocator->get('config');
+
                 /** @var \Zend\Mvc\Application $app */
                 $app = $serviceLocator->get('Application');
                 /** @var \Zend\Mvc\Router\Http\RouteMatch $routeMatch */
@@ -65,9 +68,20 @@ return [
                 $uentity = ucfirst($entity);
 
 
-                $post = $serviceLocator->get('request')->getPost()->toArray();
+                // creator
+                $inputFilterFactory = new Zend\InputFilter\Factory();
+                $inputFilter = $inputFilterFactory->createInputFilter([
+                    'text' => array(
+                        'name'       => 'text',
+                        'required'   => true,
+                        'validators' => array(
+                            array(
+                                'name' => 'not_empty',
+                            ),
+                        ),
+                    ),
+                ]);
 
-                $inputFilter = new T4webAdmin\InputFilter\CreateInputFilter($umodule, $uentity);
 
                 /** @var EventManager $eventManager */
                 $eventManager = $serviceLocator->get('EventManager');
@@ -80,10 +94,41 @@ return [
                     $eventManager
                 );
 
+                // data
+                $post = $serviceLocator->get('request')->getPost()->toArray();
+
+                // view
+                $route = 'admin-' . $module . '-' . $entity;
+
                 $viewModel = new T4webAdmin\View\Model\CreateViewModel();
                 $viewModel->setTemplate('t4web-admin/create');
+                $viewModel->setVariable('route', $route);
 
-                return new T4webAdmin\Controller\CreateController($post, $creator, $viewModel);
+                $formViewModel = new T4webAdmin\View\Model\FormViewModel();
+                $formViewModel->setTemplate('t4web-admin/form');
+                $formViewModel->setVariable('route', $route);
+
+                if (!empty($config['t4web-admin'][$module][$entity]['new']['form'])) {
+                    $formConfig = $config['t4web-admin'][$module][$entity]['new']['form'];
+
+                    foreach ($formConfig as $element) {
+                        $template = 't4web-admin/' . $element['type'];
+
+                        $elementView = new Zend\View\Model\ViewModel();
+                        $elementView->setTemplate($template);
+                        $elementView->setVariables($element['variables']);
+
+                        $formViewModel->addChild($elementView);
+                    }
+                }
+
+                $viewModel->setFormViewModel($formViewModel);
+
+                return new T4webAdmin\Controller\CreateController(
+                    $post,
+                    $creator,
+                    $viewModel,
+                    $route);
             },
             'T4webAdmin\Controller\Read' => function($controllerManager) {
 

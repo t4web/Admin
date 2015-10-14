@@ -3,7 +3,6 @@
 namespace T4webAdmin\View\Model;
 
 use Zend\View\Model\ViewModel;
-use Zend\Form\Form;
 use T4webBase\Domain\Entity;
 
 class CreateViewModel extends ViewModel
@@ -24,9 +23,9 @@ class CreateViewModel extends ViewModel
     private $inputData;
 
     /**
-     * @var NewForm
+     * @var FormViewModel
      */
-    private $form;
+    private $formViewModel;
 
     /**
      * @return Entity
@@ -77,18 +76,18 @@ class CreateViewModel extends ViewModel
     }
 
     /**
-     * @return Form
+     * @return FormViewModel
      */
-    public function getForm()
+    public function getFormViewModel()
     {
-        return $this->form;
+        return $this->formViewModel;
     }
 
     /**
-     * @param Form $form
+     * @param FormViewModel $formViewModel
      */
-    public function setForm($form)
+    public function setFormViewModel($formViewModel)
     {
-        $this->form = $form;
+        $this->formViewModel = $formViewModel;
     }
 }

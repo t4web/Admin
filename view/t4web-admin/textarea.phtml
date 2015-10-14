@@ -1,9 +1,13 @@
 <?php
-/** @var T4webAdmin\View\Model\TextareaViewModel $viewModel */
+/** @var Zend\View\Model\ViewModel $viewModel */
 $viewModel = $this->viewModel()->getCurrent();
+$errors = $viewModel->getVariable('errors', []);
 ?>
 
-<div class="form-group">
-    <label><?= $viewModel->label ?></label>
-    <textarea name="text" rows="3" placeholder="<?= $viewModel->placeholder ?>" class="form-control"></textarea>
+<div class="form-group<?= (!empty($errors)) ? ' has-error' : ''; ?>">
+    <label><?= $viewModel->getVariable('label', 'Text') ?></label>
+    <textarea name="text" rows="3" placeholder="<?= $viewModel->getVariable('placeholder', 'Text') ?>" class="form-control"><?= $viewModel->getVariable('value') ?></textarea>
+    <?php if (!empty($errors)): ?>
+        <p class="help-block"><?=implode('<br/> ', $errors);?></p>
+    <?php endif; ?>
 </div>
