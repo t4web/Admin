@@ -133,6 +133,9 @@ return [
             'T4webAdmin\Controller\Read' => function($controllerManager) {
 
                 $serviceLocator = $controllerManager->getServiceLocator();
+
+                $config = $serviceLocator->get('config');
+
                 /** @var \Zend\Mvc\Application $app */
                 $app = $serviceLocator->get('Application');
                 /** @var \Zend\Mvc\Router\Http\RouteMatch $routeMatch */
@@ -142,6 +145,8 @@ return [
                 $entity = $routeMatch->getParam('entity');
                 $umodule = ucfirst($module);
                 $uentity = ucfirst($entity);
+
+                $route = 'admin-' . $module . '-' . $entity;
 
                 $repository = $serviceLocator->get("$umodule\\$uentity\Repository\DbRepository");
                 $criteriaFactory = $serviceLocator->get("$umodule\\$uentity\Criteria\CriteriaFactory");
@@ -150,11 +155,36 @@ return [
                 $viewModel = new T4webAdmin\View\Model\ReadViewModel();
                 $viewModel->setTemplate('t4web-admin/read');
 
+                $formViewModel = new T4webAdmin\View\Model\FormViewModel();
+                $formViewModel->setTemplate('t4web-admin/form');
+                $formViewModel->setVariable('route', $route);
+                $formViewModel->setVariable('controller', 'update');
+                $formViewModel->setVariable('submitText', 'Update');
+
+                if (!empty($config['t4web-admin'][$module][$entity]['new']['form'])) {
+                    $formConfig = $config['t4web-admin'][$module][$entity]['new']['form'];
+
+                    foreach ($formConfig as $element) {
+                        $template = 't4web-admin/' . $element['type'];
+
+                        $elementView = new Zend\View\Model\ViewModel();
+                        $elementView->setTemplate($template);
+                        $elementView->setVariables($element['variables']);
+
+                        $formViewModel->addChild($elementView);
+                    }
+                }
+
+                $viewModel->setFormViewModel($formViewModel);
+
                 return new T4webAdmin\Controller\ReadController($finder, $viewModel);
             },
             'T4webAdmin\Controller\Update' => function($controllerManager) {
 
                 $serviceLocator = $controllerManager->getServiceLocator();
+
+                $config = $serviceLocator->get('config');
+
                 /** @var \Zend\Mvc\Application $app */
                 $app = $serviceLocator->get('Application');
                 /** @var \Zend\Mvc\Router\Http\RouteMatch $routeMatch */
@@ -165,10 +195,61 @@ return [
                 $umodule = ucfirst($module);
                 $uentity = ucfirst($entity);
 
+                $route = 'admin-' . $module . '-' . $entity;
 
-                die(var_dump(T4webAdmin\Controller\UpdateController()));
+                $inputFilterFactory = new Zend\InputFilter\Factory();
+                $inputFilter = $inputFilterFactory->createInputFilter([
+                    'text' => array(
+                        'name'       => 'text',
+                        'required'   => true,
+                        'validators' => array(
+                            array(
+                                'name' => 'not_empty',
+                            ),
+                        ),
+                    ),
+                ]);
 
-                return new T4webAdmin\Controller\CreateController($post, $creator, $viewModel);
+                /** @var EventManager $eventManager */
+                $eventManager = $serviceLocator->get('EventManager');
+                $eventManager->addIdentifiers("$umodule\\$uentity\Service\Updater");
+
+                $updater = new T4webBase\Domain\Service\Update(
+                    $inputFilter,
+                    $serviceLocator->get("$umodule\\$uentity\Repository\DbRepository"),
+                    $serviceLocator->get("$umodule\\$uentity\Factory\CriteriaFactory"),
+                    $eventManager
+                );
+
+                $viewModel = new T4webAdmin\View\Model\UpdateViewModel();
+                $viewModel->setTemplate('t4web-admin/update');
+
+                $formViewModel = new T4webAdmin\View\Model\FormViewModel();
+                $formViewModel->setTemplate('t4web-admin/form');
+                $formViewModel->setVariable('route', $route);
+                $formViewModel->setVariable('controller', 'update');
+                $formViewModel->setVariable('submitText', 'Update');
+
+                if (!empty($config['t4web-admin'][$module][$entity]['new']['form'])) {
+                    $formConfig = $config['t4web-admin'][$module][$entity]['new']['form'];
+
+                    foreach ($formConfig as $element) {
+                        $template = 't4web-admin/' . $element['type'];
+
+                        $elementView = new Zend\View\Model\ViewModel();
+                        $elementView->setTemplate($template);
+                        $elementView->setVariables($element['variables']);
+
+                        $formViewModel->addChild($elementView);
+                    }
+                }
+
+                $viewModel->setFormViewModel($formViewModel);
+
+                $id = $routeMatch->getParam('id');
+                $post = $serviceLocator->get('request')->getPost()->toArray();
+
+                return new T4webAdmin\Controller\UpdateController($id, $post, $updater, $viewModel, $route);
             },
         ],
     ],

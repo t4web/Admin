@@ -1,11 +1,12 @@
 <?php
-/** @var T4webAdmin\View\Model\ReadViewModel $viewModel */
+/** @var T4webAdmin\View\Model\UpdateViewModel $viewModel */
 $viewModel = $this->viewModel()->getCurrent();
 
 $entity = $viewModel->getMainEntity();
 
 $formViewModel = $viewModel->getFormViewModel();
-$formViewModel->setValues($entity->extract());
+$formViewModel->setValues($viewModel->getInputData());
+$formViewModel->setErrors($viewModel->getErrors());
 $formViewModel->setVariable('entityId', $entity->getId());
 ?>
 
