@@ -33,8 +33,8 @@ return [
                 $formViewModel->setTemplate('t4web-admin/form');
                 $formViewModel->setVariable('route', $route);
 
-                if (!empty($config['t4web-admin'][$module][$entity]['new']['form'])) {
-                    $formConfig = $config['t4web-admin'][$module][$entity]['new']['form'];
+                if (!empty($config['t4web-admin'][$module][$entity]['form'])) {
+                    $formConfig = $config['t4web-admin'][$module][$entity]['form'];
 
                     foreach ($formConfig as $element) {
                         $template = 't4web-admin/' . $element['type'];
@@ -69,18 +69,13 @@ return [
 
 
                 // creator
+                $inputFilterConfig = [];
+                if (!empty($config['t4web-admin'][$module][$entity]['validation'])) {
+                    $inputFilterConfig = $config['t4web-admin'][$module][$entity]['validation'];
+                }
+
                 $inputFilterFactory = new Zend\InputFilter\Factory();
-                $inputFilter = $inputFilterFactory->createInputFilter([
-                    'text' => array(
-                        'name'       => 'text',
-                        'required'   => true,
-                        'validators' => array(
-                            array(
-                                'name' => 'not_empty',
-                            ),
-                        ),
-                    ),
-                ]);
+                $inputFilter = $inputFilterFactory->createInputFilter($inputFilterConfig);
 
 
                 /** @var EventManager $eventManager */
@@ -108,8 +103,8 @@ return [
                 $formViewModel->setTemplate('t4web-admin/form');
                 $formViewModel->setVariable('route', $route);
 
-                if (!empty($config['t4web-admin'][$module][$entity]['new']['form'])) {
-                    $formConfig = $config['t4web-admin'][$module][$entity]['new']['form'];
+                if (!empty($config['t4web-admin'][$module][$entity]['form'])) {
+                    $formConfig = $config['t4web-admin'][$module][$entity]['form'];
 
                     foreach ($formConfig as $element) {
                         $template = 't4web-admin/' . $element['type'];
@@ -161,8 +156,8 @@ return [
                 $formViewModel->setVariable('controller', 'update');
                 $formViewModel->setVariable('submitText', 'Update');
 
-                if (!empty($config['t4web-admin'][$module][$entity]['new']['form'])) {
-                    $formConfig = $config['t4web-admin'][$module][$entity]['new']['form'];
+                if (!empty($config['t4web-admin'][$module][$entity]['form'])) {
+                    $formConfig = $config['t4web-admin'][$module][$entity]['form'];
 
                     foreach ($formConfig as $element) {
                         $template = 't4web-admin/' . $element['type'];
@@ -197,18 +192,13 @@ return [
 
                 $route = 'admin-' . $module . '-' . $entity;
 
+                $inputFilterConfig = [];
+                if (!empty($config['t4web-admin'][$module][$entity]['validation'])) {
+                    $inputFilterConfig = $config['t4web-admin'][$module][$entity]['validation'];
+                }
+
                 $inputFilterFactory = new Zend\InputFilter\Factory();
-                $inputFilter = $inputFilterFactory->createInputFilter([
-                    'text' => array(
-                        'name'       => 'text',
-                        'required'   => true,
-                        'validators' => array(
-                            array(
-                                'name' => 'not_empty',
-                            ),
-                        ),
-                    ),
-                ]);
+                $inputFilter = $inputFilterFactory->createInputFilter($inputFilterConfig);
 
                 /** @var EventManager $eventManager */
                 $eventManager = $serviceLocator->get('EventManager');
@@ -230,8 +220,8 @@ return [
                 $formViewModel->setVariable('controller', 'update');
                 $formViewModel->setVariable('submitText', 'Update');
 
-                if (!empty($config['t4web-admin'][$module][$entity]['new']['form'])) {
-                    $formConfig = $config['t4web-admin'][$module][$entity]['new']['form'];
+                if (!empty($config['t4web-admin'][$module][$entity]['form'])) {
+                    $formConfig = $config['t4web-admin'][$module][$entity]['form'];
 
                     foreach ($formConfig as $element) {
                         $template = 't4web-admin/' . $element['type'];
