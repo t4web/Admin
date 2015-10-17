@@ -32,7 +32,6 @@
         "zendframework/zend-mvc": "~2.5.0",
         "zendframework/zend-paginator": "~2.5.0",
         "zendframework/zend-view": "~2.5.0",
-        "t4web/base": "dev-master",
         "sebaks/crud": "dev-master"
     },
     "require-dev" : {
