@@ -16,7 +16,7 @@
     "repositories": [
         {
             "type": "git",
-            "url": "https://github.com/t4web/base.git"
+            "url": "https://github.com/t4web/Base.git"
         },
         {
             "type": "git",
