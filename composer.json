@@ -16,11 +16,11 @@
     "repositories": [
         {
             "type": "git",
-            "url": "https://github.com/t4web/base.git"
+            "url": "https://github.com/t4web/Base.git"
         },
         {
             "type": "git",
-            "url": "https://github.com/t4web/FormRenderer.git"
+            "url": "https://github.com/sebaks/crud.git"
         }
     ],
     "require": {
@@ -32,7 +32,7 @@
         "zendframework/zend-paginator": "~2.5.0",
         "zendframework/zend-view": "~2.5.0",
         "t4web/base": "dev-master",
-        "t4web/form-renderer": "dev-master"
+        "sebaks/crud": "dev-master"
     },
     "require-dev" : {
         "phpunit/phpunit": "4.5.*"

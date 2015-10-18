@@ -1,12 +1,10 @@
 <?php
-/** @var T4webAdmin\View\Model\NewViewModel $viewModel */
+/** @var T4webAdmin\View\Model\CreateViewModel $viewModel */
 $viewModel = $this->viewModel()->getCurrent();
 
-$form = $viewModel->getForm();
-$form->prepare();
-
-$form->setAttribute('action', $this->url($viewModel->route));
-$form->setAttribute('method', 'post');
+$formViewModel = $viewModel->getFormViewModel();
+$formViewModel->setValues($viewModel->getInputData());
+$formViewModel->setErrors($viewModel->getErrors());
 ?>
 
 <section class="content-header">
@@ -16,7 +14,7 @@ $form->setAttribute('method', 'post');
     <div class="row">
         <div class="col-lg-12">
             <div class="box">
-                <?php echo $this->form($form); ?>
+                <?= $this->render($formViewModel) ?>
             </div>
         </div>
     </div>

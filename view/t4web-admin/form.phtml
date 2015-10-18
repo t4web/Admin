@@ -1,0 +1,29 @@
+<?php
+/** @var T4webAdmin\View\Model\FormViewModel $formViewModel */
+$formViewModel = $this->viewModel()->getCurrent();
+$errors = $formViewModel->getErrors();
+$values = $formViewModel->getValues();
+$controller = $formViewModel->getVariable('controller', 'create');
+$submitText = $formViewModel->getVariable('submitText', 'Create');
+$entityId = $formViewModel->getVariable('entityId');
+?>
+
+<form method="post" action="<?= $this->url($formViewModel->getVariable('route'), ['controller' => $controller, 'id' => $entityId]) ?>">
+    <div class="box-body">
+        <?php foreach ($formViewModel->getChildren() as $children): ?>
+            <?php
+            if (isset($values[$children->getVariable('name')])) {
+                $children->setVariable('value', $values[$children->getVariable('name')]);
+            }
+            if (isset($errors[$children->getVariable('name')])) {
+                $children->setVariable('errors', $errors[$children->getVariable('name')]);
+            }
+            ?>
+            <?= $this->render($children) ?>
+        <?php endforeach; ?>
+    </div>
+    <div class="box-footer">
+        <button type="submit" class="btn btn-success" style="margin: 10px 10px"><?= $submitText ?></button>
+        <a class="btn btn-default" href="<?= $this->url($formViewModel->getVariable('route')) ?>">Cancel</a>
+    </div>
+</form>

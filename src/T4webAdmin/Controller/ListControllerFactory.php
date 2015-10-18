@@ -56,7 +56,7 @@ class ListControllerFactory implements FactoryInterface
         $viewModel->addChild($paginatorViewModel, 'paginator', true);
         $viewModel->setTableViewModel($this->getTableView($viewModel));
 
-        $instance = new \T4webAdmin\Controller\ListController(
+        $instance = new \Sebaks\Crud\Controller\ListController(
             $this->getQuery(),
             $this->getInputFilter(),
             $this->getFinder(),

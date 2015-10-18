@@ -1,0 +1,23 @@
+<?php
+/** @var T4webAdmin\View\Model\ReadViewModel $viewModel */
+$viewModel = $this->viewModel()->getCurrent();
+
+$entity = $viewModel->getEntity();
+
+$formViewModel = $viewModel->getFormViewModel();
+$formViewModel->setValues($entity->extract());
+$formViewModel->setVariable('entityId', $entity->getId());
+?>
+
+<section class="content-header">
+    <h1>Edit entity</h1>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box">
+                <?= $this->render($formViewModel) ?>
+            </div>
+        </div>
+    </div>
+</section>
