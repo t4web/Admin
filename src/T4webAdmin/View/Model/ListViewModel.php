@@ -2,20 +2,14 @@
 
 namespace T4webAdmin\View\Model;
 
-use Zend\View\Model\ViewModel;
-use T4webBase\Domain\Collection;
+use Sebaks\Crud\View\Model\ListViewModel as CrudListViewModel;
 
-class ListViewModel extends ViewModel
+class ListViewModel extends CrudListViewModel
 {
     /**
      * @var string
      */
     private $routeName;
-
-    /**
-     * @var Collection
-     */
-    private $mainCollection;
 
     /**
      * @var TableViewModel
@@ -36,23 +30,6 @@ class ListViewModel extends ViewModel
     public function setRouteName($routeName)
     {
         $this->routeName = $routeName;
-    }
-
-    /**
-     * @param Collection $collection
-     * @return void
-     */
-    public function setMainCollection(Collection $collection)
-    {
-        $this->mainCollection = $collection;
-    }
-
-    /**
-     * @return Collection|null
-     */
-    public function getMainCollection()
-    {
-        return $this->mainCollection;
     }
 
     /**

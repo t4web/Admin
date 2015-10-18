@@ -9,7 +9,7 @@ return [
     'controllers' => [
         'factories' => [
             'T4webAdmin\Controller\List' => 'T4webAdmin\Controller\ListControllerFactory',
-			'T4webAdmin\Controller\New' => function($controllerManager) {
+			'T4webAdmin\Controller\New' => function(Zend\Mvc\Controller\ControllerManager $controllerManager) {
 
                 $serviceLocator = $controllerManager->getServiceLocator();
 
@@ -51,7 +51,7 @@ return [
 
                 return new T4webAdmin\Controller\NewController($viewModel);
             },
-            'T4webAdmin\Controller\Create' => function($controllerManager) {
+            'T4webAdmin\Controller\Create' => function(Zend\Mvc\Controller\ControllerManager $controllerManager) {
 
                 $serviceLocator = $controllerManager->getServiceLocator();
 
@@ -119,13 +119,13 @@ return [
 
                 $viewModel->setFormViewModel($formViewModel);
 
-                return new T4webAdmin\Controller\CreateController(
+                return new Sebaks\Crud\Controller\CreateController(
                     $post,
                     $creator,
                     $viewModel,
                     $route);
             },
-            'T4webAdmin\Controller\Read' => function($controllerManager) {
+            'T4webAdmin\Controller\Read' => function(Zend\Mvc\Controller\ControllerManager $controllerManager) {
 
                 $serviceLocator = $controllerManager->getServiceLocator();
 
@@ -172,9 +172,9 @@ return [
 
                 $viewModel->setFormViewModel($formViewModel);
 
-                return new T4webAdmin\Controller\ReadController($finder, $viewModel);
+                return new Sebaks\Crud\Controller\ReadController($finder, $viewModel);
             },
-            'T4webAdmin\Controller\Update' => function($controllerManager) {
+            'T4webAdmin\Controller\Update' => function(Zend\Mvc\Controller\ControllerManager $controllerManager) {
 
                 $serviceLocator = $controllerManager->getServiceLocator();
 
@@ -239,9 +239,9 @@ return [
                 $id = $routeMatch->getParam('id');
                 $post = $serviceLocator->get('request')->getPost()->toArray();
 
-                return new T4webAdmin\Controller\UpdateController($id, $post, $updater, $viewModel, $route);
+                return new Sebaks\Crud\Controller\UpdateController($id, $post, $updater, $viewModel, $route);
             },
-            'T4webAdmin\Controller\Delete' => function($controllerManager) {
+            'T4webAdmin\Controller\Delete' => function(Zend\Mvc\Controller\ControllerManager $controllerManager) {
 
                 $serviceLocator = $controllerManager->getServiceLocator();
 
@@ -269,11 +269,11 @@ return [
                     $eventManager
                 );
 
-                $viewModel = new T4webAdmin\View\Model\DeleteViewModel();
+                $viewModel = new Sebaks\Crud\View\Model\DeleteViewModel();
 
                 $id = $routeMatch->getParam('id');
 
-                return new T4webAdmin\Controller\DeleteController($id, $deleter, $viewModel, $route);
+                return new Sebaks\Crud\Controller\DeleteController($id, $deleter, $viewModel, $route);
             },
         ],
     ],

@@ -2,36 +2,14 @@
 
 namespace T4webAdmin\View\Model;
 
-use Zend\View\Model\ViewModel;
-use T4webBase\Domain\Entity;
+use Sebaks\Crud\View\Model\ReadViewModel as CrudReadViewModel;
 
-class ReadViewModel extends ViewModel
+class ReadViewModel extends CrudReadViewModel
 {
-    /**
-     * @var Entity
-     */
-    private $mainEntity;
-
     /**
      * @var FormViewModel
      */
     private $formViewModel;
-
-    /**
-     * @return Entity
-     */
-    public function getMainEntity()
-    {
-        return $this->mainEntity;
-    }
-
-    /**
-     * @param Entity $mainEntity
-     */
-    public function setMainEntity(Entity $mainEntity)
-    {
-        $this->mainEntity = $mainEntity;
-    }
 
     /**
      * @return FormViewModel
