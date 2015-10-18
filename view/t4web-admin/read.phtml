@@ -2,7 +2,7 @@
 /** @var T4webAdmin\View\Model\ReadViewModel $viewModel */
 $viewModel = $this->viewModel()->getCurrent();
 
-$entity = $viewModel->getMainEntity();
+$entity = $viewModel->getEntity();
 
 $formViewModel = $viewModel->getFormViewModel();
 $formViewModel->setValues($entity->extract());

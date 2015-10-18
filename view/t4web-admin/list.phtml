@@ -22,7 +22,7 @@ $viewModel = $this->viewModel()->getCurrent();
 
             <?php
             $tableViewModel = $viewModel->getTableViewModel();
-            $tableViewModel->setEntities($viewModel->getMainCollection());
+            $tableViewModel->setEntities($viewModel->getCollection());
 
             echo $this->render($tableViewModel);
             ?>
