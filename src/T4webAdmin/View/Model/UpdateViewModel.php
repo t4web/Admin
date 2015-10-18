@@ -4,26 +4,17 @@ namespace T4webAdmin\View\Model;
 
 use Sebaks\Crud\View\Model\UpdateViewModel as CrudUpdateViewModel;
 
-class UpdateViewModel extends CrudUpdateViewModel
+class UpdateViewModel extends CrudUpdateViewModel implements EntityManageViewModelInterface
 {
-    /**
-     * @var FormViewModel
-     */
-    private $formViewModel;
+    use FormViewModelProvider;
 
-    /**
-     * @return FormViewModel
-     */
-    public function getFormViewModel()
+    public function prepare()
     {
-        return $this->formViewModel;
-    }
+        $entity = $this->getEntity();
 
-    /**
-     * @param FormViewModel $formViewModel
-     */
-    public function setFormViewModel($formViewModel)
-    {
-        $this->formViewModel = $formViewModel;
+        $formViewModel = $this->getFormViewModel();
+        $formViewModel->setValues($this->getInputData());
+        $formViewModel->setErrors($this->getErrors());
+        $formViewModel->setVariable('entityId', $entity->getId());
     }
 }

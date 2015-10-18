@@ -23,14 +23,17 @@ return [
                 $module = $routeMatch->getParam('module');
                 $entity = $routeMatch->getParam('entity');
 
-                $route = 'admin-' . $module . '-' . $entity;
+
+
 
                 $viewModel = new T4webAdmin\View\Model\CreateViewModel();
-                $viewModel->setTemplate('t4web-admin/create');
-                $viewModel->setVariable('route', $route);
+                $viewModel->setTemplate('t4web-admin/entity-manage');
+                $viewModel->setVariable('title', 'Create new entity');
+
 
                 $formViewModel = new T4webAdmin\View\Model\FormViewModel();
                 $formViewModel->setTemplate('t4web-admin/form');
+                $route = 'admin-' . $module . '-' . $entity;
                 $formViewModel->setVariable('route', $route);
 
                 if (!empty($config['t4web-admin'][$module][$entity]['form'])) {
@@ -78,7 +81,7 @@ return [
                 $inputFilter = $inputFilterFactory->createInputFilter($inputFilterConfig);
 
 
-                /** @var EventManager $eventManager */
+                /** @var Zend\EventManager\EventManager $eventManager */
                 $eventManager = $serviceLocator->get('EventManager');
                 $eventManager->addIdentifiers("$umodule\\$uentity\Service\Creator");
 
@@ -93,14 +96,15 @@ return [
                 $post = $serviceLocator->get('request')->getPost()->toArray();
 
                 // view
-                $route = 'admin-' . $module . '-' . $entity;
 
                 $viewModel = new T4webAdmin\View\Model\CreateViewModel();
-                $viewModel->setTemplate('t4web-admin/create');
-                $viewModel->setVariable('route', $route);
+                $viewModel->setTemplate('t4web-admin/entity-manage');
+                $viewModel->setVariable('title', 'Create new entity');
+
 
                 $formViewModel = new T4webAdmin\View\Model\FormViewModel();
                 $formViewModel->setTemplate('t4web-admin/form');
+                $route = 'admin-' . $module . '-' . $entity;
                 $formViewModel->setVariable('route', $route);
 
                 if (!empty($config['t4web-admin'][$module][$entity]['form'])) {
@@ -141,17 +145,18 @@ return [
                 $umodule = ucfirst($module);
                 $uentity = ucfirst($entity);
 
-                $route = 'admin-' . $module . '-' . $entity;
 
                 $repository = $serviceLocator->get("$umodule\\$uentity\Repository\DbRepository");
                 $criteriaFactory = $serviceLocator->get("$umodule\\$uentity\Criteria\CriteriaFactory");
                 $finder = new T4webBase\Domain\Service\BaseFinder($repository, $criteriaFactory);
 
                 $viewModel = new T4webAdmin\View\Model\ReadViewModel();
-                $viewModel->setTemplate('t4web-admin/read');
+                $viewModel->setTemplate('t4web-admin/entity-manage');
+                $viewModel->setVariable('title', 'Edit entity');
 
                 $formViewModel = new T4webAdmin\View\Model\FormViewModel();
                 $formViewModel->setTemplate('t4web-admin/form');
+                $route = 'admin-' . $module . '-' . $entity;
                 $formViewModel->setVariable('route', $route);
                 $formViewModel->setVariable('controller', 'update');
                 $formViewModel->setVariable('submitText', 'Update');
@@ -200,7 +205,7 @@ return [
                 $inputFilterFactory = new Zend\InputFilter\Factory();
                 $inputFilter = $inputFilterFactory->createInputFilter($inputFilterConfig);
 
-                /** @var EventManager $eventManager */
+                /** @var Zend\EventManager\EventManager $eventManager */
                 $eventManager = $serviceLocator->get('EventManager');
                 $eventManager->addIdentifiers("$umodule\\$uentity\Service\Updater");
 
@@ -212,7 +217,8 @@ return [
                 );
 
                 $viewModel = new T4webAdmin\View\Model\UpdateViewModel();
-                $viewModel->setTemplate('t4web-admin/update');
+                $viewModel->setTemplate('t4web-admin/entity-manage');
+                $viewModel->setVariable('title', 'Edit entity');
 
                 $formViewModel = new T4webAdmin\View\Model\FormViewModel();
                 $formViewModel->setTemplate('t4web-admin/form');
@@ -245,8 +251,6 @@ return [
 
                 $serviceLocator = $controllerManager->getServiceLocator();
 
-                $config = $serviceLocator->get('config');
-
                 /** @var \Zend\Mvc\Application $app */
                 $app = $serviceLocator->get('Application');
                 /** @var \Zend\Mvc\Router\Http\RouteMatch $routeMatch */
@@ -259,7 +263,7 @@ return [
 
                 $route = 'admin-' . $module . '-' . $entity;
 
-                /** @var EventManager $eventManager */
+                /** @var Zend\EventManager\EventManager $eventManager */
                 $eventManager = $serviceLocator->get('EventManager');
                 $eventManager->addIdentifiers("$umodule\\$uentity\Service\Deleter");
 

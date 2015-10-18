@@ -1,17 +1,13 @@
 <?php
-/** @var T4webAdmin\View\Model\UpdateViewModel $viewModel */
+/** @var T4webAdmin\View\Model\EntityManageViewModelInterface $viewModel */
 $viewModel = $this->viewModel()->getCurrent();
-
-$entity = $viewModel->getEntity();
+$viewModel->prepare();
 
 $formViewModel = $viewModel->getFormViewModel();
-$formViewModel->setValues($viewModel->getInputData());
-$formViewModel->setErrors($viewModel->getErrors());
-$formViewModel->setVariable('entityId', $entity->getId());
 ?>
 
 <section class="content-header">
-    <h1>Edit entity</h1>
+    <h1><?= $viewModel->getVariable('title') ?></h1>
 </section>
 <section class="content">
     <div class="row">

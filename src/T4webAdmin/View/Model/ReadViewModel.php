@@ -4,26 +4,16 @@ namespace T4webAdmin\View\Model;
 
 use Sebaks\Crud\View\Model\ReadViewModel as CrudReadViewModel;
 
-class ReadViewModel extends CrudReadViewModel
+class ReadViewModel extends CrudReadViewModel implements EntityManageViewModelInterface
 {
-    /**
-     * @var FormViewModel
-     */
-    private $formViewModel;
+    use FormViewModelProvider;
 
-    /**
-     * @return FormViewModel
-     */
-    public function getFormViewModel()
+    public function prepare()
     {
-        return $this->formViewModel;
-    }
+        $entity = $this->getEntity();
 
-    /**
-     * @param FormViewModel $formViewModel
-     */
-    public function setFormViewModel($formViewModel)
-    {
-        $this->formViewModel = $formViewModel;
+        $formViewModel = $this->getFormViewModel();
+        $formViewModel->setValues($entity->extract());
+        $formViewModel->setVariable('entityId', $entity->getId());
     }
 }

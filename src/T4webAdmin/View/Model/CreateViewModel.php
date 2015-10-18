@@ -4,26 +4,14 @@ namespace T4webAdmin\View\Model;
 
 use Sebaks\Crud\View\Model\CreateViewModel as CrudCreateViewModel;
 
-class CreateViewModel extends CrudCreateViewModel
+class CreateViewModel extends CrudCreateViewModel implements EntityManageViewModelInterface
 {
-    /**
-     * @var FormViewModel
-     */
-    private $formViewModel;
+    use FormViewModelProvider;
 
-    /**
-     * @return FormViewModel
-     */
-    public function getFormViewModel()
+    public function prepare()
     {
-        return $this->formViewModel;
-    }
-
-    /**
-     * @param FormViewModel $formViewModel
-     */
-    public function setFormViewModel($formViewModel)
-    {
-        $this->formViewModel = $formViewModel;
+        $formViewModel = $this->getFormViewModel();
+        $formViewModel->setValues($this->getInputData());
+        $formViewModel->setErrors($this->getErrors());
     }
 }
