@@ -62,6 +62,8 @@ return [
                 $viewModel->setVariable('title', 'Create new entity');
 
                 $formViewModel = $serviceLocator->get('T4webAdmin\View\Model\FormViewModel');
+                $formViewModel->setVariable('controller', 'create');
+                $formViewModel->setVariable('submitText', 'Create');
                 $viewModel->setFormViewModel($formViewModel);
 
                 $route = 'admin-' . $module . '-' . $entity;
@@ -96,6 +98,8 @@ return [
                 $viewModel->setVariable('title', 'Edit entity');
 
                 $formViewModel = $serviceLocator->get('T4webAdmin\View\Model\FormViewModel');
+                $formViewModel->setVariable('controller', 'update');
+                $formViewModel->setVariable('submitText', 'Save');
                 $viewModel->setFormViewModel($formViewModel);
 
                 return new Sebaks\Crud\Controller\ReadController($finder, $viewModel);
@@ -142,6 +146,8 @@ return [
                 $viewModel->setVariable('title', 'Edit entity');
 
                 $formViewModel = $serviceLocator->get('T4webAdmin\View\Model\FormViewModel');
+                $formViewModel->setVariable('controller', 'update');
+                $formViewModel->setVariable('submitText', 'Save');
                 $viewModel->setFormViewModel($formViewModel);
 
                 $id = $routeMatch->getParam('id');

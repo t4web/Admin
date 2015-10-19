@@ -29,7 +29,7 @@ class FormViewModelFactory implements FactoryInterface
             $elementView = new ViewModel();
             $elementView->setTemplate($elementTemplate);
 
-            if (!empty($element['variables']) && !is_array($element['variables'])) {
+            if (!empty($element['variables'])) {
                 if (!is_array($element['variables'])) {
                     throw new \UnexpectedValueException("FormViewModel factory: element $i variables must be array");
                 }
