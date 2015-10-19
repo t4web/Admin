@@ -32,23 +32,69 @@ class Config
         $this->options = $options;
     }
 
-    public function getNewViewModelTemplate()
+    /**
+     * @return string
+     */
+    public function getModule()
+    {
+        return $this->module;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEntity()
+    {
+        return $this->entity;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    public function getCreateViewModelTemplate()
     {
         $template = 't4web-admin/entity-manage';
 
-        if (!empty($this->options['new']['template'])) {
-            $template = $this->options['new']['template'];
+        if (!empty($this->options['create']['template'])) {
+            $template = $this->options['create']['template'];
         }
 
         return $template;
     }
 
-    public function getNewViewModelTitle()
+    public function getCreateViewController()
+    {
+        $controller = 'create';
+
+        if (!empty($this->options['create']['controller'])) {
+            $controller = $this->options['create']['controller'];
+        }
+
+        return $controller;
+    }
+
+    public function getCreateViewSubmitText()
+    {
+        $text = 'Create';
+
+        if (!empty($this->options['create']['submitText'])) {
+            $text = $this->options['create']['submitText'];
+        }
+
+        return $text;
+    }
+
+    public function getCreateViewModelTitle()
     {
         $title = 'Create new entity';
 
-        if (!empty($this->options['new']['title'])) {
-            $title = $this->options['new']['title'];
+        if (!empty($this->options['create']['title'])) {
+            $title = $this->options['create']['title'];
         }
 
         return $title;
@@ -90,5 +136,21 @@ class Config
     public function getRoute()
     {
         return 'admin-' . $this->module . '-' . $this->entity;
+    }
+
+    public function getCreateRedirectTo()
+    {
+        return 'admin-' . $this->module . '-' . $this->entity;
+    }
+
+    public function getValidation()
+    {
+        $validation = [];
+
+        if (!empty($this->options['validation'])) {
+            $validation = $this->options['validation'];
+        }
+
+        return $validation;
     }
 }

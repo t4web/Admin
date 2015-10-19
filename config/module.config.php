@@ -9,70 +9,21 @@ return [
     'controllers' => [
         'factories' => [
             'T4webAdmin\Controller\List' => 'T4webAdmin\Controller\ListControllerFactory',
-			'T4webAdmin\Controller\New' => function(Zend\Mvc\Controller\ControllerManager $controllerManager) {
-                /** @var T4webAdmin\View\Model\NewViewModel $serviceLocator */
+            'T4webAdmin\Controller\New' => function(Zend\Mvc\Controller\ControllerManager $controllerManager) {
                 $serviceLocator = $controllerManager->getServiceLocator();
-                return new T4webAdmin\Controller\NewController($serviceLocator->get('T4webAdmin\View\Model\NewViewModel'));
+                return new T4webAdmin\Controller\NewController($serviceLocator->get('T4webAdmin\View\Model\CreateViewModel'));
             },
             'T4webAdmin\Controller\Create' => function(Zend\Mvc\Controller\ControllerManager $controllerManager) {
-
                 $serviceLocator = $controllerManager->getServiceLocator();
+                /** @var T4webAdmin\Config $config */
+                $config = $serviceLocator->get('T4webAdmin\Config');
 
-                $config = $serviceLocator->get('config');
-
-                /** @var \Zend\Mvc\Application $app */
-                $app = $serviceLocator->get('Application');
-                /** @var \Zend\Mvc\Router\Http\RouteMatch $routeMatch */
-                $routeMatch = $app->getMvcEvent()->getRouteMatch();
-
-                $module = $routeMatch->getParam('module');
-                $entity = $routeMatch->getParam('entity');
-                $umodule = ucfirst($module);
-                $uentity = ucfirst($entity);
-
-
-                // creator
-                $inputFilterConfig = [];
-                if (!empty($config['t4web-admin'][$module][$entity]['validation'])) {
-                    $inputFilterConfig = $config['t4web-admin'][$module][$entity]['validation'];
-                }
-
-                $inputFilterFactory = new Zend\InputFilter\Factory();
-                $inputFilter = $inputFilterFactory->createInputFilter($inputFilterConfig);
-
-
-                /** @var Zend\EventManager\EventManager $eventManager */
-                $eventManager = $serviceLocator->get('EventManager');
-                $eventManager->addIdentifiers("$umodule\\$uentity\Service\Creator");
-
-                $creator = new T4webBase\Domain\Service\NewCreate(
-                    $inputFilter,
-                    $serviceLocator->get("$umodule\\$uentity\Repository\DbRepository"),
-                    $serviceLocator->get("$umodule\\$uentity\Factory\EntityFactory"),
-                    $eventManager
-                );
-
-                // data
                 $post = $serviceLocator->get('request')->getPost()->toArray();
+                $creator = $serviceLocator->get('T4webAdmin\Service\CreatorService');
+                $viewModel = $serviceLocator->get('T4webAdmin\View\Model\CreateViewModel');
+                $redirectToRoute = $config->getCreateRedirectTo();
 
-                // view
-
-                $viewModel = new T4webAdmin\View\Model\CreateViewModel();
-                $viewModel->setTemplate('t4web-admin/entity-manage');
-                $viewModel->setVariable('title', 'Create new entity');
-
-                $formViewModel = $serviceLocator->get('T4webAdmin\View\Model\FormViewModel');
-                $formViewModel->setVariable('controller', 'create');
-                $formViewModel->setVariable('submitText', 'Create');
-                $viewModel->setFormViewModel($formViewModel);
-
-                $route = 'admin-' . $module . '-' . $entity;
-
-                return new Sebaks\Crud\Controller\CreateController(
-                    $post,
-                    $creator,
-                    $viewModel,
-                    $route);
+                return new Sebaks\Crud\Controller\CreateController($post, $creator, $viewModel, $redirectToRoute);
             },
             'T4webAdmin\Controller\Read' => function(Zend\Mvc\Controller\ControllerManager $controllerManager) {
 
@@ -196,7 +147,9 @@ return [
             'T4webAdmin\RouteGenerator' => 'T4webAdmin\RouteGeneratorFactory',
             'T4webAdmin\Config' => 'T4webAdmin\ConfigFactory',
             'T4webAdmin\View\Model\NewViewModel' => 'T4webAdmin\View\Model\NewViewModelFactory',
+            'T4webAdmin\View\Model\CreateViewModel' => 'T4webAdmin\View\Model\CreateViewModelFactory',
             'T4webAdmin\View\Model\FormViewModel' => 'T4webAdmin\View\Model\FormViewModelFactory',
+            'T4webAdmin\Service\CreatorService' => 'T4webAdmin\Service\CreatorServiceFactory',
         ],
     ],
 ];
