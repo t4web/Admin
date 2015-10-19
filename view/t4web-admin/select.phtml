@@ -1,0 +1,26 @@
+<?php
+/** @var Zend\View\Model\ViewModel $viewModel */
+$viewModel = $this->viewModel()->getCurrent();
+$errors = $viewModel->getVariable('errors', []);
+
+$label = $viewModel->getVariable('label');
+if (!$label) {
+    $label = ucfirst($viewModel->getVariable('name', 'Select option'));
+}
+
+$name = $viewModel->getVariable('name');
+$selected = $viewModel->getVariable('value');
+$options = $viewModel->getVariable('options');
+?>
+
+<div class="form-group<?= (!empty($errors)) ? ' has-error' : ''; ?>">
+    <label><?= $label ?></label>
+    <select name="<?= $name ?>" class="form-control">
+        <?php foreach ($options as $value => $option): ?>
+            <option value="<?=$value?>" <?= ($selected == $value) ? ' selected' : ''; ?>><?= $option ?></option>
+        <?php endforeach; ?>
+    </select>
+    <?php if (!empty($errors)): ?>
+        <p class="help-block"><?=implode('<br/> ', $errors);?></p>
+    <?php endif; ?>
+</div>
