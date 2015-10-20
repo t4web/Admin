@@ -16,13 +16,14 @@ class ConfigFactory implements FactoryInterface
 
         $module = $routeMatch->getParam('module');
         $entity = $routeMatch->getParam('entity');
+        $controller = $routeMatch->getParam('__CONTROLLER__');
 
         $options = [];
         if ($serviceLocator->has('config')) {
             $config = $serviceLocator->get('config');
 
-            if (!empty($config['t4web-admin'][$module][$entity])) {
-                $options = $config['t4web-admin'][$module][$entity];
+            if (!empty($config['t4web-admin'][$module][$entity][$controller])) {
+                $options = $config['t4web-admin'][$module][$entity][$controller];
             }
         }
 

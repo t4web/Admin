@@ -56,16 +56,43 @@ class Config
         return $this->options;
     }
 
-    public function getCreateViewModelTemplate()
+    public function getViewModel()
+    {
+        $viewModel = 'T4webAdmin\View\Model\CreateViewModel';
+
+        if (!empty($this->options['viewModel'])) {
+            $viewModel = $this->options['viewModel'];
+        }
+
+        return $viewModel;
+    }
+
+    public function getTemplate()
     {
         $template = 't4web-admin/entity-manage';
 
-        if (!empty($this->options['create']['template'])) {
-            $template = $this->options['create']['template'];
+        if (!empty($this->options['template'])) {
+            $template = $this->options['template'];
         }
 
         return $template;
     }
+
+    public function getTitle()
+    {
+        $title = 'Create new entity';
+
+        if (!empty($this->options['title'])) {
+            $title = $this->options['title'];
+        }
+
+        return $title;
+    }
+
+
+
+
+
 
     public function getCreateViewController()
     {
@@ -89,16 +116,7 @@ class Config
         return $text;
     }
 
-    public function getCreateViewModelTitle()
-    {
-        $title = 'Create new entity';
 
-        if (!empty($this->options['create']['title'])) {
-            $title = $this->options['create']['title'];
-        }
-
-        return $title;
-    }
 
     public function getReadViewModelTemplate()
     {

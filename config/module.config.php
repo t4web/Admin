@@ -20,7 +20,9 @@ return [
 
                 $post = $serviceLocator->get('request')->getPost()->toArray();
                 $creator = $serviceLocator->get('T4webAdmin\Service\CreatorService');
-                $viewModel = $serviceLocator->get('T4webAdmin\View\Model\CreateViewModel');
+
+                $viewModel = $serviceLocator->get($config->getViewModel());
+die(var_dump($viewModel));
                 $redirectToRoute = $config->getCreateRedirectTo();
 
                 return new Sebaks\Crud\Controller\CreateController($post, $creator, $viewModel, $redirectToRoute);

@@ -16,6 +16,8 @@ class FormViewModelFactory implements FactoryInterface
         $formViewModel = new FormViewModel();
         $formViewModel->setTemplate($config->getFormTemplate());
         $formViewModel->setVariable('route', $config->getRoute());
+        $formViewModel->setVariable('controller', $config->getCreateViewController());
+        $formViewModel->setVariable('submitText', $config->getCreateViewSubmitText());
 
         $elements = $config->getFormElements();
 

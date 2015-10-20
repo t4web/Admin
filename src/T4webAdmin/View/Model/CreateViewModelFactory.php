@@ -14,13 +14,11 @@ class CreateViewModelFactory implements FactoryInterface
         $config = $serviceLocator->get('T4webAdmin\Config');
 
         $viewModel = new CreateViewModel();
-        $viewModel->setTemplate($config->getCreateViewModelTemplate());
-        $viewModel->setVariable('title', $config->getCreateViewModelTitle());
+        $viewModel->setTemplate($config->getTemplate());
+        $viewModel->setVariable('title', $config->getTitle());
 
         /** @var FormViewModel $formViewModel */
         $formViewModel = $serviceLocator->get('T4webAdmin\View\Model\FormViewModel');
-        $formViewModel->setVariable('controller', $config->getCreateViewController());
-        $formViewModel->setVariable('submitText', $config->getCreateViewSubmitText());
         $viewModel->setFormViewModel($formViewModel);
 
         return $viewModel;
