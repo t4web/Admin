@@ -37,7 +37,6 @@ return [
                 $serviceLocator = $controllerManager->getServiceLocator();
                 /** @var T4webAdmin\Config $config */
                 $config = $serviceLocator->get('T4webAdmin\Config');
-
                 /** @var \Zend\Mvc\Application $app */
                 $app = $serviceLocator->get('Application');
                 /** @var \Zend\Mvc\Router\Http\RouteMatch $routeMatch */
@@ -52,36 +51,20 @@ return [
                 return new Sebaks\Crud\Controller\UpdateController($id, $post, $updater, $viewModel, $redirectToRoute);
             },
             'T4webAdmin\Controller\Delete' => function(Zend\Mvc\Controller\ControllerManager $controllerManager) {
-
                 $serviceLocator = $controllerManager->getServiceLocator();
-
+                /** @var T4webAdmin\Config $config */
+                $config = $serviceLocator->get('T4webAdmin\Config');
                 /** @var \Zend\Mvc\Application $app */
                 $app = $serviceLocator->get('Application');
                 /** @var \Zend\Mvc\Router\Http\RouteMatch $routeMatch */
                 $routeMatch = $app->getMvcEvent()->getRouteMatch();
 
-                $module = $routeMatch->getParam('module');
-                $entity = $routeMatch->getParam('entity');
-                $umodule = ucfirst($module);
-                $uentity = ucfirst($entity);
-
-                $route = 'admin-' . $module . '-' . $entity;
-
-                /** @var Zend\EventManager\EventManager $eventManager */
-                $eventManager = $serviceLocator->get('EventManager');
-                $eventManager->addIdentifiers("$umodule\\$uentity\Service\Deleter");
-
-                $deleter = new T4webBase\Domain\Service\Delete(
-                    $serviceLocator->get("$umodule\\$uentity\Repository\DbRepository"),
-                    $serviceLocator->get("$umodule\\$uentity\Factory\CriteriaFactory"),
-                    $eventManager
-                );
-
-                $viewModel = new Sebaks\Crud\View\Model\DeleteViewModel();
-
                 $id = $routeMatch->getParam('id');
+                $viewModel = new Sebaks\Crud\View\Model\DeleteViewModel();
+                $deleter = $serviceLocator->get('T4webAdmin\Service\DeleterService');
+                $redirectToRoute = $config->getCreateRedirectTo();
 
-                return new Sebaks\Crud\Controller\DeleteController($id, $deleter, $viewModel, $route);
+                return new Sebaks\Crud\Controller\DeleteController($id, $deleter, $viewModel, $redirectToRoute);
             },
         ],
     ],
@@ -99,6 +82,7 @@ return [
             'T4webAdmin\Service\CreatorService' => 'T4webAdmin\Service\CreatorServiceFactory',
             'T4webAdmin\Service\UpdaterService' => 'T4webAdmin\Service\UpdaterServiceFactory',
             'T4webAdmin\Service\FinderService' => 'T4webAdmin\Service\FinderServiceFactory',
+            'T4webAdmin\Service\DeleterService' => 'T4webAdmin\Service\DeleterServiceFactory',
         ],
     ],
 ];
