@@ -100,6 +100,51 @@ class Config
         return $title;
     }
 
+    public function getReadViewModelTemplate()
+    {
+        $template = 't4web-admin/entity-manage';
+
+        if (!empty($this->options['read']['template'])) {
+            $template = $this->options['read']['template'];
+        }
+
+        return $template;
+    }
+
+    public function getReadViewController()
+    {
+        $controller = 'update';
+
+        if (!empty($this->options['read']['controller'])) {
+            $controller = $this->options['read']['controller'];
+        }
+
+        return $controller;
+    }
+
+    public function getReadViewSubmitText()
+    {
+        $text = 'Save';
+
+        if (!empty($this->options['read']['submitText'])) {
+            $text = $this->options['read']['submitText'];
+        }
+
+        return $text;
+    }
+
+    public function getReadViewModelTitle()
+    {
+        $title = 'Edit entity';
+
+        if (!empty($this->options['read']['title'])) {
+            $title = $this->options['read']['title'];
+        }
+
+        return $title;
+    }
+
+
     public function getFormTemplate()
     {
         $template = 't4web-admin/form';

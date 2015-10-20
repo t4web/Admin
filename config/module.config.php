@@ -26,32 +26,10 @@ return [
                 return new Sebaks\Crud\Controller\CreateController($post, $creator, $viewModel, $redirectToRoute);
             },
             'T4webAdmin\Controller\Read' => function(Zend\Mvc\Controller\ControllerManager $controllerManager) {
-
                 $serviceLocator = $controllerManager->getServiceLocator();
 
-                /** @var \Zend\Mvc\Application $app */
-                $app = $serviceLocator->get('Application');
-                /** @var \Zend\Mvc\Router\Http\RouteMatch $routeMatch */
-                $routeMatch = $app->getMvcEvent()->getRouteMatch();
-
-                $module = $routeMatch->getParam('module');
-                $entity = $routeMatch->getParam('entity');
-                $umodule = ucfirst($module);
-                $uentity = ucfirst($entity);
-
-
-                $repository = $serviceLocator->get("$umodule\\$uentity\Repository\DbRepository");
-                $criteriaFactory = $serviceLocator->get("$umodule\\$uentity\Criteria\CriteriaFactory");
-                $finder = new T4webBase\Domain\Service\BaseFinder($repository, $criteriaFactory);
-
-                $viewModel = new T4webAdmin\View\Model\ReadViewModel();
-                $viewModel->setTemplate('t4web-admin/entity-manage');
-                $viewModel->setVariable('title', 'Edit entity');
-
-                $formViewModel = $serviceLocator->get('T4webAdmin\View\Model\FormViewModel');
-                $formViewModel->setVariable('controller', 'update');
-                $formViewModel->setVariable('submitText', 'Save');
-                $viewModel->setFormViewModel($formViewModel);
+                $finder = $serviceLocator->get('T4webAdmin\Service\FinderService');
+                $viewModel = $serviceLocator->get('T4webAdmin\View\Model\ReadViewModel');
 
                 return new Sebaks\Crud\Controller\ReadController($finder, $viewModel);
             },
@@ -148,8 +126,10 @@ return [
             'T4webAdmin\Config' => 'T4webAdmin\ConfigFactory',
             'T4webAdmin\View\Model\NewViewModel' => 'T4webAdmin\View\Model\NewViewModelFactory',
             'T4webAdmin\View\Model\CreateViewModel' => 'T4webAdmin\View\Model\CreateViewModelFactory',
+            'T4webAdmin\View\Model\ReadViewModel' => 'T4webAdmin\View\Model\ReadViewModelFactory',
             'T4webAdmin\View\Model\FormViewModel' => 'T4webAdmin\View\Model\FormViewModelFactory',
             'T4webAdmin\Service\CreatorService' => 'T4webAdmin\Service\CreatorServiceFactory',
+            'T4webAdmin\Service\FinderService' => 'T4webAdmin\Service\FinderServiceFactory',
         ],
     ],
 ];
