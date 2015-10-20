@@ -144,6 +144,50 @@ class Config
         return $title;
     }
 
+    public function getUpdateViewModelTemplate()
+    {
+        $template = 't4web-admin/entity-manage';
+
+        if (!empty($this->options['update']['template'])) {
+            $template = $this->options['update']['template'];
+        }
+
+        return $template;
+    }
+
+    public function getUpdateViewController()
+    {
+        $controller = 'update';
+
+        if (!empty($this->options['update']['controller'])) {
+            $controller = $this->options['update']['controller'];
+        }
+
+        return $controller;
+    }
+
+    public function getUpdateViewSubmitText()
+    {
+        $text = 'Save';
+
+        if (!empty($this->options['update']['submitText'])) {
+            $text = $this->options['update']['submitText'];
+        }
+
+        return $text;
+    }
+
+    public function getUpdateViewModelTitle()
+    {
+        $title = 'Edit entity';
+
+        if (!empty($this->options['update']['title'])) {
+            $title = $this->options['update']['title'];
+        }
+
+        return $title;
+    }
+
 
     public function getFormTemplate()
     {
