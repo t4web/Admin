@@ -16,10 +16,6 @@
     "repositories": [
         {
             "type": "git",
-            "url": "https://github.com/t4web/Base.git"
-        },
-        {
-            "type": "git",
             "url": "https://github.com/sebaks/crud.git"
         }
     ],
@@ -31,7 +27,7 @@
         "zendframework/zend-mvc": "~2.5.0",
         "zendframework/zend-paginator": "~2.5.0",
         "zendframework/zend-view": "~2.5.0",
-        "t4web/base": "dev-master",
+        "t4web/base": "~1.0.0",
         "sebaks/crud": "dev-master"
     },
     "require-dev" : {
