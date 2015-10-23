@@ -3,32 +3,29 @@
 $viewModel = $this->viewModel()->getCurrent();
 $viewModel->initialize();
 ?>
-<div class="text-right">
-    <div class="dataTables_paginate paging_bootstrap">
-        <ul class="pagination">
-            <li class="<?= $viewModel->isPrevBtnActive() ? '' : 'disabled' ?>">
-                <a href="<?= $viewModel->getUrlForPage($viewModel->getPrevPage()) ?>">«</a>
-            </li>
-            <?php foreach ($viewModel->getPagesInRange() as $page): ?>
-                <li class="<?= ($viewModel->isCurrentPage($page)) ? 'active' : '' ?>">
-                    <a href="<?= $viewModel->getUrlForPage($page) ?>">
-                        <?= $page ?>
-                    </a>
-                </li>
-            <?php endforeach; ?>
-            <?php if ($viewModel->canRenderLastPageBtn()): ?>
-                <li>
-                    <span class="elipsis">...</span>
-                </li>
-                <li>
-                    <a href="<?= $viewModel->getUrlForPage($viewModel->getLastPage()) ?>">
-                        <?= $viewModel->getLastPage() ?>
-                    </a>
-                </li>
-            <?php endif; ?>
-            <li class="<?= $viewModel->isNextBtnActive() ? '' : 'disabled' ?>">
-                <a href="<?= $viewModel->getUrlForPage($viewModel->getLastPage()) ?>">»</a>
-            </li>
-        </ul>
-    </div>
-</div>
+
+<ul class="pagination no-margin">
+    <li class="<?= $viewModel->isPrevBtnActive() ? '' : 'disabled' ?>">
+        <a href="<?= $viewModel->getUrlForPage($viewModel->getPrevPage()) ?>">«</a>
+    </li>
+    <?php foreach ($viewModel->getPagesInRange() as $page): ?>
+        <li class="<?= ($viewModel->isCurrentPage($page)) ? 'active' : '' ?>">
+            <a href="<?= $viewModel->getUrlForPage($page) ?>">
+                <?= $page ?>
+            </a>
+        </li>
+    <?php endforeach; ?>
+    <?php if ($viewModel->canRenderLastPageBtn()): ?>
+        <li>
+            <span class="elipsis">...</span>
+        </li>
+        <li>
+            <a href="<?= $viewModel->getUrlForPage($viewModel->getLastPage()) ?>">
+                <?= $viewModel->getLastPage() ?>
+            </a>
+        </li>
+    <?php endif; ?>
+    <li class="<?= $viewModel->isNextBtnActive() ? '' : 'disabled' ?>">
+        <a href="<?= $viewModel->getUrlForPage($viewModel->getLastPage()) ?>">»</a>
+    </li>
+</ul>

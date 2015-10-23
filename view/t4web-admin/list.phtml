@@ -18,18 +18,16 @@ $viewModel = $this->viewModel()->getCurrent();
     </div>
 
     <div class="box">
-        <div class="box-body">
-
+        <div class="box-body no-padding">
             <?php
             $tableViewModel = $viewModel->getTableViewModel();
             $tableViewModel->setEntities($viewModel->getCollection());
 
             echo $this->render($tableViewModel);
             ?>
-
-            <div class="pull-right">
+        </div>
+        <div class="box-footer">
                 <?= $viewModel->paginator ?>
-            </div>
         </div>
     </div>
 </section>
