@@ -5,14 +5,11 @@ $entities = $viewModel->getEntities();
 ?>
 
 <?php if (!$entities->count()): ?>
-    <span class="box-title">Entities not found</span>
+    <p class="lead">Entities not found</p>
 <?php else: ?>
     <table class="table" style="table-layout:fixed;">
-        <?php
-            $rowViewModel = $viewModel->getHeadView();
-
-            echo $this->render($rowViewModel);
-        ?>
+        <?php $rowViewModel = $viewModel->getHeadView(); ?>
+        <?= $this->render($rowViewModel); ?>
         <?php
             /** @var $entity T4webBase\Domain\Entity */
             foreach ($entities as $entity) {

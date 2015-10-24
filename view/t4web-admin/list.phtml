@@ -6,28 +6,30 @@ $viewModel = $this->viewModel()->getCurrent();
 <section class="content-header">
     <h1>List of entities</h1>
 </section>
+
 <section class="content">
 
     <?= $viewModel->filter ?>
 
     <div class="box-body text-right">
-        <a class="btn btn-primary" href="<?= $this->url(
-            $viewModel->route,
-            ['controller' => 'new']
-        ) ?>">New entity</a>
+        <a class="btn btn-primary" href="<?= $this->url($viewModel->route, ['controller' => 'new']) ?>">New entity</a>
     </div>
 
     <div class="box">
-        <div class="box-body no-padding">
-            <?php
-            $tableViewModel = $viewModel->getTableViewModel();
-            $tableViewModel->setEntities($viewModel->getCollection());
+        <?php if ($viewModel->getCollection()->count() > 0): ?>
+            <div class="box-body no-padding">
+                <?php $tableViewModel = $viewModel->getTableViewModel(); ?>
+                <?php $tableViewModel->setEntities($viewModel->getCollection()); ?>
+                <?= $this->render($tableViewModel);?>
+            </div>
 
-            echo $this->render($tableViewModel);
-            ?>
-        </div>
-        <div class="box-footer">
+            <div class="box-footer">
                 <?= $viewModel->paginator ?>
-        </div>
+            </div>
+        <?php else: ?>
+            <div class="box-header">
+                <h3 class="box-title">Entities not found</h3>
+            </div>
+        <?php endif; ?>
     </div>
 </section>
