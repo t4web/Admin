@@ -6,7 +6,7 @@ use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use T4webAdmin\Config;
 
-class CreateViewModelFactory implements FactoryInterface
+class MangeEntityViewModelFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {

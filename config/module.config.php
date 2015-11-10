@@ -10,8 +10,15 @@ return [
         'factories' => [
             'T4webAdmin\Controller\List' => 'T4webAdmin\Controller\ListControllerFactory',
             'T4webAdmin\Controller\New' => function(Zend\Mvc\Controller\ControllerManager $controllerManager) {
+
                 $serviceLocator = $controllerManager->getServiceLocator();
-                return new T4webAdmin\Controller\NewController($serviceLocator->get('T4webAdmin\View\Model\CreateViewModel'));
+
+                /** @var T4webAdmin\Config $config */
+                $config = $serviceLocator->get('T4webAdmin\Config');
+
+                $viewModel = $serviceLocator->get($config->getActionViewModel());
+
+                return new T4webAdmin\Controller\NewController($viewModel);
             },
             'T4webAdmin\Controller\Create' => function(Zend\Mvc\Controller\ControllerManager $controllerManager) {
                 $serviceLocator = $controllerManager->getServiceLocator();
@@ -20,16 +27,26 @@ return [
 
                 $post = $serviceLocator->get('request')->getPost()->toArray();
                 $creator = $serviceLocator->get('T4webAdmin\Service\CreatorService');
-                $viewModel = $serviceLocator->get('T4webAdmin\View\Model\CreateViewModel');
-                $redirectToRoute = $config->getCreateRedirectTo();
 
-                return new Sebaks\Crud\Controller\CreateController($post, $creator, $viewModel, $redirectToRoute);
+                $viewModel = $serviceLocator->get($config->getActionViewModel());
+                $redirectTo = $config->getActionRedirect();
+
+                return new Sebaks\Crud\Controller\CreateController($post, $creator, $viewModel, $redirectTo);
             },
             'T4webAdmin\Controller\Read' => function(Zend\Mvc\Controller\ControllerManager $controllerManager) {
+
                 $serviceLocator = $controllerManager->getServiceLocator();
 
+                /** @var T4webAdmin\Config $config */
+                $config = $serviceLocator->get('T4webAdmin\Config');
+
                 $finder = $serviceLocator->get('T4webAdmin\Service\FinderService');
-                $viewModel = $serviceLocator->get('T4webAdmin\View\Model\ReadViewModel');
+
+                $viewModel = new \T4webAdmin\View\Model\BaseViewModel();
+                $viewModel->setName('t4web-admin-view-model-read');
+                $viewModel->setTemplate('t4web-admin/entity-manage');
+
+                //$viewModel = $serviceLocator->get($config->getActionViewModel());
 
                 return new Sebaks\Crud\Controller\ReadController($finder, $viewModel);
             },
@@ -70,19 +87,17 @@ return [
     ],
     'service_manager' => [
         'abstract_factories' => [
+            't4web-admin-view-model-create' => 'T4webAdmin\View\Model\BaseViewModelAbstractFactory',
+            't4web-admin-view-model-read' => 'T4webAdmin\View\Model\BaseViewModelAbstractFactory',
         ],
         'factories' => [
-            'T4webAdmin\RouteGenerator' => 'T4webAdmin\RouteGeneratorFactory',
             'T4webAdmin\Config' => 'T4webAdmin\ConfigFactory',
-            'T4webAdmin\View\Model\NewViewModel' => 'T4webAdmin\View\Model\NewViewModelFactory',
-            'T4webAdmin\View\Model\CreateViewModel' => 'T4webAdmin\View\Model\CreateViewModelFactory',
-            'T4webAdmin\View\Model\ReadViewModel' => 'T4webAdmin\View\Model\ReadViewModelFactory',
-            'T4webAdmin\View\Model\UpdateViewModel' => 'T4webAdmin\View\Model\UpdateViewModelFactory',
-            'T4webAdmin\View\Model\FormViewModel' => 'T4webAdmin\View\Model\FormViewModelFactory',
-            'T4webAdmin\Service\CreatorService' => 'T4webAdmin\Service\CreatorServiceFactory',
-            'T4webAdmin\Service\UpdaterService' => 'T4webAdmin\Service\UpdaterServiceFactory',
+            'T4webAdmin\RouteGenerator' => 'T4webAdmin\RouteGeneratorFactory',
+            //'T4webAdmin\View\Model\UpdateViewModel' => 'T4webAdmin\View\Model\UpdateViewModelFactory',
+            //'T4webAdmin\Service\CreatorService' => 'T4webAdmin\Service\CreatorServiceFactory',
+            //'T4webAdmin\Service\UpdaterService' => 'T4webAdmin\Service\UpdaterServiceFactory',
             'T4webAdmin\Service\FinderService' => 'T4webAdmin\Service\FinderServiceFactory',
-            'T4webAdmin\Service\DeleterService' => 'T4webAdmin\Service\DeleterServiceFactory',
+            //'T4webAdmin\Service\DeleterService' => 'T4webAdmin\Service\DeleterServiceFactory',
         ],
     ],
 ];

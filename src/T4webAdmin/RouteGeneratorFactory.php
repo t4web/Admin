@@ -4,6 +4,7 @@ namespace T4webAdmin;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use T4webAdmin\Config;
 
 class RouteGeneratorFactory implements FactoryInterface
 {

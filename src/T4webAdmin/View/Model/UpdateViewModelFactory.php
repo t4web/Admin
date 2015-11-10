@@ -17,6 +17,7 @@ class UpdateViewModelFactory implements FactoryInterface
         $viewModel->setTemplate($config->getUpdateViewModelTemplate());
         $viewModel->setVariable('title', $config->getUpdateViewModelTitle());
 
+        /** @var FormViewModel $formViewModel */
         $formViewModel = $serviceLocator->get('T4webAdmin\View\Model\FormViewModel');
         $formViewModel->setVariable('controller', $config->getUpdateViewController());
         $formViewModel->setVariable('submitText', $config->getUpdateViewSubmitText());

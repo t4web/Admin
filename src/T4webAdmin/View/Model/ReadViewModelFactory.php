@@ -17,6 +17,7 @@ class ReadViewModelFactory implements FactoryInterface
         $viewModel->setTemplate($config->getReadViewModelTemplate());
         $viewModel->setVariable('title', $config->getReadViewModelTitle());
 
+        /** @var FormViewModel $formViewModel */
         $formViewModel = $serviceLocator->get('T4webAdmin\View\Model\FormViewModel');
         $formViewModel->setVariable('controller', $config->getReadViewController());
         $formViewModel->setVariable('submitText', $config->getReadViewSubmitText());
