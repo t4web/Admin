@@ -1,11 +1,13 @@
 <?php
 /** @var Zend\View\Model\ViewModel $viewModel */
 $viewModel = $this->viewModel()->getCurrent();
+die(var_dump(__FILE__, $viewModel));
+
 $errors = $viewModel->getVariable('errors', []);
 
 $label = $viewModel->getVariable('label');
 if (!$label) {
-    $label = ucfirst($viewModel->getVariable('name', 'Text'));
+    $label = ucfirst($viewModel->getVariable('name', 'Input text'));
 }
 
 $name = $viewModel->getVariable('name');
@@ -20,7 +22,7 @@ $value = $viewModel->getVariable('value');
 
 <div class="form-group<?= (!empty($errors)) ? ' has-error' : ''; ?>">
     <label><?= $label ?></label>
-    <textarea name="<?= $name ?>" rows="3" placeholder="<?= $placeholder ?>" class="form-control"><?= $value ?></textarea>
+    <input name="<?= $name ?>" type="text" placeholder="<?= $placeholder ?>" value="<?= $value ?>" class="form-control">
     <?php if (!empty($errors)): ?>
         <p class="help-block"><?=implode('<br/> ', $errors);?></p>
     <?php endif; ?>

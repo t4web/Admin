@@ -1,14 +1,23 @@
 <?php
 /** @var T4webAdmin\View\Model\FormViewModel $formViewModel */
 $formViewModel = $this->viewModel()->getCurrent();
-$errors = $formViewModel->getErrors();
-$values = $formViewModel->getValues();
+
+$errors = $formViewModel->getVariable('errors');
+$values = $formViewModel->getVariable('values');
 $controller = $formViewModel->getVariable('controller', 'create');
 $submitText = $formViewModel->getVariable('submitText', 'Create');
-$entityId = $formViewModel->getVariable('entityId');
+$submitRouteOptions = ['controller' => $controller];
+$entity = $formViewModel->getVariable('entity');
+if ($entity) {
+    $entityId = $entity->getId();
+    $submitRouteOptions = [
+        'id' => $entityId
+    ];
+}
+
 ?>
 
-<form method="post" action="<?= $this->url($formViewModel->getVariable('route'), ['controller' => $controller, 'id' => $entityId]) ?>">
+<form method="post" action="<?= $this->url($formViewModel->getVariable('submitRoute'), $submitRouteOptions) ?>">
     <div class="box-body">
         <?php foreach ($formViewModel->getChildren() as $children): ?>
             <?php
@@ -24,6 +33,6 @@ $entityId = $formViewModel->getVariable('entityId');
     </div>
     <div class="box-footer">
         <button type="submit" class="btn btn-success" style="margin: 10px 10px"><?= $submitText ?></button>
-        <a class="btn btn-default" href="<?= $this->url($formViewModel->getVariable('route')) ?>">Cancel</a>
+        <a class="btn btn-default" href="<?= $this->url($formViewModel->getVariable('cancelRoute')) ?>">Cancel</a>
     </div>
 </form>
