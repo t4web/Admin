@@ -1,7 +1,6 @@
 <?php
 /** @var Zend\View\Model\ViewModel $viewModel */
 $viewModel = $this->viewModel()->getCurrent();
-die(var_dump(__FILE__, $viewModel));
 
 $errors = $viewModel->getVariable('errors', []);
 

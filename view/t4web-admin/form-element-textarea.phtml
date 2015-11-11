@@ -1,7 +1,6 @@
 <?php
 /** @var Zend\View\Model\ViewModel $viewModel */
 $viewModel = $this->viewModel()->getCurrent();
-var_dump('tpl', $viewModel->getName());
 $errors = $viewModel->getVariable('errors', []);
 
 $label = $viewModel->getVariable('label');

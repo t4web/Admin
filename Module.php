@@ -31,7 +31,7 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface, Bo
 
 
         $eventManager->attach(MvcEvent::EVENT_RENDER, function(\Zend\Mvc\MvcEvent $e) {
-
+            return;
             /** @var \T4webAdmin\View\Model\BaseViewModel $viewModel */
             $viewModel = $e->getResult();
             /** @var \Zend\View\Renderer\PhpRenderer $renderer */
@@ -68,7 +68,6 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface, Bo
             }
 
             foreach ($children as $child) {
-                var_dump($child);
                 /** @var \T4webAdmin\View\Model\BaseViewModel $childViewModel */
                 $childViewModel = $serviceLocator->get($child);
 
