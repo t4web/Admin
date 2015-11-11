@@ -6,7 +6,7 @@ use Zend\View\Model\ViewModel;
 use Zend\Paginator\Paginator;
 use Zend\Paginator\Adapter\NullFill;
 use T4webBase\InputFilter\Filter;
-use T4webBase\Domain\Service\BaseFinder;
+use T4webDomainInterface\Infrastructure\RepositoryInterface;
 
 class PaginatorViewModel extends ViewModel
 {
@@ -34,7 +34,7 @@ class PaginatorViewModel extends ViewModel
      * ListFilterViewModel constructor.
      * @param Filter $filter
      */
-    public function __construct(Filter $filter, BaseFinder $finder)
+    public function __construct(Filter $filter, RepositoryInterface $finder)
     {
         $this->filter = $filter;
         $this->finder = $finder;
@@ -45,8 +45,9 @@ class PaginatorViewModel extends ViewModel
      */
     public function initialize()
     {
-        $filterValuesByModules = $this->filter->getValuesByModules();
-        $countAll = $this->finder->count($filterValuesByModules);
+        //$filterValuesByModules = $this->filter->getValuesByModules();
+        $criteria = $this->finder->createCriteria();
+        $countAll = $this->finder->count($criteria);
 
         $filterValues = $this->filter->getValues();
         unset($filterValues['page']);

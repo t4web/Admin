@@ -5,8 +5,17 @@ namespace T4webAdmin\Controller;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceManager;
+use Sebaks\Crud\Controller\ListController;
 use T4webAdmin\InputFilter\ListInputFilter;
-use T4webBase\Domain\Service\BaseFinder;
+use T4webAdmin\View\Model\ListViewModel;
+use T4webAdmin\View\Model\ListFilterViewModel;
+use T4webAdmin\View\Model\PaginatorViewModel;
+use T4webAdmin\View\Model\TableViewModel;
+use T4webAdmin\View\Model\TableHeadViewModel;
+use T4webAdmin\View\Model\TableHeadColumnViewModel;
+use T4webAdmin\View\Model\TableRowViewModel;
+use T4webAdmin\View\Model\TableColumnViewModel;
+use T4webFilter\Filter;
 
 class ListControllerFactory implements FactoryInterface
 {
@@ -23,11 +32,6 @@ class ListControllerFactory implements FactoryInterface
     private $module;
     private $entity;
 
-    /**
-     * @var BaseFinder
-     */
-    private $finder;
-
     public function createService(ServiceLocatorInterface $controllerManager)
     {
         $this->serviceLocator = $controllerManager->getServiceLocator();
@@ -40,26 +44,28 @@ class ListControllerFactory implements FactoryInterface
         $entity = $this->entity = $routeMatch->getParam('entity');
 
         // View
-        $viewModel = new \T4webAdmin\View\Model\ListViewModel();
+        $viewModel = new ListViewModel();
         $viewModel->setTemplate('t4web-admin/list');
-        $viewModel->setVariable('route', 'admin-' . $module . '-' . $entity);
+        $viewModel->setVariable('route', "admin-$module-$entity-list");
 
         // FilterView
-        $filterViewModel = new \T4webAdmin\View\Model\ListFilterViewModel($this->getInputFilter());
+        $filterViewModel = new ListFilterViewModel($this->getInputFilter());
         $filterViewModel->setTemplate('t4web-admin/list-filter');
 
+        $repository = $this->serviceLocator->get(ucfirst($module) . "\\" . ucfirst($entity) . "\\Infrastructure\\Repository");
+
         // PaginatorView
-        $paginatorViewModel = new \T4webAdmin\View\Model\PaginatorViewModel($this->getInputFilter(), $this->getFinder());
+        $paginatorViewModel = new PaginatorViewModel($this->getInputFilter(), $repository);
         $paginatorViewModel->setTemplate('t4web-admin/paginator');
 
         $viewModel->addChild($filterViewModel, 'filter');
         $viewModel->addChild($paginatorViewModel, 'paginator', true);
         $viewModel->setTableViewModel($this->getTableView($viewModel));
 
-        $instance = new \Sebaks\Crud\Controller\ListController(
+        $instance = new ListController(
             $this->getQuery(),
-            $this->getInputFilter(),
-            $this->getFinder(),
+            new Filter(),
+            $repository,
             $viewModel
         );
 
@@ -79,7 +85,7 @@ class ListControllerFactory implements FactoryInterface
 
         return $this->inputFilter;
     }
-
+/*
     private function getFinder()
     {
         if (is_null($this->finder)) {
@@ -87,16 +93,16 @@ class ListControllerFactory implements FactoryInterface
             $uentity = ucfirst($this->entity);
             $repository = $this->serviceLocator->get("$umodule\\$uentity\Repository\DbRepository");
             $criteriaFactory = $this->serviceLocator->get("$umodule\\$uentity\Criteria\CriteriaFactory");
-            $this->finder = new \T4webBase\Domain\Service\BaseFinder($repository, $criteriaFactory);
+            $this->finder = new BaseFinder($repository, $criteriaFactory);
         }
 
         return $this->finder;
     }
-
+*/
     private function getTableView($parentViewModel)
     {
         // TableView
-        $tableViewModel = new \T4webAdmin\View\Model\TableViewModel();
+        $tableViewModel = new TableViewModel();
         $tableViewModel->setTemplate('t4web-admin/list-table');
         $tableViewModel->setVariables($parentViewModel->getVariables());
 
@@ -107,12 +113,12 @@ class ListControllerFactory implements FactoryInterface
         if (!empty($config['t4web-admin'][$this->module][$this->entity]['list']['table']['head'])) {
             $headConfig = $config['t4web-admin'][$this->module][$this->entity]['list']['table']['head'];
 
-            $tableHeadView = new \T4webAdmin\View\Model\TableHeadViewModel();
+            $tableHeadView = new TableHeadViewModel();
             $tableHeadView->setTemplate('t4web-admin/list-table-head');
             $tableHeadView->setVariables($tableViewModel->getVariables());
 
             foreach ($headConfig as $head) {
-                $tableHeadColumnView = new \T4webAdmin\View\Model\TableHeadColumnViewModel();
+                $tableHeadColumnView = new TableHeadColumnViewModel();
                 $tableHeadColumnView->setTemplate('t4web-admin/list-table-head-column');
                 $tableHeadColumnView->setVariables($tableViewModel->getVariables());
                 $tableHeadColumnView->setValue($head);
@@ -127,12 +133,12 @@ class ListControllerFactory implements FactoryInterface
         if (!empty($config['t4web-admin'][$this->module][$this->entity]['list']['table']['row'])) {
             $rowConfig = $config['t4web-admin'][$this->module][$this->entity]['list']['table']['row'];
 
-            $tableRowView = new \T4webAdmin\View\Model\TableRowViewModel();
+            $tableRowView = new TableRowViewModel();
             $tableRowView->setTemplate('t4web-admin/list-table-row');
             $tableRowView->setVariables($tableViewModel->getVariables());
 
             foreach ($rowConfig as $row) {
-                $tableColumnView = new \T4webAdmin\View\Model\TableColumnViewModel();
+                $tableColumnView = new TableColumnViewModel();
                 $tableColumnView->setTemplate('t4web-admin/list-table-row-column');
                 $tableColumnView->setVariables($tableRowView->getVariables());
                 $tableColumnView->setEntityAttribute($row);

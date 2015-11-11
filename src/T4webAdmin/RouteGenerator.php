@@ -114,7 +114,7 @@ class RouteGenerator
                     'route' => '/admin/' . $module . '/' . $entity . '/update/:id',
                     'defaults' => array(
                         '__NAMESPACE__' => 'T4webAdmin\Controller',
-                        'controller' => 'read',
+                        'controller' => 'update',
                         'action' => 'index',
                         'module' => $module,
                         'entity' => $entity,
@@ -130,7 +130,7 @@ class RouteGenerator
                     'route' => '/admin/' . $module . '/' . $entity . '/list',
                     'defaults' => array(
                         '__NAMESPACE__' => 'T4webAdmin\Controller',
-                        'controller' => 'read',
+                        'controller' => 'list',
                         'action' => 'index',
                         'module' => $module,
                         'entity' => $entity,

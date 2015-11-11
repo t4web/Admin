@@ -14,7 +14,7 @@ $entities = $viewModel->getEntities();
             /** @var $entity T4webBase\Domain\Entity */
             foreach ($entities as $entity) {
                 $rowViewModel = $viewModel->getRowView();
-                $rowViewModel->setEntity($entity);
+                //$rowViewModel->setEntity($entity);
 
                 echo $this->render($rowViewModel);
             }
