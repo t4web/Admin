@@ -13,12 +13,6 @@
             "name": "Sebaks"
         }
     ],
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/sebaks/crud.git"
-        }
-    ],
     "require": {
         "php": ">=5.5",
         "zendframework/zend-console": "~2.5.0",
