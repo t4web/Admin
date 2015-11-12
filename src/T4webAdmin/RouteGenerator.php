@@ -45,21 +45,6 @@ class RouteGenerator
             $module = $entityConfig['module'];
             $entity = $entityConfig['entity'];
 
-//            $route = Segment::factory([
-//                'route' => '/admin/' . $module . '/' . $entity . '[/:action]/:id',
-//                'defaults' => [
-//                    '__NAMESPACE__' => 'T4webAdmin\Controller',
-//                    'controller' => 'list',
-//                    'action' => 'index',
-//                    'module' => $module,
-//                    'entity' => $entity,
-//                ],
-//                'constraints' => [
-//                    'controller' => 'create|read'
-//                ],
-//            ]);
-//
-//            $router->addRoute('admin-' . $module . '-' . $entity . '-new', $route);
             if (empty($entityConfig['actions']['new']['disable'])) {
 
                 $route = Segment::factory(array(
@@ -140,7 +125,5 @@ class RouteGenerator
                 $router->addRoute('admin-' . $module . '-' . $entity . '-list', $route);
             }
         }
-
-
     }
 }
