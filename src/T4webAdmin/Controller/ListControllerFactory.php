@@ -2,6 +2,7 @@
 
 namespace T4webAdmin\Controller;
 
+use T4webAdmin\View\Model\BaseViewModel;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceManager;
@@ -44,23 +45,36 @@ class ListControllerFactory implements FactoryInterface
         $entity = $this->entity = $routeMatch->getParam('entity');
 
         // View
-        $viewModel = new ListViewModel();
-        $viewModel->setTemplate('t4web-admin/list');
-        $viewModel->setVariable('route', "admin-$module-$entity-list");
-
-        // FilterView
-        $filterViewModel = new ListFilterViewModel($this->getInputFilter());
-        $filterViewModel->setTemplate('t4web-admin/list-filter');
-
+//        $viewModel = new ListViewModel();
+//        $viewModel->setTemplate('t4web-admin/list');
+//        $viewModel->setVariable('route', "admin-$module-$entity-list");
+//
+//        // FilterView
+//        $filterViewModel = new ListFilterViewModel($this->getInputFilter());
+//        $filterViewModel->setTemplate('t4web-admin/list-filter');
+//
         $repository = $this->serviceLocator->get(ucfirst($module) . "\\" . ucfirst($entity) . "\\Infrastructure\\Repository");
+//
+//        // PaginatorView
+//        $paginatorViewModel = new PaginatorViewModel($this->getInputFilter(), $repository);
+//        $paginatorViewModel->setTemplate('t4web-admin/paginator');
+//
+//        $viewModel->addChild($filterViewModel, 'filter');
+//        $viewModel->addChild($paginatorViewModel, 'paginator', true);
+//        $viewModel->setTableViewModel($this->getTableView($viewModel));
 
-        // PaginatorView
-        $paginatorViewModel = new PaginatorViewModel($this->getInputFilter(), $repository);
-        $paginatorViewModel->setTemplate('t4web-admin/paginator');
+        /** @var \T4webAdmin\Config $config */
+        $config = $this->serviceLocator->get('T4webAdmin\Config');
+        $options = $config->getOptions();
+        $module = $config->getModule();
+        $entity = $config->getEntity();
+        $action = $config->getAction();
 
-        $viewModel->addChild($filterViewModel, 'filter');
-        $viewModel->addChild($paginatorViewModel, 'paginator', true);
-        $viewModel->setTableViewModel($this->getTableView($viewModel));
+        $viewModel = $options["$module-$entity"]['actions'][$action]['viewModel'];
+        $viewModel = $this->serviceLocator->get($options["$module-$entity"]['actions'][$action]['viewModel']);
+
+
+
 
         $instance = new ListController(
             $this->getQuery(),

@@ -31,7 +31,7 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface, Bo
 
 
         $eventManager->attach(MvcEvent::EVENT_RENDER, function(\Zend\Mvc\MvcEvent $e) {
-            return;
+
             /** @var \T4webAdmin\View\Model\BaseViewModel $viewModel */
             $viewModel = $e->getResult();
             /** @var \Zend\View\Renderer\PhpRenderer $renderer */
@@ -39,44 +39,44 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface, Bo
             $renderer->setCanRenderTrees(true);
 
 
-            $requestedName = $viewModel->getName();
-
-            $serviceLocator = $e->getApplication()->getServiceManager();
-
-            /** @var Config $config */
-            $config = $serviceLocator->get('T4webAdmin\Config');
-            $options = $config->getOptions();
-            $module = $config->getModule();
-            $entity = $config->getEntity();
-            $action = $config->getAction();
-
-            $template = $options[$module . '-' . $entity]['views'][$requestedName]['template'];
-            $variables = $options[$module . '-' . $entity]['views'][$requestedName]['variables'];
-            $children = [];
-            if (!empty($options[$module . '-' . $entity]['views'][$requestedName]['child'])) {
-                $children = $options[$module . '-' . $entity]['views'][$requestedName]['child'];
-            }
-
-            $childViewModel = new \T4webAdmin\View\Model\BaseViewModel();
-            $childViewModel->setName($requestedName);
-            $childViewModel->setTemplate($template);
-            $childViewModel->setVariables($variables);
-
-            $actionViewsOptions = [];
-            if (!empty($options[$module . '-' . $entity]['actions'][$action]['views'])) {
-                $actionViewsOptions = $options[$module . '-' . $entity]['actions'][$action]['views'];
-            }
-
-            foreach ($children as $child) {
-                /** @var \T4webAdmin\View\Model\BaseViewModel $childViewModel */
-                $childViewModel = $serviceLocator->get($child);
-
-                if (!empty($actionViewsOptions[$child]['variables'])) {
-                    $childViewModel->setVariables($actionViewsOptions[$child]['variables']);
-                }
-
-                $viewModel->pushChild($serviceLocator->get($child), $child);
-            }
+//            $requestedName = $viewModel->getName();
+//
+//            $serviceLocator = $e->getApplication()->getServiceManager();
+//
+//            /** @var Config $config */
+//            $config = $serviceLocator->get('T4webAdmin\Config');
+//            $options = $config->getOptions();
+//            $module = $config->getModule();
+//            $entity = $config->getEntity();
+//            $action = $config->getAction();
+//
+//            $template = $options[$module . '-' . $entity]['views'][$requestedName]['template'];
+//            $variables = $options[$module . '-' . $entity]['views'][$requestedName]['variables'];
+//            $children = [];
+//            if (!empty($options[$module . '-' . $entity]['views'][$requestedName]['child'])) {
+//                $children = $options[$module . '-' . $entity]['views'][$requestedName]['child'];
+//            }
+//
+//            $childViewModel = new \T4webAdmin\View\Model\BaseViewModel();
+//            $childViewModel->setName($requestedName);
+//            $childViewModel->setTemplate($template);
+//            $childViewModel->setVariables($variables);
+//
+//            $actionViewsOptions = [];
+//            if (!empty($options[$module . '-' . $entity]['actions'][$action]['views'])) {
+//                $actionViewsOptions = $options[$module . '-' . $entity]['actions'][$action]['views'];
+//            }
+//
+//            foreach ($children as $child) {
+//                /** @var \T4webAdmin\View\Model\BaseViewModel $childViewModel */
+//                $childViewModel = $serviceLocator->get($child);
+//
+//                if (!empty($actionViewsOptions[$child]['variables'])) {
+//                    $childViewModel->setVariables($actionViewsOptions[$child]['variables']);
+//                }
+//
+//                $viewModel->pushChild($serviceLocator->get($child), $child);
+//            }
 
         }, 10000);
     }

@@ -10,12 +10,12 @@ $viewModel = $viewModelHelper->getCurrent();
         <h3 class="box-title">Filter</h3>
     </div>
     <div class="box-body">
-        <form action="<?= $this->url($viewModel->getRouteName()) ?>" method="get">
-            <?php $filter = $viewModel->getFilter(); ?>
+        <form action="<?= $this->url($viewModel->getVariable('route')) ?>" method="get">
+            <?php $filter = $viewModel->getVariable('filter'); ?>
 
             <div class="box-footer text-right">
                 <button class="btn btn-primary" type="submit">Search</button>
-                    <a href="<?=$this->url($viewModel->getRouteName())?>" class="btn btn-success">Clear</a>
+                    <a href="<?=$this->url($viewModel->getVariable('route'))?>" class="btn btn-success">Clear</a>
             </div>
         </form>
     </div>

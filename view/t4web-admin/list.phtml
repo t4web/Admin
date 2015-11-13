@@ -1,25 +1,30 @@
 <?php
-/** @var T4webAdmin\View\Model\ListViewModel $viewModel */
+/** @var T4webAdmin\View\Model\BaseViewModel $viewModel */
 $viewModel = $this->viewModel()->getCurrent();
+/** @var ArrayObject $collection */
+$collection = $viewModel->getVariable('collection');
+
+$filterViewModel = $viewModel->getChild('t4web-admin-view-model-list-filter');
+
+$tableViewModel = $viewModel->getChild('t4web-admin-view-model-list-table');
+$tableViewModel->setVariable('collection', $collection);
 ?>
 
 <section class="content-header">
-    <h1>List of entities</h1>
+    <h1><?= $viewModel->getVariable('title', 'List of entities') ?></h1>
 </section>
 
 <section class="content">
 
-    <?= $viewModel->filter ?>
+    <?= $this->render($filterViewModel) ?>
 
     <div class="box-body text-right">
-        <a class="btn btn-primary" href="<?= $this->url($viewModel->route, ['controller' => 'new']) ?>">New entity</a>
+        <a class="btn btn-primary" href="<?= $this->url($viewModel->getVariable('route'), ['controller' => 'new']) ?>">New entity</a>
     </div>
 
     <div class="box">
-        <?php if ($viewModel->getCollection()->count() > 0): ?>
+        <?php if ($viewModel->getVariable('collection')->count() > 0): ?>
             <div class="box-body no-padding">
-                <?php $tableViewModel = $viewModel->getTableViewModel(); ?>
-                <?php $tableViewModel->setEntities($viewModel->getCollection()); ?>
                 <?= $this->render($tableViewModel);?>
             </div>
 
