@@ -1,15 +1,20 @@
 <?php
 /** @var T4webAdmin\View\Model\TableRowViewModel $viewModel */
 $viewModel = $this->viewModel()->getCurrent();
-$entity = $viewModel->getEntity();
-$columnsViewModels = $viewModel->getColumnsViewModels();
+$entity = $viewModel->getVariable('entity');
+$columnViewModel = $viewModel->getChild('t4web-admin-view-component-list-table-row-column');
 ?>
 
 <tr>
     <?php
+        $entityRaw = $entity->extract();
         /** @var T4webAdmin\View\Model\TableColumnViewModel $columnViewModel */
-        foreach ($columnsViewModels as $columnViewModel) {
-            $columnViewModel->setEntity($entity);
+        foreach ($viewModel->getVariable('fields') as $fieldName) {
+            if (!array_key_exists($fieldName, $entityRaw)) {
+                throw new RuntimeException(sprintf("Model %s does not have field %s", get_class($entity), $fieldName));
+            }
+
+            $columnViewModel->setVariable('value', $entityRaw[$fieldName]);
 
             echo $this->render($columnViewModel);
         }

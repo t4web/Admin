@@ -116,7 +116,7 @@ class RouteGenerator
                     'defaults' => array(
                         '__NAMESPACE__' => 'T4webAdmin\Controller',
                         'controller' => 'list',
-                        'action' => 'index',
+                        //'action' => 'list',
                         'module' => $module,
                         'entity' => $entity,
                     )

@@ -87,8 +87,10 @@ return [
     ],
     'service_manager' => [
         'abstract_factories' => [
-            't4web-admin-view-model-create' => 'T4webAdmin\View\Model\BaseViewModelAbstractFactory',
-            't4web-admin-view-model-read' => 'T4webAdmin\View\Model\BaseViewModelAbstractFactory',
+            'T4webAdmin\View\Model\BaseViewModelAbstractFactory'
+//            't4web-admin-view-component-list' => 'T4webAdmin\View\Model\BaseViewModelAbstractFactory',
+//            't4web-admin-view-model-create' => 'T4webAdmin\View\Model\BaseViewModelAbstractFactory',
+//            't4web-admin-view-model-read' => 'T4webAdmin\View\Model\BaseViewModelAbstractFactory',
         ],
         'factories' => [
             'T4webAdmin\Config' => 'T4webAdmin\ConfigFactory',
@@ -98,6 +100,12 @@ return [
             //'T4webAdmin\Service\UpdaterService' => 'T4webAdmin\Service\UpdaterServiceFactory',
             'T4webAdmin\Service\FinderService' => 'T4webAdmin\Service\FinderServiceFactory',
             //'T4webAdmin\Service\DeleterService' => 'T4webAdmin\Service\DeleterServiceFactory',
+        ],
+
+        'invokables' => [
+            't4web-admin-view-model-list' => 'T4webAdmin\View\Model\ListViewModel',
+            't4web-admin-view-model-list-filter' => 'T4webAdmin\View\Model\BaseViewModel',
+            't4web-admin-view-model-list-table' => 'T4webAdmin\View\Model\BaseViewModel',
         ],
     ],
 ];

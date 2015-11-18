@@ -1,13 +1,14 @@
 <?php
 /** @var T4webAdmin\View\Model\TableHeadViewModel $viewModel */
 $viewModel = $this->viewModel()->getCurrent();
-$columnsViewModels = $viewModel->getColumnsViewModels();
+$columnViewModel = $viewModel->getChild('t4web-admin-view-component-list-table-head-column');
 ?>
 
 <tr>
     <?php
     /** @var T4webAdmin\View\Model\TableHeadColumnViewModel $columnViewModel */
-    foreach ($columnsViewModels as $columnViewModel) {
+    foreach ($viewModel->getVariable('fields') as $fieldName) {
+        $columnViewModel->setVariable('fieldName', $fieldName);
         echo $this->render($columnViewModel);
     }
     ?>

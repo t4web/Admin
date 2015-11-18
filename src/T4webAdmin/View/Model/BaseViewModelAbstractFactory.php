@@ -9,7 +9,7 @@ class BaseViewModelAbstractFactory implements AbstractFactoryInterface
 {
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        return strpos($requestedName, 't4web-admin-view-model-') === 0;
+        return strpos($requestedName, 't4web-admin-view-component-') === 0;
     }
 
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
@@ -21,25 +21,34 @@ class BaseViewModelAbstractFactory implements AbstractFactoryInterface
         $entity = $config->getEntity();
         $action = $config->getAction();
 
-        if (empty($options[$module . '-' . $entity]['views'][$requestedName]['template'])) {
+        if (empty($options[$module . '-' . $entity]['viewComponents'][$requestedName]['template'])) {
             throw new \Exception("Empty template for $requestedName");
         }
-        $template = $options[$module . '-' . $entity]['views'][$requestedName]['template'];
+
+        $template = $options[$module . '-' . $entity]['viewComponents'][$requestedName]['template'];
+
         $variables = [];
-        if (!empty($options[$module . '-' . $entity]['views'][$requestedName]['variables'])) {
-            $variables = $options[$module . '-' . $entity]['views'][$requestedName]['variables'];
-        }
-        $children = [];
-        if (!empty($options[$module . '-' . $entity]['views'][$requestedName]['child'])) {
-            $children = $options[$module . '-' . $entity]['views'][$requestedName]['child'];
+        if (!empty($options[$module . '-' . $entity]['viewComponents'][$requestedName]['variables'])) {
+            $variables = $options[$module . '-' . $entity]['viewComponents'][$requestedName]['variables'];
         }
 
-        $viewModel = new \T4webAdmin\View\Model\BaseViewModel();
+        $children = [];
+        if (!empty($options[$module . '-' . $entity]['viewComponents'][$requestedName]['child'])) {
+            $children = $options[$module . '-' . $entity]['viewComponents'][$requestedName]['child'];
+        }
+
+        if (!empty($options[$module . '-' . $entity]['viewComponents'][$requestedName]['viewModel'])) {
+            $viewModelClass = $options[$module . '-' . $entity]['viewComponents'][$requestedName]['viewModel'];
+            $viewModel = $serviceLocator->get($viewModelClass);
+        } else {
+            $viewModel = new BaseViewModel();
+        }
+
         $viewModel->setName($requestedName);
         $viewModel->setTemplate($template);
         $viewModel->setVariables($variables);
 
-        $actionViews = $options[$module . '-' . $entity]['actions'][$action]['views'];
+        $actionViews = $options[$module . '-' . $entity]['actions'][$action]['viewComponents'];
 
         foreach ($children as $child) {
             /** @var \T4webAdmin\View\Model\BaseViewModel $childViewModel */

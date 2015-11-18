@@ -31,14 +31,6 @@ class BaseViewModel extends ViewModel
     public function pushChild(ModelInterface $child, $name)
     {
         $this->children[$name] = $child;
-
-        //foreach ($this->getVariables() as $name => $value) {
-        //    $child->setVariable('parent-' . $name, $value);
-        //}
-
-//            $child->setCaptureTo($name);
-//            $child->setAppend(true);
-
         return $this;
     }
 

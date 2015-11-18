@@ -2,49 +2,24 @@
 
 namespace T4webAdmin\View\Model;
 
-use Sebaks\Crud\View\Model\ListViewModel as CrudListViewModel;
+use ArrayObject;
+use Sebaks\Crud\View\Model\ListViewModelInterface;
 
-class ListViewModel extends CrudListViewModel
+class ListViewModel extends BaseViewModel implements ListViewModelInterface
 {
     /**
-     * @var string
+     * @return ArrayObject
      */
-    private $routeName;
-
-    /**
-     * @var TableViewModel
-     */
-    private $tableViewModel;
-
-    /**
-     * @return string
-     */
-    public function getRouteName()
+    public function getCollection()
     {
-        return $this->routeName;
+        return $this->getVariable('collection');
     }
 
     /**
-     * @param string $routeName
+     * @param ArrayObject $collection
      */
-    public function setRouteName($routeName)
+    public function setCollection(ArrayObject $collection)
     {
-        $this->routeName = $routeName;
-    }
-
-    /**
-     * @return TableViewModel
-     */
-    public function getTableViewModel()
-    {
-        return $this->tableViewModel;
-    }
-
-    /**
-     * @param TableViewModel $tableViewModel
-     */
-    public function setTableViewModel($tableViewModel)
-    {
-        $this->tableViewModel = $tableViewModel;
+        $this->setVariable('collection', $collection);
     }
 }

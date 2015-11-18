@@ -3,20 +3,19 @@
 $viewModel = $this->viewModel()->getCurrent();
 $entities = $viewModel->getVariable('collection');
 
-$rowViewModel = $viewModel->getChild('t4web-admin-view-model-list-table-head');
+$rowViewModel = $viewModel->getChild('t4web-admin-view-component-list-table-head');
 ?>
 
 <?php if (!count($entities)): ?>
     <p class="lead">Entities not found</p>
 <?php else: ?>
     <table class="table" style="table-layout:fixed;">
-        <?php $rowViewModel = $viewModel->getHeadView(); ?>
         <?= $this->render($rowViewModel); ?>
         <?php
-            /** @var $entity T4webBase\Domain\Entity */
+            /** @var $entity T4webDomainInterface\EntityInterface */
             foreach ($entities as $entity) {
-                $rowViewModel = $viewModel->getRowView();
-                //$rowViewModel->setEntity($entity);
+                $rowViewModel = $viewModel->getChild('t4web-admin-view-component-list-table-row');
+                $rowViewModel->setVariable('entity', $entity);
 
                 echo $this->render($rowViewModel);
             }

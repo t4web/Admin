@@ -70,10 +70,8 @@ class ListControllerFactory implements FactoryInterface
         $entity = $config->getEntity();
         $action = $config->getAction();
 
-        $viewModel = $options["$module-$entity"]['actions'][$action]['viewModel'];
-        $viewModel = $this->serviceLocator->get($options["$module-$entity"]['actions'][$action]['viewModel']);
-
-
+        // $viewModel = $options["$module-$entity"]['actions'][$action]['mainViewComponent'];
+        $viewModel = $this->serviceLocator->get($options["$module-$entity"]['actions'][$action]['mainViewComponent']);
 
 
         $instance = new ListController(

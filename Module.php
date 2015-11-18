@@ -33,7 +33,7 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface, Bo
         $eventManager->attach(MvcEvent::EVENT_RENDER, function(\Zend\Mvc\MvcEvent $e) {
 
             /** @var \T4webAdmin\View\Model\BaseViewModel $viewModel */
-            $viewModel = $e->getResult();
+            //$viewModel = $e->getResult();
             /** @var \Zend\View\Renderer\PhpRenderer $renderer */
             $renderer = $e->getApplication()->getServiceManager()->get('viewrenderer');
             $renderer->setCanRenderTrees(true);
