@@ -9,7 +9,7 @@ class BaseViewModelAbstractFactory implements AbstractFactoryInterface
 {
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        return strpos($requestedName, 't4web-admin-view-component-') === 0;
+        return strpos($requestedName, '-view-component-') !== false;
     }
 
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
