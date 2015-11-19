@@ -109,14 +109,30 @@ class RouteGenerator
                 $router->addRoute('admin-' . $module . '-' . $entity . '-update', $route);
             }
 
+            if (empty($entityConfig['actions']['delete']['disable'])) {
+
+                $route = Segment::factory(array(
+                    'route' => '/admin/' . $module . '/' . $entity . '/delete/:id',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'T4webAdmin\Controller',
+                        'controller' => 'delete',
+                        'action' => 'index',
+                        'module' => $module,
+                        'entity' => $entity,
+                    )
+                ));
+
+                $router->addRoute('admin-' . $module . '-' . $entity . '-delete', $route);
+            }
+
             if (empty($entityConfig['actions']['list']['disable'])) {
 
                 $route = Segment::factory(array(
-                    'route' => '/admin/' . $module . '/' . $entity . '/list',
+                    'route' => '/admin/' . $module . '/' . $entity . '/:controller[/:id]',
+                    //'route' => '/admin/' . $module . '/' . $entity . '/list',
                     'defaults' => array(
                         '__NAMESPACE__' => 'T4webAdmin\Controller',
                         'controller' => 'list',
-                        //'action' => 'list',
                         'module' => $module,
                         'entity' => $entity,
                     )

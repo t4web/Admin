@@ -20,17 +20,13 @@ $columnViewModel = $viewModel->getChild('t4web-admin-view-component-list-table-r
         }
     ?>
     <td>
-        <a class="btn btn-primary btn-xs" href="<?= $this->url(
-            $viewModel->route,
-            ['controller' => 'read', 'id' => $entity->getId()]
-        ) ?>">
+        <a class="btn btn-primary btn-xs"
+           href="<?= $this->url($viewModel->getVariable('readRoute'), ['id' => $entity->getId()]) ?>">
             <i class="fa fa-pencil"></i>
             Edit
         </a>
-        <a class="delete-btn btn btn-danger btn-xs" href="<?= $this->url(
-            $viewModel->route,
-            ['controller' => 'delete', 'id' => $entity->getId()]
-        ) ?>">
+        <a class="delete-btn btn btn-danger btn-xs"
+           href="<?= $this->url($viewModel->getVariable('deleteRoute'), ['id' => $entity->getId()]) ?>">
             <i class="fa fa-times"></i>
             Delete
         </a>
