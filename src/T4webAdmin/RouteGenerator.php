@@ -52,7 +52,7 @@ class RouteGenerator
                     'defaults' => array(
                         '__NAMESPACE__' => 'T4webAdmin\Controller',
                         'controller' => 'new',
-                        'action' => 'index',
+//                        'action' => 'index',
                         'module' => $module,
                         'entity' => $entity,
                     )
@@ -128,8 +128,7 @@ class RouteGenerator
             if (empty($entityConfig['actions']['list']['disable'])) {
 
                 $route = Segment::factory(array(
-                    'route' => '/admin/' . $module . '/' . $entity . '/:controller[/:id]',
-                    //'route' => '/admin/' . $module . '/' . $entity . '/list',
+                    'route' => '/admin/' . $module . '/' . $entity . '/list',
                     'defaults' => array(
                         '__NAMESPACE__' => 'T4webAdmin\Controller',
                         'controller' => 'list',

@@ -31,6 +31,9 @@ class BaseViewModelAbstractFactory implements AbstractFactoryInterface
         if (!empty($options[$module . '-' . $entity]['viewComponents'][$requestedName]['variables'])) {
             $variables = $options[$module . '-' . $entity]['viewComponents'][$requestedName]['variables'];
         }
+        if (!empty($options[$module . '-' . $entity]['actions'][$action]['viewComponents'][$requestedName]['variables'])) {
+            $variables = array_merge($variables, $options[$module . '-' . $entity]['actions'][$action]['viewComponents'][$requestedName]['variables']);
+        }
 
         $children = [];
         if (!empty($options[$module . '-' . $entity]['viewComponents'][$requestedName]['child'])) {

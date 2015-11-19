@@ -10,18 +10,19 @@ return [
         'factories' => [
             'T4webAdmin\Controller\List' => 'T4webAdmin\Controller\ListControllerFactory',
             'T4webAdmin\Controller\Read' => 'T4webAdmin\Controller\ReadControllerFactory',
+            'T4webAdmin\Controller\New' => 'T4webAdmin\Controller\NewControllerFactory',
 
-            'T4webAdmin\Controller\New' => function(Zend\Mvc\Controller\ControllerManager $controllerManager) {
-
-                $serviceLocator = $controllerManager->getServiceLocator();
-
-                /** @var T4webAdmin\Config $config */
-                $config = $serviceLocator->get('T4webAdmin\Config');
-
-                $viewModel = $serviceLocator->get($config->getActionViewModel());
-
-                return new T4webAdmin\Controller\NewController($viewModel);
-            },
+//            'T4webAdmin\Controller\New' => function(Zend\Mvc\Controller\ControllerManager $controllerManager) {
+//
+//                $serviceLocator = $controllerManager->getServiceLocator();
+//
+//                /** @var T4webAdmin\Config $config */
+//                $config = $serviceLocator->get('T4webAdmin\Config');
+//
+//                $viewModel = $serviceLocator->get($config->getActionViewModel());
+//
+//                return new T4webAdmin\Controller\NewController($viewModel);
+//            },
             'T4webAdmin\Controller\Create' => function(Zend\Mvc\Controller\ControllerManager $controllerManager) {
                 $serviceLocator = $controllerManager->getServiceLocator();
                 /** @var T4webAdmin\Config $config */
@@ -110,6 +111,7 @@ return [
             't4web-admin-view-model-list-table' => 'T4webAdmin\View\Model\BaseViewModel',
 
             't4web-admin-view-model-read' => 'T4webAdmin\View\Model\ReadViewModel',
+            't4web-admin-view-model-create' => 'T4webAdmin\View\Model\CreateViewModel',
         ],
     ],
 ];

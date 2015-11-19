@@ -4,6 +4,8 @@ namespace T4webAdmin\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\Mvc\MvcEvent;
+use Sebaks\Crud\View\Model\CreateViewModelInterface;
 
 class NewController extends AbstractActionController
 {
@@ -14,18 +16,22 @@ class NewController extends AbstractActionController
 
     /**
      * NewController constructor.
-     * @param ViewModel $viewModel
+     * @param CreateViewModelInterface $viewModel
      */
-    public function __construct(ViewModel $viewModel)
+    public function __construct(CreateViewModelInterface $viewModel)
     {
         $this->viewModel = $viewModel;
     }
 
     /**
-     * @return ViewModel
+     * Execute the request
+     *
+     * @param  MvcEvent $e
+     * @return CreateViewModelInterface
      */
-    public function indexAction()
+    public function onDispatch(MvcEvent $e)
     {
+        $e->setResult($this->viewModel);
         return $this->viewModel;
     }
 }
