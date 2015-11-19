@@ -4,9 +4,9 @@ $viewModel = $this->viewModel()->getCurrent();
 /** @var ArrayObject $collection */
 $collection = $viewModel->getVariable('collection');
 
-$filterViewModel = $viewModel->getChild('t4web-admin-view-component-list-filter');
+$filterViewModel = $viewModel->getChild('filter');
 
-$tableViewModel = $viewModel->getChild('t4web-admin-view-component-list-table');
+$tableViewModel = $viewModel->getChild('table');
 $tableViewModel->setVariable('collection', $collection);
 ?>
 

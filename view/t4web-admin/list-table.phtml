@@ -3,7 +3,8 @@
 $viewModel = $this->viewModel()->getCurrent();
 $entities = $viewModel->getVariable('collection');
 
-$rowViewModel = $viewModel->getChild('t4web-admin-view-component-list-table-head');
+$rowViewModel = $viewModel->getChild('table-head');
+
 ?>
 
 <?php if (!count($entities)): ?>
@@ -14,7 +15,7 @@ $rowViewModel = $viewModel->getChild('t4web-admin-view-component-list-table-head
         <?php
             /** @var $entity T4webDomainInterface\EntityInterface */
             foreach ($entities as $entity) {
-                $rowViewModel = $viewModel->getChild('t4web-admin-view-component-list-table-row');
+                $rowViewModel = $viewModel->getChild('table-row');
                 $rowViewModel->setVariable('entity', $entity);
 
                 echo $this->render($rowViewModel);

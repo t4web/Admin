@@ -107,8 +107,8 @@ return [
 
         'invokables' => [
             't4web-admin-view-model-list' => 'T4webAdmin\View\Model\ListViewModel',
-            't4web-admin-view-model-list-filter' => 'T4webAdmin\View\Model\BaseViewModel',
-            't4web-admin-view-model-list-table' => 'T4webAdmin\View\Model\BaseViewModel',
+            //'t4web-admin-view-model-list-filter' => 'T4webAdmin\View\Model\BaseViewModel',
+            //'t4web-admin-view-model-list-table' => 'T4webAdmin\View\Model\BaseViewModel',
 
             't4web-admin-view-model-read' => 'T4webAdmin\View\Model\ReadViewModel',
             't4web-admin-view-model-create' => 'T4webAdmin\View\Model\CreateViewModel',
