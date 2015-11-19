@@ -13,9 +13,13 @@ $viewModel = $viewModelHelper->getCurrent();
         <form action="<?= $this->url($viewModel->getVariable('route')) ?>" method="get">
             <?php $filter = $viewModel->getVariable('filter'); ?>
 
+            <?php foreach ($viewModel->getChildren() as $children): ?>
+                <?= $this->render($children) ?>
+            <?php endforeach; ?>
+
             <div class="box-footer text-right">
                 <button class="btn btn-primary" type="submit">Search</button>
-                    <a href="<?=$this->url($viewModel->getVariable('route'))?>" class="btn btn-success">Clear</a>
+                <a href="<?=$this->url($viewModel->getVariable('route'))?>" class="btn btn-success">Clear</a>
             </div>
         </form>
     </div>
