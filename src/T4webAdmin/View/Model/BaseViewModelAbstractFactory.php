@@ -51,8 +51,6 @@ class BaseViewModelAbstractFactory implements AbstractFactoryInterface
         $viewModel->setTemplate($template);
         $viewModel->setVariables($variables);
 
-        $actionViews = $options[$module . '-' . $entity]['actions'][$action]['viewComponents'];
-
         foreach ($children as $childAlias => $child) {
             if (!is_string($childAlias)) {
                 $childAlias = $child;
@@ -61,11 +59,7 @@ class BaseViewModelAbstractFactory implements AbstractFactoryInterface
             /** @var \T4webAdmin\View\Model\BaseViewModel $childViewModel */
             $childViewModel = $serviceLocator->get($child);
 
-            if (!empty($actionViews[$childAlias]['variables'])) {
-                $childViewModel->setVariables($actionViews[$childAlias]['variables']);
-            }
-
-            $viewModel->pushChild($serviceLocator->get($child), $childAlias);
+            $viewModel->pushChild($childViewModel, $childAlias);
         }
 
         return $viewModel;
