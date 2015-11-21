@@ -11,6 +11,7 @@ return [
             'T4webAdmin\Controller\List' => 'T4webAdmin\Controller\ListControllerFactory',
             'T4webAdmin\Controller\Read' => 'T4webAdmin\Controller\ReadControllerFactory',
             'T4webAdmin\Controller\New' => 'T4webAdmin\Controller\NewControllerFactory',
+            'T4webAdmin\Controller\Create' => 'T4webAdmin\Controller\CreateControllerFactory',
 
 //            'T4webAdmin\Controller\Create' => function(Zend\Mvc\Controller\ControllerManager $controllerManager) {
 //                $serviceLocator = $controllerManager->getServiceLocator();

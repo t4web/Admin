@@ -5,19 +5,21 @@ namespace T4webAdmin\Controller;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Sebaks\Crud\Controller\CreateController;
-use T4webDomainInterface\Infrastructure\RepositoryInterface;
+use T4webDomainInterface\Service\CreatorInterface;
 use T4webAdmin\View\Model\ListViewModel;
 use T4webAdmin\View\Model\PaginatorViewModel;
 use T4webAdmin\View\Model\ReadViewModel;
 use T4webAdmin\Config;
 
-class ReadControllerFactory implements FactoryInterface
+class CreateControllerFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $controllerManager)
     {
         $serviceLocator = $controllerManager->getServiceLocator();
-        /** @var T4webAdmin\Config $config */
+        /** @var Config $config */
         $config = $serviceLocator->get('T4webAdmin\Config');
+        $options = $config->getOptions();
+        $action = $config->getAction();
 
         $post = $serviceLocator->get('request')->getPost()->toArray();
 
@@ -26,13 +28,15 @@ class ReadControllerFactory implements FactoryInterface
         $module = $routeMatch->getParam('module');
         $entity = $routeMatch->getParam('entity');
 
-        /** @var RepositoryInterface $repository */
-        $repository = $serviceLocator->get("$module\\$entity\\Service\\Creator");
-
-        $creator = $serviceLocator->get('T4webAdmin\Service\CreatorService');
-
-        $viewModel = $serviceLocator->get($config->getActionViewModel());
+        $viewModel = $serviceLocator->get($options["$module-$entity"]['actions'][$action]['mainViewComponent']);
+        $viewModel->setName('t4web-admin-view-model-read');
         $redirectTo = $config->getActionRedirect();
+
+        $module = ucfirst($module);
+        $entity = ucfirst($entity);
+
+        /** @var CreatorInterface $repository */
+        $creator = $serviceLocator->get("$module\\$entity\\Service\\Creator");
 
         return new CreateController($post, $creator, $viewModel, $redirectTo);
     }
