@@ -18,8 +18,8 @@ $viewModel = $viewModelHelper->getCurrent();
             <?php endforeach; ?>
 
             <div class="box-footer text-right">
-                <button class="btn btn-primary" type="submit">Search</button>
-                <a href="<?=$this->url($viewModel->getVariable('route'))?>" class="btn btn-success">Clear</a>
+                <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i> Search</button>
+                <a href="<?=$this->url($viewModel->getVariable('route'))?>" class="btn btn-default"><i class="fa fa-times"></i> Clear</a>
             </div>
         </form>
     </div>
