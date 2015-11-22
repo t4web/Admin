@@ -11,9 +11,10 @@ if (!$label) {
 $name = $viewModel->getVariable('name');
 $selected = $viewModel->getVariable('value');
 $options = $viewModel->getVariable('options');
+$class = $viewModel->getVariable('class', '');
 ?>
 
-<div class="form-group<?= (!empty($errors)) ? ' has-error' : ''; ?>">
+<div class="form-group <?= (!empty($errors)) ? 'has-error' : ''; ?> <?=$class?>">
     <label><?= $label ?></label>
     <select name="<?= $name ?>" class="form-control">
         <?php foreach ($options as $value => $option): ?>

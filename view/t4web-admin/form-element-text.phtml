@@ -17,9 +17,10 @@ if (!$placeholder) {
 }
 
 $value = $viewModel->getVariable('value');
+$class = $viewModel->getVariable('class', '');
 ?>
 
-<div class="form-group<?= (!empty($errors)) ? ' has-error' : ''; ?>">
+<div class="form-group <?= (!empty($errors)) ? 'has-error' : ''; ?> <?=$class?>">
     <label><?= $label ?></label>
     <input name="<?= $name ?>" type="text" placeholder="<?= $placeholder ?>" value="<?= $value ?>" class="form-control">
     <?php if (!empty($errors)): ?>
