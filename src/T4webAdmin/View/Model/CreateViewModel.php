@@ -24,10 +24,21 @@ class CreateViewModel extends BaseViewModel implements CreateViewModelInterface
     }
 
     /**
+     * @param string $name
      * @return array
      */
-    public function getErrors()
+    public function getErrors($name = null)
     {
+        $errors = $this->getVariable('errors');
+
+        if (!empty($name)) {
+            if (array_key_exists($name, $errors)) {
+                return $errors[$name];
+            } else {
+                return [];
+            }
+        }
+
         return $this->getVariable('errors');
     }
 

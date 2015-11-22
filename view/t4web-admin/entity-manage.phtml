@@ -1,11 +1,11 @@
 <?php
 /** @var T4webAdmin\View\Model\BaseViewModel $viewModel */
 $viewModel = $this->viewModel()->getCurrent();
-$entity = $viewModel->getVariable('entity');
 
 $formViewModel = $viewModel->getChild('form');
-$formViewModel->setVariable('entity', $entity);
-
+$formViewModel->setVariable('entity', $viewModel->getVariable('entity'));
+$formViewModel->setVariable('inputData', $viewModel->getInputData());
+$formViewModel->setVariable('errors', $viewModel->getErrors());
 ?>
 
 <section class="content-header">

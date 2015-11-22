@@ -21,6 +21,10 @@ $options = $viewModel->getVariable('options');
         <?php endforeach; ?>
     </select>
     <?php if (!empty($errors)): ?>
-        <p class="help-block"><?=implode('<br/> ', $errors);?></p>
+        <?php if (is_array($errors)): ?>
+            <p class="help-block"><?=implode('<br/> ', $errors);?></p>
+        <?php else: ?>
+            <p class="help-block"><?=$errors?></p>
+        <?php endif; ?>
     <?php endif; ?>
 </div>

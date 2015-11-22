@@ -3,7 +3,7 @@
 $formViewModel = $this->viewModel()->getCurrent();
 
 $errors = $formViewModel->getVariable('errors');
-$values = $formViewModel->getVariable('values');
+$values = $formViewModel->getVariable('inputData');
 $controller = $formViewModel->getVariable('controller', 'create');
 $submitText = $formViewModel->getVariable('submitText', 'Create');
 $submitRouteOptions = ['controller' => $controller];
@@ -21,6 +21,9 @@ if ($entity) {
     <div class="box-body">
         <?php foreach ($formViewModel->getChildren() as $children): ?>
             <?php
+            if (isset($errors[$children->getVariable('name')])) {
+                $children->setVariable('errors', $errors[$children->getVariable('name')]);
+            }
             if (isset($values[$children->getVariable('name')])) {
                 $children->setVariable('value', $values[$children->getVariable('name')]);
             }
