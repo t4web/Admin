@@ -1,11 +1,21 @@
 <?php
+use Sebaks\Crud\View\Model\CreateViewModelInterface;
+use Sebaks\Crud\View\Model\ReadViewModelInterface;
+
 /** @var T4webAdmin\View\Model\BaseViewModel $viewModel */
 $viewModel = $this->viewModel()->getCurrent();
 
 $formViewModel = $viewModel->getChild('form');
 $formViewModel->setVariable('entity', $viewModel->getVariable('entity'));
-$formViewModel->setVariable('inputData', $viewModel->getInputData());
-$formViewModel->setVariable('errors', $viewModel->getErrors());
+$formViewModel->setVariable('submitRoute', $viewModel->getVariable('submitRoute'));
+
+if ($viewModel instanceof CreateViewModelInterface) {
+    $formViewModel->setVariable('inputData', $viewModel->getInputData());
+    $formViewModel->setVariable('errors', $viewModel->getErrors());
+}
+if ($viewModel instanceof ReadViewModelInterface) {
+    $formViewModel->setVariable('inputData', $viewModel->getVariable('entity')->extract());
+}
 ?>
 
 <section class="content-header">

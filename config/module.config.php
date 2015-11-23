@@ -12,37 +12,25 @@ return [
             'T4webAdmin\Controller\Read' => 'T4webAdmin\Controller\ReadControllerFactory',
             'T4webAdmin\Controller\New' => 'T4webAdmin\Controller\NewControllerFactory',
             'T4webAdmin\Controller\Create' => 'T4webAdmin\Controller\CreateControllerFactory',
+            'T4webAdmin\Controller\Update' => 'T4webAdmin\Controller\UpdateControllerFactory',
 
-//            'T4webAdmin\Controller\Create' => function(Zend\Mvc\Controller\ControllerManager $controllerManager) {
+//            'T4webAdmin\Controller\Update' => function(Zend\Mvc\Controller\ControllerManager $controllerManager) {
 //                $serviceLocator = $controllerManager->getServiceLocator();
 //                /** @var T4webAdmin\Config $config */
 //                $config = $serviceLocator->get('T4webAdmin\Config');
+//                /** @var \Zend\Mvc\Application $app */
+//                $app = $serviceLocator->get('Application');
+//                /** @var \Zend\Mvc\Router\Http\RouteMatch $routeMatch */
+//                $routeMatch = $app->getMvcEvent()->getRouteMatch();
 //
+//                $id = $routeMatch->getParam('id');
 //                $post = $serviceLocator->get('request')->getPost()->toArray();
-//                $creator = $serviceLocator->get('T4webAdmin\Service\CreatorService');
+//                $updater = $serviceLocator->get('T4webAdmin\Service\UpdaterService');
+//                $viewModel = $serviceLocator->get('T4webAdmin\View\Model\UpdateViewModel');
+//                $redirectToRoute = $config->getCreateRedirectTo();
 //
-//                $viewModel = $serviceLocator->get($config->getActionViewModel());
-//                $redirectTo = $config->getActionRedirect();
-//
-//                return new Sebaks\Crud\Controller\CreateController($post, $creator, $viewModel, $redirectTo);
+//                return new Sebaks\Crud\Controller\UpdateController($id, $post, $updater, $viewModel, $redirectToRoute);
 //            },
-            'T4webAdmin\Controller\Update' => function(Zend\Mvc\Controller\ControllerManager $controllerManager) {
-                $serviceLocator = $controllerManager->getServiceLocator();
-                /** @var T4webAdmin\Config $config */
-                $config = $serviceLocator->get('T4webAdmin\Config');
-                /** @var \Zend\Mvc\Application $app */
-                $app = $serviceLocator->get('Application');
-                /** @var \Zend\Mvc\Router\Http\RouteMatch $routeMatch */
-                $routeMatch = $app->getMvcEvent()->getRouteMatch();
-
-                $id = $routeMatch->getParam('id');
-                $post = $serviceLocator->get('request')->getPost()->toArray();
-                $updater = $serviceLocator->get('T4webAdmin\Service\UpdaterService');
-                $viewModel = $serviceLocator->get('T4webAdmin\View\Model\UpdateViewModel');
-                $redirectToRoute = $config->getCreateRedirectTo();
-
-                return new Sebaks\Crud\Controller\UpdateController($id, $post, $updater, $viewModel, $redirectToRoute);
-            },
             'T4webAdmin\Controller\Delete' => function(Zend\Mvc\Controller\ControllerManager $controllerManager) {
                 $serviceLocator = $controllerManager->getServiceLocator();
                 /** @var T4webAdmin\Config $config */
@@ -95,6 +83,7 @@ return [
             't4web-admin-view-model-list' => 'T4webAdmin\View\Model\ListViewModel',
             't4web-admin-view-model-read' => 'T4webAdmin\View\Model\ReadViewModel',
             't4web-admin-view-model-create' => 'T4webAdmin\View\Model\CreateViewModel',
+            't4web-admin-view-model-update' => 'T4webAdmin\View\Model\UpdateViewModel',
         ],
     ],
 ];

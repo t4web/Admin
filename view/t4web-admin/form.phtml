@@ -8,6 +8,7 @@ $controller = $formViewModel->getVariable('controller', 'create');
 $submitText = $formViewModel->getVariable('submitText', 'Create');
 $submitRouteOptions = ['controller' => $controller];
 $entity = $formViewModel->getVariable('entity');
+
 if ($entity) {
     $entityId = $entity->getId();
     $submitRouteOptions = [
