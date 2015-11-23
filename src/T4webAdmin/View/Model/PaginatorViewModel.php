@@ -4,13 +4,12 @@ namespace T4webAdmin\View\Model;
 
 use Zend\Paginator\Paginator;
 use Zend\Paginator\Adapter\NullFill;
-use T4webFilter\Filter;
 use T4webDomainInterface\Infrastructure\RepositoryInterface;
 
 class PaginatorViewModel extends BaseViewModel
 {
     /**
-     * @var Filter
+     * @var array
      */
     private $filter;
 
@@ -30,14 +29,20 @@ class PaginatorViewModel extends BaseViewModel
     private $queryString;
 
     /**
-     * ListFilterViewModel constructor.
-     * @param Filter $filter
+     * @var int
+     */
+    private $currentPage;
+
+    /**
+     * @param RepositoryInterface $finder
+     * @param array $filterValues
+     * @param int $currentPage
      */
     public function __construct(RepositoryInterface $finder, array $filterValues = [], $currentPage = 1)
     {
-        $this->currentPage = $currentPage;
-        $this->filter = $filterValues;
         $this->finder = $finder;
+        $this->filter = $filterValues;
+        $this->currentPage = $currentPage;
     }
 
     /**
