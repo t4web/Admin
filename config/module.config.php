@@ -77,12 +77,18 @@ return [
 
                 $module = $routeMatch->getParam('module');
                 $entity = $routeMatch->getParam('entity');
+                /** @var \Zend\Http\PhpEnvironment\Request $request */
+                $request = $app->getMvcEvent()->getRequest();
+                $page = $request->getQuery('page');
 
                 $repository = $serviceLocator->get(ucfirst($module) . "\\" . ucfirst($entity) . "\\Infrastructure\\Repository");
 
+                $filter = new T4webFilter\Filter();
+
                 return new T4webAdmin\View\Model\PaginatorViewModel(
-                    new T4webFilter\Filter(),
-                    $repository
+                    $repository,
+                    $filter->prepare(),
+                    $page
                 );
             }
         ],

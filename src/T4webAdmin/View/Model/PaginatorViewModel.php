@@ -33,9 +33,10 @@ class PaginatorViewModel extends BaseViewModel
      * ListFilterViewModel constructor.
      * @param Filter $filter
      */
-    public function __construct(Filter $filter, RepositoryInterface $finder)
+    public function __construct(RepositoryInterface $finder, array $filterValues = [], $currentPage = 1)
     {
-        $this->filter = $filter;
+        $this->currentPage = $currentPage;
+        $this->filter = $filterValues;
         $this->finder = $finder;
     }
 
@@ -44,14 +45,14 @@ class PaginatorViewModel extends BaseViewModel
      */
     public function initialize()
     {
-        $filterValues = $this->filter->prepare();
+        $filterValues = $this->filter;
         $criteria = $this->finder->createCriteria($filterValues);
         $countAll = $this->finder->count($criteria);
 
         $this->queryString = http_build_query($filterValues);
 
         $this->paginator = new Paginator(new NullFill($countAll));
-        $this->paginator->setCurrentPageNumber(1);
+        $this->paginator->setCurrentPageNumber($this->currentPage);
         $this->paginator->setDefaultItemCountPerPage(20);
         $this->paginator->setPageRange(5);
     }
