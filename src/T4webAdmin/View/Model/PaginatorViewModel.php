@@ -24,25 +24,31 @@ class PaginatorViewModel extends BaseViewModel
     private $paginator;
 
     /**
-     * @var string
+     * @var int
      */
-    private $queryString;
+    private $currentPage;
 
     /**
      * @var int
      */
-    private $currentPage;
+    private $count;
+
+    /**
+     * @var int
+     */
+    private $itemsCountPerPage;
 
     /**
      * @param RepositoryInterface $finder
      * @param array $filterValues
      * @param int $currentPage
      */
-    public function __construct(RepositoryInterface $finder, array $filterValues = [], $currentPage = 1)
+    public function __construct(RepositoryInterface $finder, array $filterValues = [])
     {
         $this->finder = $finder;
         $this->filter = $filterValues;
-        $this->currentPage = $currentPage;
+        $this->currentPage = isset($filterValues['page']) ? $filterValues['page'] : 1;
+        $this->itemsCountPerPage = isset($filterValues['limit']) ? $filterValues['limit'] : 20;
     }
 
     /**
@@ -50,16 +56,26 @@ class PaginatorViewModel extends BaseViewModel
      */
     public function initialize()
     {
-        $filterValues = $this->filter;
-        $criteria = $this->finder->createCriteria($filterValues);
-        $countAll = $this->finder->count($criteria);
+        $criteria = $this->finder->createCriteria($this->filter);
+        $this->count = $this->finder->count($criteria);
 
-        $this->queryString = http_build_query($filterValues);
-
-        $this->paginator = new Paginator(new NullFill($countAll));
+        $this->paginator = new Paginator(new NullFill($this->count));
         $this->paginator->setCurrentPageNumber($this->currentPage);
-        $this->paginator->setDefaultItemCountPerPage(20);
+        $this->paginator->setDefaultItemCountPerPage($this->itemsCountPerPage);
         $this->paginator->setPageRange(5);
+    }
+
+    /**
+     * @return int
+     */
+    public function getCount()
+    {
+        return $this->count;
+    }
+
+    public function getItemsCountPerPage()
+    {
+        return $this->itemsCountPerPage;
     }
 
     /**
@@ -105,7 +121,28 @@ class PaginatorViewModel extends BaseViewModel
             return '#';
         }
 
-        return '?' . $this->queryString . '&page=' . $page;
+        $queryParams = $this->filter;
+        $queryParams['page'] = $page;
+
+        $queryString = http_build_query($queryParams);
+
+        return '?' . $queryString;
+    }
+
+    /**
+     * @param int $limit
+     *
+     * @return string
+     */
+    public function getUrlForLimit($limit)
+    {
+        $queryParams = $this->filter;
+        $queryParams['limit'] = $limit;
+        $queryParams['page'] = 1;
+
+        $queryString = http_build_query($queryParams);
+
+        return '?' . $queryString;
     }
 
     /**

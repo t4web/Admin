@@ -79,7 +79,6 @@ return [
                 $entity = $routeMatch->getParam('entity');
                 /** @var \Zend\Http\PhpEnvironment\Request $request */
                 $request = $app->getMvcEvent()->getRequest();
-                $page = $request->getQuery('page');
 
                 $repository = $serviceLocator->get(ucfirst($module) . "\\" . ucfirst($entity) . "\\Infrastructure\\Repository");
 
@@ -87,8 +86,7 @@ return [
 
                 return new T4webAdmin\View\Model\PaginatorViewModel(
                     $repository,
-                    $filter->prepare(),
-                    $page
+                    $filter->prepare($request->getQuery()->toArray())
                 );
             }
         ],
