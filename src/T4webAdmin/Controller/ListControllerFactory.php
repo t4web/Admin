@@ -7,7 +7,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceManager;
 use Sebaks\Crud\Controller\ListController;
 use T4webAdmin\View\Model\ListViewModel;
-use T4webAdmin\View\Model\PaginatorViewModel;
+//use T4webAdmin\View\Model\PaginatorViewModel;
 use T4webFilter\Filter;
 
 class ListControllerFactory implements FactoryInterface

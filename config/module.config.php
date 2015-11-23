@@ -69,6 +69,22 @@ return [
             'T4webAdmin\Config' => 'T4webAdmin\ConfigFactory',
             'T4webAdmin\RouteGenerator' => 'T4webAdmin\RouteGeneratorFactory',
             'T4webAdmin\Service\FinderService' => 'T4webAdmin\Service\FinderServiceFactory',
+
+            't4web-admin-view-model-paginator' => function(Zend\ServiceManager\ServiceLocatorInterface $serviceLocator) {
+                $app = $serviceLocator->get('Application');
+                /** @var \Zend\Mvc\Router\Http\RouteMatch $routeMatch */
+                $routeMatch = $app->getMvcEvent()->getRouteMatch();
+
+                $module = $routeMatch->getParam('module');
+                $entity = $routeMatch->getParam('entity');
+
+                $repository = $serviceLocator->get(ucfirst($module) . "\\" . ucfirst($entity) . "\\Infrastructure\\Repository");
+
+                return new T4webAdmin\View\Model\PaginatorViewModel(
+                    new T4webFilter\Filter(),
+                    $repository
+                );
+            }
         ],
 
         'invokables' => [

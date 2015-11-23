@@ -8,6 +8,8 @@ $filterViewModel = $viewModel->getChild('filter');
 
 $tableViewModel = $viewModel->getChild('table');
 $tableViewModel->setVariable('collection', $collection);
+
+$paginatorViewModel = $viewModel->getChild('paginator');
 ?>
 
 <section class="content-header">
@@ -29,7 +31,7 @@ $tableViewModel->setVariable('collection', $collection);
             </div>
 
             <div class="box-footer">
-                <?= $viewModel->paginator ?>
+                <?= $this->render($paginatorViewModel) ?>
             </div>
         <?php else: ?>
             <div class="box-header">

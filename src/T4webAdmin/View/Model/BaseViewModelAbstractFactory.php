@@ -4,6 +4,7 @@ namespace T4webAdmin\View\Model;
 
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use T4webAdmin\Config;
 
 class BaseViewModelAbstractFactory implements AbstractFactoryInterface
 {
