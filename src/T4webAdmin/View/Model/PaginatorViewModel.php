@@ -41,7 +41,6 @@ class PaginatorViewModel extends BaseViewModel
     /**
      * @param RepositoryInterface $finder
      * @param array $filterValues
-     * @param int $currentPage
      */
     public function __construct(RepositoryInterface $finder, array $filterValues = [])
     {

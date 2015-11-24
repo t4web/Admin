@@ -4,11 +4,11 @@ namespace T4webAdmin\Controller;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Sebaks\Crud\Controller\UpdateController;
-use T4webDomainInterface\Service\UpdaterInterface;
+use Sebaks\Crud\Controller\DeleteController;
+use T4webDomainInterface\Service\DeleterInterface;
 use T4webAdmin\Config;
 
-class UpdateControllerFactory implements FactoryInterface
+class DeleteControllerFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $controllerManager)
     {
@@ -28,18 +28,17 @@ class UpdateControllerFactory implements FactoryInterface
         $entity = $routeMatch->getParam('entity');
 
         $id = $routeMatch->getParam('id');
-        $post = $serviceLocator->get('request')->getPost()->toArray();
 
         $viewModel = $serviceLocator->get($options["$module-$entity"]['actions'][$action]['mainViewComponent']);
-        $viewModel->setName('t4web-admin-view-model-update');
+        $viewModel->setName('t4web-admin-view-model-delete');
         $redirectToRoute = $config->getActionRedirect();
 
         $module = ucfirst($module);
         $entity = ucfirst($entity);
 
-        /** @var UpdaterInterface $updater */
-        $updater = $serviceLocator->get("$module\\$entity\\Service\\Updater");
+        /** @var DeleterInterface $deleter */
+        $deleter = $serviceLocator->get("$module\\$entity\\Service\\Deleter");
 
-        return new UpdateController($id, $post, $updater, $viewModel, $redirectToRoute);
+        return new DeleteController($id, $deleter, $viewModel, $redirectToRoute);
     }
 }

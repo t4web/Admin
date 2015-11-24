@@ -25,10 +25,10 @@ $columnViewModel = $viewModel->getChild('t4web-admin-view-component-list-table-r
             <i class="fa fa-pencil"></i>
             Edit
         </a>
-        <a class="delete-btn btn btn-danger btn-xs"
-           href="<?= $this->url($viewModel->getVariable('deleteRoute'), ['id' => $entity->getId()]) ?>">
+        <button class="delete-btn btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteConfirmation"
+           data-href="<?= $this->url($viewModel->getVariable('deleteRoute'), ['id' => $entity->getId()]) ?>" data-summary="#<?=$entity->getId()?>">
             <i class="fa fa-times"></i>
             Delete
-        </a>
+        </button>
     </td>
 </tr>
