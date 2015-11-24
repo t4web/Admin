@@ -3,17 +3,13 @@
 $formViewModel = $this->viewModel()->getCurrent();
 
 $errors = $formViewModel->getVariable('errors');
-$values = $formViewModel->getVariable('inputData');
+$values = $formViewModel->getVariable('values');
 $controller = $formViewModel->getVariable('controller', 'create');
 $submitText = $formViewModel->getVariable('submitText', 'Create');
 $submitRouteOptions = ['controller' => $controller];
-$entity = $formViewModel->getVariable('entity');
 
-if ($entity) {
-    $entityId = $entity->getId();
-    $submitRouteOptions = [
-        'id' => $entityId
-    ];
+if (isset($values['id'])) {
+    $submitRouteOptions = ['id' => $values['id']];
 }
 
 ?>
@@ -27,9 +23,6 @@ if ($entity) {
             }
             if (isset($values[$children->getVariable('name')])) {
                 $children->setVariable('value', $values[$children->getVariable('name')]);
-            }
-            if (isset($errors[$children->getVariable('name')])) {
-                $children->setVariable('errors', $errors[$children->getVariable('name')]);
             }
             ?>
             <?= $this->render($children) ?>

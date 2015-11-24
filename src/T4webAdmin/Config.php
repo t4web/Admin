@@ -82,7 +82,7 @@ class Config
     }
 
     /**
-     * @param string $entity
+     * @return string
      */
     public function getActionViewModel()
     {
@@ -91,15 +91,15 @@ class Config
         return $this->options[$entityAlias]['actions'][$this->action]['viewModel'];
     }
 
+    /**
+     * @return string
+     */
     public function getActionRedirect()
     {
         $entityAlias = $this->module . '-' . $this->entity;
 
         return $this->options[$entityAlias]['actions'][$this->action]['redirect'];
     }
-
-
-
 
     /**
      * @return array
