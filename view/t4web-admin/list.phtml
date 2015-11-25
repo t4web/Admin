@@ -5,6 +5,7 @@ $viewModel = $this->viewModel()->getCurrent();
 $collection = $viewModel->getVariable('collection');
 
 $filterViewModel = $viewModel->getChild('filter');
+$filterViewModel->setVariable('values', $viewModel->getVariable('filter', []));
 
 $tableViewModel = $viewModel->getChild('table');
 $tableViewModel->setVariable('collection', $collection);

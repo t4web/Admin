@@ -3,6 +3,7 @@
 $viewModelHelper = $this->viewModel();
 /** @var T4webAdmin\View\Model\ListFilterViewModel $viewModel */
 $viewModel = $viewModelHelper->getCurrent();
+$values = $viewModel->getVariable('values');
 ?>
 
 <div class="box">
@@ -14,6 +15,11 @@ $viewModel = $viewModelHelper->getCurrent();
             <?php $filter = $viewModel->getVariable('filter'); ?>
 
             <?php foreach ($viewModel->getChildren() as $children): ?>
+                <?php
+                if (isset($values[$children->getVariable('name')])) {
+                    $children->setVariable('value', $values[$children->getVariable('name')]);
+                }
+                ?>
                 <?= $this->render($children) ?>
             <?php endforeach; ?>
 

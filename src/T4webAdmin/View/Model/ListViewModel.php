@@ -22,4 +22,20 @@ class ListViewModel extends BaseViewModel implements ListViewModelInterface
     {
         $this->setVariable('collection', $collection);
     }
+
+    /**
+     * @return array
+     */
+    public function getFilter()
+    {
+        return $this->getVariable('filter');
+    }
+
+    /**
+     * @param array $filter
+     */
+    public function setFilter(array $filter)
+    {
+        $this->setVariable('filter', $filter);
+    }
 }
