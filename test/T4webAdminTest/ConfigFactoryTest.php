@@ -1,6 +1,6 @@
 <?php
 
-namespace T4webAdmin\UnitTest;
+namespace T4webAdminTest;
 
 use T4webAdmin\ConfigFactory;
 

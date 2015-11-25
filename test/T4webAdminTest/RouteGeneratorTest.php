@@ -1,6 +1,6 @@
 <?php
 
-namespace T4webAdmin\UnitTest;
+namespace T4webAdminTest;
 
 use Zend\Mvc\Router\Http\TreeRouteStack;
 use T4webAdmin\RouteGenerator;

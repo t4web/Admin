@@ -1,6 +1,6 @@
 <?php
 
-namespace T4webAdmin\UnitTest;
+namespace T4webAdminTest;
 
 use Zend\ServiceManager\ServiceManager;
 use Zend\Mvc\MvcEvent;
