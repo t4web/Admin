@@ -52,7 +52,6 @@ class RouteGenerator
                     'defaults' => array(
                         '__NAMESPACE__' => 'T4webAdmin\Controller',
                         'controller' => 'new',
-//                        'action' => 'index',
                         'module' => $module,
                         'entity' => $entity,
                     )
@@ -68,7 +67,6 @@ class RouteGenerator
                     'defaults' => array(
                         '__NAMESPACE__' => 'T4webAdmin\Controller',
                         'controller' => 'create',
-                        'action' => 'index',
                         'module' => $module,
                         'entity' => $entity,
                     )
@@ -84,7 +82,6 @@ class RouteGenerator
                     'defaults' => array(
                         '__NAMESPACE__' => 'T4webAdmin\Controller',
                         'controller' => 'read',
-                        'action' => 'index',
                         'module' => $module,
                         'entity' => $entity,
                     )
@@ -100,7 +97,6 @@ class RouteGenerator
                     'defaults' => array(
                         '__NAMESPACE__' => 'T4webAdmin\Controller',
                         'controller' => 'update',
-                        'action' => 'index',
                         'module' => $module,
                         'entity' => $entity,
                     )
@@ -116,7 +112,6 @@ class RouteGenerator
                     'defaults' => array(
                         '__NAMESPACE__' => 'T4webAdmin\Controller',
                         'controller' => 'delete',
-                        'action' => 'index',
                         'module' => $module,
                         'entity' => $entity,
                     )

@@ -2,12 +2,19 @@
 
 namespace T4webAdmin\UnitTest;
 
-use T4webBaseTest\Factory\AbstractServiceFactoryTest;
-use T4webAdmin\RouteGeneratorFactory;
+use Zend\ServiceManager\ServiceManager;
 use Zend\Mvc\MvcEvent;
+use T4webAdmin\RouteGeneratorFactory;
 
-class RouteGeneratorFactoryTest extends AbstractServiceFactoryTest
+class RouteGeneratorFactoryTest extends \PHPUnit_Framework_TestCase
 {
+    /** @var ServiceManager  */
+    protected $serviceManager;
+
+    public function setUp()
+    {
+        $this->serviceManager = new ServiceManager();
+    }
 
     public function testCreateService()
     {
