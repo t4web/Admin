@@ -42,4 +42,12 @@ class BaseViewModel extends ViewModel
     {
         return $this->children[$name];
     }
+
+    /**
+     * @return array
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
 }
