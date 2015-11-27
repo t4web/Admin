@@ -32,6 +32,8 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface, Bo
                 return;
             }
 
+            $matchedRoute = $routeMatch->getMatchedRouteName();
+
             if (strpos($matchedRoute, 'admin-') !== false) {
                 /** @var \Zend\View\Renderer\PhpRenderer $renderer */
                 $renderer = $e->getApplication()->getServiceManager()->get('viewrenderer');
