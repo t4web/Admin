@@ -27,9 +27,13 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface, Bo
         }, 1000);
 
         $eventManager->attach(MvcEvent::EVENT_RENDER, function(\Zend\Mvc\MvcEvent $e) {
-            /** @var \Zend\View\Renderer\PhpRenderer $renderer */
-            $renderer = $e->getApplication()->getServiceManager()->get('viewrenderer');
-            $renderer->setCanRenderTrees(true);
+            $matchedRoute = $e->getRouteMatch()->getMatchedRouteName();
+
+            if (strpos($matchedRoute, 'admin-') !== false) {
+                /** @var \Zend\View\Renderer\PhpRenderer $renderer */
+                $renderer = $e->getApplication()->getServiceManager()->get('viewrenderer');
+                $renderer->setCanRenderTrees(true);
+            }
         }, 10000);
     }
 
