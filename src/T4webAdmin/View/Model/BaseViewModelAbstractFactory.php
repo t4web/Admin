@@ -18,32 +18,34 @@ class BaseViewModelAbstractFactory implements AbstractFactoryInterface
         /** @var Config $config */
         $config = $serviceLocator->get('T4webAdmin\Config');
         $options = $config->getOptions();
-        $action = $config->getAction();
 
-        if (empty($options['viewComponents'][$requestedName]['template'])) {
+        if (!isset($options['viewComponents'][$requestedName])) {
+            return false;
+        }
+
+        $viewConfig = $options['viewComponents'][$requestedName];
+
+        if (empty($viewConfig['template'])) {
             throw new \Exception("Empty template for $requestedName");
         }
 
-        $template = $options['viewComponents'][$requestedName]['template'];
+        $template = $viewConfig['template'];
 
-        $variables = [];
-        if (!empty($options['viewComponents'][$requestedName]['variables'])) {
-            $variables = $options['viewComponents'][$requestedName]['variables'];
-        }
-        if (!empty($options['actions'][$action]['viewComponents'][$requestedName]['variables'])) {
-            $variables = array_merge($variables, $options['actions'][$action]['viewComponents'][$requestedName]['variables']);
-        }
-
-        $children = [];
-        if (!empty($options['viewComponents'][$requestedName]['children'])) {
-            $children = $options['viewComponents'][$requestedName]['children'];
-        }
-
-        if (!empty($options['viewComponents'][$requestedName]['viewModel'])) {
-            $viewModelClass = $options['viewComponents'][$requestedName]['viewModel'];
+        if (!empty($viewConfig['viewModel'])) {
+            $viewModelClass = $viewConfig['viewModel'];
             $viewModel = $serviceLocator->get($viewModelClass);
         } else {
             $viewModel = new BaseViewModel();
+        }
+
+        $variables = [];
+        if (!empty($viewConfig['variables'])) {
+            $variables = $viewConfig['variables'];
+        }
+
+        $children = [];
+        if (!empty($viewConfig['children'])) {
+            $children = $viewConfig['children'];
         }
 
         $viewModel->setName($requestedName);

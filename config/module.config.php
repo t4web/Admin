@@ -59,6 +59,10 @@ return [
                     't4web-admin-view-component-list-table-row',
                 ],
             ],
+            't4web-admin-view-component-list-paginator' => [
+                'template' => 't4web-admin/paginator',
+                'viewModel' => 't4web-admin-view-model-paginator',
+            ],
             't4web-admin-view-component-list-table-head' => [
                 'template' => 't4web-admin/list-table-head',
                 'children' => [
