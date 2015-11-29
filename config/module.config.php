@@ -75,9 +75,6 @@ return [
             ],
             't4web-admin-view-component-list-table-row' => [
                 'template' => 't4web-admin/list-table-row',
-                'children' => [
-                    't4web-admin-view-component-list-table-row-column',
-                ],
             ],
             't4web-admin-view-component-list-table-row-column' => [
                 'template' => 't4web-admin/list-table-row-column',
