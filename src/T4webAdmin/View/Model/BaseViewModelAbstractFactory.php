@@ -15,15 +15,38 @@ class BaseViewModelAbstractFactory implements AbstractFactoryInterface
 
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
+        $this->serviceLocator = $serviceLocator;
+
         /** @var Config $config */
         $config = $serviceLocator->get('T4webAdmin\Config');
         $options = $config->getOptions();
+        
+        if (!isset($options['viewComponents'])) {
+            return false;
+        }
+        
+        $viewsConfig = $options['viewComponents'];
 
-        if (!isset($options['viewComponents'][$requestedName])) {
+        if (!isset($viewsConfig[$requestedName])) {
             return false;
         }
 
-        $viewConfig = $options['viewComponents'][$requestedName];
+        $viewConfig = $viewsConfig[$requestedName];
+
+        return $this->createViewModel($options, $viewConfig, $requestedName);
+    }
+
+    private function createViewModel(array $options, array $viewConfig, $requestedName)
+    {
+        if (!empty($viewConfig['extend'])) {
+            if (!isset($options['viewComponents'][$viewConfig['extend']])) {
+                throw new \Exception("View component $requestedName extend $viewConfig[extend] but it's configuration not found");
+            }
+
+            $extendView = $options['viewComponents'][$viewConfig['extend']];
+
+            $viewConfig = array_replace_recursive($extendView, $viewConfig);
+        }
 
         if (empty($viewConfig['template'])) {
             throw new \Exception("Empty template for $requestedName");
@@ -33,7 +56,7 @@ class BaseViewModelAbstractFactory implements AbstractFactoryInterface
 
         if (!empty($viewConfig['viewModel'])) {
             $viewModelClass = $viewConfig['viewModel'];
-            $viewModel = $serviceLocator->get($viewModelClass);
+            $viewModel = $this->serviceLocator->get($viewModelClass);
         } else {
             $viewModel = new BaseViewModel();
         }
@@ -53,14 +76,36 @@ class BaseViewModelAbstractFactory implements AbstractFactoryInterface
         $viewModel->setVariables($variables);
 
         foreach ($children as $childAlias => $child) {
-            if (!is_string($childAlias)) {
-                $childAlias = $child;
+
+            if (is_array($child)) {
+
+                $childViewConfig = $child;
+
+                $childViewModel = $this->createViewModel($options, $childViewConfig, $childAlias);
+
+                if (!$childViewModel) {
+                    throw new \Exception("Cannot create child view '$child' for '$requestedName' view");
+                }
+
+                $viewModel->pushChild($childViewModel, $childAlias);
+
+            } elseif (is_string($child)) {
+
+                if (is_int($childAlias)) {
+                    $childAlias = $child;
+                }
+
+                $childViewModel = $this->serviceLocator->get($child);
+
+                if (!$childViewModel) {
+                    throw new \Exception("Cannot create child view '$child' for '$requestedName' view");
+                }
+
+                $viewModel->pushChild($childViewModel, $childAlias);
+
+            } else {
+                throw new \Exception("Wrong child configuration for view $requestedName. It must be string or array.");
             }
-
-            /** @var \T4webAdmin\View\Model\BaseViewModel $childViewModel */
-            $childViewModel = $serviceLocator->get($child);
-
-            $viewModel->pushChild($childViewModel, $childAlias);
         }
 
         return $viewModel;

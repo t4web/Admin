@@ -8,12 +8,12 @@ $childrenViewModel = $viewModel->getChildren();
 <tr>
     <?php
         $entityRaw = $entity->extract();
+        $i = 0;
         /** @var T4webAdmin\View\Model\TableColumnViewModel $columnViewModel */
         foreach ($viewModel->getChildren() as $child) {
-            $fieldName = $child->getVariable('field');
-            if (!array_key_exists($fieldName, $entityRaw)) {
-                throw new RuntimeException(sprintf("Model %s does not have field %s", get_class($entity), $fieldName));
-            }
+            $i++;
+
+            $fieldName = $child->getVariable('field', 'Field ' . $i);
 
             $child->setVariable('value', $entityRaw[$fieldName]);
 

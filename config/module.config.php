@@ -45,8 +45,9 @@ return [
                     'title' => 'List of entities',
                 ],
                 'children' => [
-                    't4web-admin-view-component-list-filter',
-                    't4web-admin-view-component-list-table',
+                    'filter' => 't4web-admin-view-component-list-filter',
+                    'table' => 't4web-admin-view-component-list-table',
+                    'paginator' => 't4web-admin-view-component-list-paginator',
                 ],
             ],
             't4web-admin-view-component-list-filter' => [
@@ -113,8 +114,13 @@ return [
                     'submitText' => 'Create',
                     'cancelText' => 'Cancel',
                 ],
-                'children' => [
-                ],
+            ],
+
+            't4web-admin-view-component-form-element-text' => [
+                'template' => 't4web-admin/form-element-text',
+            ],
+            't4web-admin-view-component-form-element-select' => [
+                'template' => 't4web-admin/form-element-select',
             ],
 
             't4web-admin-view-component-create' => [
