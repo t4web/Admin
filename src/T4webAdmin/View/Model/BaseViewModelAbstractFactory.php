@@ -10,7 +10,7 @@ class BaseViewModelAbstractFactory implements AbstractFactoryInterface
 {
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        return strpos($requestedName, '-view-component-') !== false;
+        return strpos($requestedName, '-admin-view-component-') !== false;
     }
 
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
@@ -18,31 +18,29 @@ class BaseViewModelAbstractFactory implements AbstractFactoryInterface
         /** @var Config $config */
         $config = $serviceLocator->get('T4webAdmin\Config');
         $options = $config->getOptions();
-        $module = $config->getModule();
-        $entity = $config->getEntity();
         $action = $config->getAction();
 
-        if (empty($options[$module . '-' . $entity]['viewComponents'][$requestedName]['template'])) {
+        if (empty($options['viewComponents'][$requestedName]['template'])) {
             throw new \Exception("Empty template for $requestedName");
         }
 
-        $template = $options[$module . '-' . $entity]['viewComponents'][$requestedName]['template'];
+        $template = $options['viewComponents'][$requestedName]['template'];
 
         $variables = [];
-        if (!empty($options[$module . '-' . $entity]['viewComponents'][$requestedName]['variables'])) {
-            $variables = $options[$module . '-' . $entity]['viewComponents'][$requestedName]['variables'];
+        if (!empty($options['viewComponents'][$requestedName]['variables'])) {
+            $variables = $options['viewComponents'][$requestedName]['variables'];
         }
-        if (!empty($options[$module . '-' . $entity]['actions'][$action]['viewComponents'][$requestedName]['variables'])) {
-            $variables = array_merge($variables, $options[$module . '-' . $entity]['actions'][$action]['viewComponents'][$requestedName]['variables']);
+        if (!empty($options['actions'][$action]['viewComponents'][$requestedName]['variables'])) {
+            $variables = array_merge($variables, $options['actions'][$action]['viewComponents'][$requestedName]['variables']);
         }
 
         $children = [];
-        if (!empty($options[$module . '-' . $entity]['viewComponents'][$requestedName]['children'])) {
-            $children = $options[$module . '-' . $entity]['viewComponents'][$requestedName]['children'];
+        if (!empty($options['viewComponents'][$requestedName]['children'])) {
+            $children = $options['viewComponents'][$requestedName]['children'];
         }
 
-        if (!empty($options[$module . '-' . $entity]['viewComponents'][$requestedName]['viewModel'])) {
-            $viewModelClass = $options[$module . '-' . $entity]['viewComponents'][$requestedName]['viewModel'];
+        if (!empty($options['viewComponents'][$requestedName]['viewModel'])) {
+            $viewModelClass = $options['viewComponents'][$requestedName]['viewModel'];
             $viewModel = $serviceLocator->get($viewModelClass);
         } else {
             $viewModel = new BaseViewModel();

@@ -35,4 +35,94 @@ return [
             't4web-admin-view-model-delete' => 'T4webAdmin\View\Model\DeleteViewModel',
         ],
     ],
+    't4web-admin' => [
+        'viewComponents' => [
+
+            't4web-admin-view-component-list' => [
+                'template' => 't4web-admin/list',
+                'viewModel' => 't4web-admin-view-model-list',
+                'variables' => [
+                    'title' => 'List of entities',
+                ],
+                'children' => [
+                    't4web-admin-view-component-list-filter',
+                    't4web-admin-view-component-list-table',
+                ],
+            ],
+            't4web-admin-view-component-list-filter' => [
+                'template' => 't4web-admin/list-filter',
+            ],
+            't4web-admin-view-component-list-table' => [
+                'template' => 't4web-admin/list-table',
+                'children' => [
+                    't4web-admin-view-component-list-table-head',
+                    't4web-admin-view-component-list-table-row',
+                ],
+            ],
+            't4web-admin-view-component-list-table-head' => [
+                'template' => 't4web-admin/list-table-head',
+                'children' => [
+                    't4web-admin-view-component-list-table-head-column',
+                ],
+            ],
+            't4web-admin-view-component-list-table-head-column' => [
+                'template' => 't4web-admin/list-table-head-column',
+            ],
+            't4web-admin-view-component-list-table-row' => [
+                'template' => 't4web-admin/list-table-row',
+                'children' => [
+                    't4web-admin-view-component-list-table-row-column',
+                ],
+            ],
+            't4web-admin-view-component-list-table-row-column' => [
+                'template' => 't4web-admin/list-table-row-column',
+            ],
+
+            't4web-admin-view-component-read' => [
+                'template' => 't4web-admin/entity-manage',
+                'viewModel' => 't4web-admin-view-model-read',
+                'variables' => [
+                    'title' => 'Read entity',
+                    'submitRoute' => '',
+                    'cancelRoute' => '',
+                ],
+                'children' => [
+                    'form' => 't4web-admin-view-component-form',
+                ],
+            ],
+
+            't4web-admin-view-component-update' => [
+                'template' => 't4web-admin/entity-manage',
+                'viewModel' => 't4web-admin-view-model-update',
+                'variables' => [
+                    'title' => 'Update entity',
+                    'submitRoute' => '',
+                    'cancelRoute' => '',
+                ],
+                'children' => [
+                    'form' => 't4web-admin-view-component-form',
+                ],
+            ],
+            't4web-admin-view-component-form' => [
+                'template' => 't4web-admin/form',
+                'variables' => [
+                    'submitText' => 'Create',
+                    'cancelText' => 'Cancel',
+                ],
+                'children' => [
+                ],
+            ],
+
+            't4web-admin-view-component-create' => [
+                'template' => 't4web-admin/entity-manage',
+                'viewModel' => 't4web-admin-view-model-create',
+                'variables' => [
+                    'title' => 'Create new entity',
+                ],
+                'children' => [
+                    'form' => 't4web-admin-view-component-form'
+                ],
+            ],
+        ]
+    ],
 ];
