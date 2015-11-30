@@ -40,7 +40,11 @@ class RouteGenerator
         $router = $this->event->getRouter();
         $config = $this->config['t4web-admin'];
 
-        foreach ($config as $entityConfig) {
+        foreach ($config as $key => $entityConfig) {
+
+            if ($key == 'viewComponents') {
+                continue;
+            }
 
             $module = $entityConfig['module'];
             $entity = $entityConfig['entity'];

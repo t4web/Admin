@@ -21,6 +21,13 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface, Bo
         $eventManager = $e->getApplication()->getEventManager();
 
         $eventManager->attach(MvcEvent::EVENT_ROUTE, function(EventInterface $e) {
+            /** @var Request $request */
+            $request = $e->getRequest();
+
+            if (strpos($request->getUri()->getPath(), '/admin') === false) {
+                return;
+            }
+
             $serviceManager = $e->getApplication()->getServiceManager();
             $routeGenerator = $serviceManager->get('T4WebAdmin\RouteGenerator');
             $routeGenerator->generate();
