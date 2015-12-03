@@ -1,6 +1,7 @@
 <?php
 use Sebaks\Crud\View\Model\CreateViewModelInterface;
 use Sebaks\Crud\View\Model\ReadViewModelInterface;
+use Sebaks\Crud\View\Model\UpdateViewModelInterface;
 
 /** @var T4webAdmin\View\Model\BaseViewModel $viewModel */
 $viewModel = $this->viewModel()->getCurrent();
@@ -8,14 +9,15 @@ $viewModel = $this->viewModel()->getCurrent();
 $formViewModel = $viewModel->getChild('form');
 $formViewModel->setVariable('submitRoute', $viewModel->getVariable('submitRoute'));
 
-if ($viewModel instanceof CreateViewModelInterface) {
+if (($viewModel instanceof CreateViewModelInterface)
+    || ($viewModel instanceof UpdateViewModelInterface)) {
     $formViewModel->setVariable('values', $viewModel->getInputData());
     $formViewModel->setVariable('errors', $viewModel->getErrors());
 }
-if (($viewModel instanceof ReadViewModelInterface)
-    || ($viewModel instanceof UpdateViewModelInterface)) {
+if ($viewModel instanceof ReadViewModelInterface) {
     $formViewModel->setVariable('values', $viewModel->getVariable('entity')->extract());
 }
+
 ?>
 
 <section class="content-header">
