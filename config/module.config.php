@@ -67,7 +67,6 @@ return [
             't4web-admin-view-component-list-table-head' => [
                 'template' => 't4web-admin/list-table-head',
                 'children' => [
-                    't4web-admin-view-component-list-table-head-column',
                 ],
             ],
             't4web-admin-view-component-list-table-head-column' => [

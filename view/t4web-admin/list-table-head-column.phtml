@@ -1,6 +1,12 @@
 <?php
-/** @var T4webAdmin\View\Model\TableColumnViewModel $viewModel */
+/** @var T4webAdmin\View\Model\BaseViewModel $viewModel */
 $viewModel = $this->viewModel()->getCurrent();
+$style = '';
+if ($viewModel->getVariable('style')) {
+    $style = 'style="' . $viewModel->getVariable('style') . '"';
+}
 ?>
 
-<th><?= $viewModel->getVariable('fieldName'); ?></th>
+<th <?= $style ?>>
+    <?= $viewModel->getVariable('fieldName'); ?>
+</th>
