@@ -1,0 +1,34 @@
+<?php
+/** @var Zend\View\Model\ViewModel $viewModel */
+$viewModel = $this->viewModel()->getCurrent();
+
+$errors = $viewModel->getVariable('errors', []);
+
+$label = $viewModel->getVariable('label');
+if (!$label) {
+    $label = ucfirst($viewModel->getVariable('name', 'Select file'));
+}
+
+$name = $viewModel->getVariable('name');
+$value = $viewModel->getVariable('value');
+if (is_array($value)) {
+    $value = null;
+}
+$class = $viewModel->getVariable('class', '');
+
+?>
+
+<div class="form-group <?= (!empty($errors)) ? 'has-error' : ''; ?> <?=$class?>">
+    <label><?= $label ?></label>
+
+    <?php if (!empty($errors)): ?>
+        <input name="<?= $name ?>" type="file" value="<?= $value ?>">
+        <?php if (is_array($errors)): ?>
+            <p class="help-block"><?=implode('<br/> ', $errors);?></p>
+        <?php else: ?>
+            <p class="help-block"><?=$errors?></p>
+        <?php endif; ?>
+    <?php else: ?>
+        <input name="<?= $name ?>" type="file" value="<?= $value ?>">
+    <?php endif; ?>
+</div>

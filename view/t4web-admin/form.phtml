@@ -14,7 +14,10 @@ if (isset($values['id'])) {
 
 ?>
 
-<form method="post" action="<?= $this->url($formViewModel->getVariable('submitRoute'), $submitRouteOptions) ?>">
+<form
+    method="post"
+    action="<?= $this->url($formViewModel->getVariable('submitRoute'), $submitRouteOptions) ?>"
+    enctype="<?= $formViewModel->getVariable('enctype', 'application/x-www-form-urlencoded') ?>" >
     <div class="box-body">
         <?php foreach ($formViewModel->getChildren() as $children): ?>
             <?php
