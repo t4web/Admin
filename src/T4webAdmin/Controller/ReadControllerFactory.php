@@ -7,9 +7,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceManager;
 use Sebaks\Crud\Controller\ReadController;
 use T4webDomainInterface\Infrastructure\RepositoryInterface;
-use T4webAdmin\View\Model\ListViewModel;
-use T4webAdmin\View\Model\PaginatorViewModel;
-use T4webAdmin\View\Model\ReadViewModel;
+use T4webInfrastructure\Criteria;
 use T4webAdmin\Config;
 
 class ReadControllerFactory implements FactoryInterface
@@ -39,6 +37,9 @@ class ReadControllerFactory implements FactoryInterface
         /** @var RepositoryInterface $repository */
         $repository = $serviceLocator->get("$module\\$entity\\Infrastructure\\Repository");
 
-        return new ReadController($routeMatch->getParam('id'), $repository, $viewModel);
+        $criteria = new Criteria($entity);
+        $criteria->equalTo('id', $routeMatch->getParam('id'));
+
+        return new ReadController($criteria, $repository, $viewModel);
     }
 }

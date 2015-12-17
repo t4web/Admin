@@ -25,6 +25,7 @@
 
         "sebaks/crud": "dev-master",
 
+        "t4web/infrastructure": "~1.0.0",
         "t4web/domain-module": "dev-master",
         "t4web/filter": "dev-master"
     },
