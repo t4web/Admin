@@ -28,8 +28,6 @@ class ReadControllerFactory implements FactoryInterface
         $action = $config->getAction();
 
         $viewModel = $serviceLocator->get($options["$module-$entity"]['actions'][$action]['mainViewComponent']);
-        $viewModel->setName('t4web-admin-view-model-read');
-        $viewModel->setTemplate('t4web-admin/entity-manage');
 
         $module = ucfirst($module);
         $entity = ucfirst($entity);
