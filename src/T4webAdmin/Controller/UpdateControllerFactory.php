@@ -29,6 +29,10 @@ class UpdateControllerFactory implements FactoryInterface
 
         $id = $routeMatch->getParam('id');
         $post = $serviceLocator->get('request')->getPost()->toArray();
+        if (!empty($options["$module-$entity"]['actions'][$action]['uploadFiles'])) {
+            $files = $serviceLocator->get('request')->getFiles()->toArray();
+            $post = array_merge_recursive($post, $files);
+        }
 
         $viewModel = $serviceLocator->get($options["$module-$entity"]['actions'][$action]['mainViewComponent']);
         $viewModel->setName('t4web-admin-view-model-update');
