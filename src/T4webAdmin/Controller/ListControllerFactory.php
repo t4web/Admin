@@ -6,9 +6,6 @@ use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceManager;
 use Sebaks\Crud\Controller\ListController;
-use T4webAdmin\View\Model\ListViewModel;
-//use T4webAdmin\View\Model\PaginatorViewModel;
-use T4webFilter\Filter;
 
 class ListControllerFactory implements FactoryInterface
 {
@@ -30,8 +27,9 @@ class ListControllerFactory implements FactoryInterface
 
         $module = $this->module = $routeMatch->getParam('module');
         $entity = $this->entity = $routeMatch->getParam('entity');
+        $moduleEntityNamespace = ucfirst($module) . "\\" . ucfirst($entity);
 
-        $repository = $this->serviceLocator->get(ucfirst($module) . "\\" . ucfirst($entity) . "\\Infrastructure\\Repository");
+        $repository = $this->serviceLocator->get("$moduleEntityNamespace\\Infrastructure\\Repository");
 
         /** @var \T4webAdmin\Config $config */
         $config = $this->serviceLocator->get('T4webAdmin\Config');
@@ -41,13 +39,16 @@ class ListControllerFactory implements FactoryInterface
         $action = $config->getAction();
 
         $viewModel = $this->serviceLocator->get($options["$module-$entity"]['actions'][$action]['mainViewComponent']);
-
+        $validator = null;
+        if ($this->serviceLocator->has("Admin\\Validator\\$moduleEntityNamespace\\ListValidator")) {
+            $validator = $this->serviceLocator->get("Admin\\Validator\\$moduleEntityNamespace\\ListValidator");
+        }
 
         $instance = new ListController(
             $this->getQuery(),
-            new Filter(),
             $repository,
-            $viewModel
+            $viewModel,
+            $validator
         );
 
         return $instance;
