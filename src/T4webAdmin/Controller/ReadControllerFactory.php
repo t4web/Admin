@@ -35,7 +35,7 @@ class ReadControllerFactory implements FactoryInterface
         /** @var RepositoryInterface $repository */
         $repository = $serviceLocator->get("$module\\$entity\\Infrastructure\\Repository");
 
-        $criteria = new Criteria($entity);
+        $criteria = $repository->createCriteria();
         $criteria->equalTo('id', $routeMatch->getParam('id'));
 
         return new ReadController($criteria, $repository, $viewModel);
