@@ -5,18 +5,24 @@ namespace T4webAdmin\View\Model;
 use Zend\Paginator\Paginator;
 use Zend\Paginator\Adapter\NullFill;
 use T4webDomainInterface\Infrastructure\RepositoryInterface;
+use Zend\InputFilter\InputFilterInterface;
 
 class PaginatorViewModel extends BaseViewModel
 {
     /**
      * @var array
      */
-    private $filter;
+    private $query;
 
     /**
      * @var RepositoryInterface
      */
     private $finder;
+
+    /**
+     * @var InputFilterInterface
+     */
+    private $inputFilter;
 
     /**
      * @var Paginator
@@ -39,15 +45,17 @@ class PaginatorViewModel extends BaseViewModel
     private $itemsCountPerPage;
 
     /**
-     * @param RepositoryInterface $finder
-     * @param array $filterValues
+     * @param RepositoryInterface  $finder
+     * @param array                $query
+     * @param InputFilterInterface $inputFilter
      */
-    public function __construct(RepositoryInterface $finder, array $filterValues = [])
+    public function __construct(RepositoryInterface $finder, array $query = [], InputFilterInterface $inputFilter = null)
     {
         $this->finder = $finder;
-        $this->filter = $filterValues;
-        $this->currentPage = isset($filterValues['page']) ? $filterValues['page'] : 1;
-        $this->itemsCountPerPage = isset($filterValues['limit']) ? $filterValues['limit'] : 20;
+        $this->query = $query;
+        $this->inputFilter = $inputFilter;
+        $this->currentPage = isset($query['page']) ? $query['page'] : 1;
+        $this->itemsCountPerPage = isset($query['limit']) ? $query['limit'] : 20;
     }
 
     /**
@@ -55,7 +63,13 @@ class PaginatorViewModel extends BaseViewModel
      */
     public function initialize()
     {
-        $criteria = $this->finder->createCriteria($this->filter);
+        if ($this->inputFilter) {
+            $this->inputFilter->setData($this->query);
+            $this->inputFilter->isValid();
+            $this->query = $this->inputFilter->getValues();
+        }
+
+        $criteria = $this->finder->createCriteria($this->query);
         $this->count = $this->finder->count($criteria);
 
         $this->paginator = new Paginator(new NullFill($this->count));
@@ -120,7 +134,7 @@ class PaginatorViewModel extends BaseViewModel
             return '#';
         }
 
-        $queryParams = $this->filter;
+        $queryParams = $this->query;
         $queryParams['page'] = $page;
 
         $queryString = http_build_query($queryParams);
@@ -135,7 +149,7 @@ class PaginatorViewModel extends BaseViewModel
      */
     public function getUrlForLimit($limit)
     {
-        $queryParams = $this->filter;
+        $queryParams = $this->query;
         $queryParams['limit'] = $limit;
         $queryParams['page'] = 1;
 
