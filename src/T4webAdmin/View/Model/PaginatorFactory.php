@@ -6,7 +6,6 @@ use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Mvc\Router\Http\RouteMatch;
 use Zend\Http\PhpEnvironment\Request;
-use T4webFilter\Filter;
 
 class PaginatorFactory implements FactoryInterface
 {
@@ -21,13 +20,19 @@ class PaginatorFactory implements FactoryInterface
         /** @var Request $request */
         $request = $app->getMvcEvent()->getRequest();
 
-        $repository = $serviceLocator->get(ucfirst($module) . "\\" . ucfirst($entity) . "\\Infrastructure\\Repository");
+        $moduleEntityNamespace = ucfirst($module) . "\\" . ucfirst($entity);
 
-        $filter = new Filter();
+        $repository = $serviceLocator->get($moduleEntityNamespace . "\\Infrastructure\\Repository");
+
+        $validator = null;
+        if ($serviceLocator->has("Admin\\Validator\\$moduleEntityNamespace\\ListValidator")) {
+            $validator = $serviceLocator->get("Admin\\Validator\\$moduleEntityNamespace\\ListValidator");
+        }
 
         return new PaginatorViewModel(
             $repository,
-            $filter->prepare($request->getQuery()->toArray())
+            $request->getQuery()->toArray(),
+            $validator
         );
     }
 }
