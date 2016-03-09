@@ -1,6 +1,12 @@
 <?php
-/** @var T4webAdmin\View\Model\PaginatorViewModel $viewModel */
+
+use T4web\Paginator\ViewModel;
+
+/** @var ViewModel $viewModel */
 $viewModel = $this->viewModel()->getCurrent();
+if (! $viewModel instanceof ViewModel) {
+    throw new RuntimeException('View model nust be instance of ' . ViewModel::class);
+}
 $viewModel->initialize();
 ?>
 <div class="row">

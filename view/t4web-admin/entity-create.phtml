@@ -1,0 +1,21 @@
+<?php
+$viewModel = $this->viewModel()->getCurrent();
+
+$formViewModel = $viewModel->getChild('form');
+$formViewModel->setVariable('submitRoute', $viewModel->getVariable('submitRoute'));
+$formViewModel->setVariable('errors', $viewModel->getVariable('changesErrors'));
+$formViewModel->setVariable('values', $viewModel->getVariable('changes'));
+?>
+
+<section class="content-header">
+    <h1><?= $viewModel->getVariable('title', 'Create entity') ?></h1>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box">
+                <?= $this->render($formViewModel) ?>
+            </div>
+        </div>
+    </div>
+</section>

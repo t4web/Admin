@@ -1,16 +1,19 @@
 <?php
-/** @var T4webAdmin\View\Model\BaseViewModel $viewModel */
 $viewModel = $this->viewModel()->getCurrent();
-/** @var ArrayObject $collection */
-$collection = $viewModel->getVariable('collection');
+
+$collection = $viewModel->getVariable('result');
 
 $filterViewModel = $viewModel->getChild('filter');
-$filterViewModel->setVariable('values', $viewModel->getVariable('filter', []));
+$criteria = $viewModel->getVariable('criteria', []);
+$validCriteria = $viewModel->getVariable('validCriteria', []);
+
+$filterViewModel->setVariable('criteria', $validCriteria);
 
 $tableViewModel = $viewModel->getChild('table');
 $tableViewModel->setVariable('collection', $collection);
 
 $paginatorViewModel = $viewModel->getChild('paginator');
+$paginatorViewModel->setVariable('criteria', $validCriteria);
 ?>
 
 <section class="content-header">
@@ -22,13 +25,13 @@ $paginatorViewModel = $viewModel->getChild('paginator');
     <?= $this->render($filterViewModel) ?>
 
     <div class="box-body text-right">
-        <a class="btn btn-primary btn-xs" href="<?= $this->url($viewModel->getVariable('newRoute')) ?>"><i class="fa fa-plus"></i> New entity</a>
+        <a class="btn btn-primary btn-xs" href="<?= $this->url($viewModel->getVariable('createNewRoute')) ?>"><i class="fa fa-plus"></i> New entity</a>
     </div>
 
     <div class="box">
-        <?php if ($viewModel->getVariable('collection')->count() > 0): ?>
+        <?php if (count($collection) > 0): ?>
             <div class="box-body no-padding">
-                <?= $this->render($tableViewModel);?>
+                <?= $this->render($tableViewModel) ?>
             </div>
 
             <div class="box-footer">

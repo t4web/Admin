@@ -4,7 +4,7 @@
          bootstrap="./test/bootstrap.php"
          colors="true">
     <testsuites>
-        <testsuite name="T4webAdmin Test Suite">
+        <testsuite name="T4web\Admin Test Suite">
             <directory>./test/</directory>
         </testsuite>
     </testsuites>

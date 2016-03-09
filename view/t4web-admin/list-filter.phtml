@@ -1,9 +1,7 @@
 <?php
-/** @var Zend\View\Helper\ViewModel $viewModelHelper */
 $viewModelHelper = $this->viewModel();
-/** @var T4webAdmin\View\Model\ListFilterViewModel $viewModel */
 $viewModel = $viewModelHelper->getCurrent();
-$values = $viewModel->getVariable('values');
+$values = $viewModel->getVariable('criteria');
 ?>
 
 <div class="box">

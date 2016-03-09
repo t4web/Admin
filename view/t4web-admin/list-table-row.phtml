@@ -1,35 +1,29 @@
 <?php
-/** @var T4webAdmin\View\Model\TableRowViewModel $viewModel */
 $viewModel = $this->viewModel()->getCurrent();
 $entity = $viewModel->getVariable('entity');
-$childrenViewModel = $viewModel->getChildren();
 ?>
-
 <tr>
     <?php
-        $entityRaw = $entity->extract();
         $i = 0;
-        /** @var T4webAdmin\View\Model\TableColumnViewModel $columnViewModel */
         foreach ($viewModel->getChildren() as $child) {
             $i++;
 
             $fieldName = $child->getVariable('field', 'Field ' . $i);
-
-            $child->setVariable('value', $entityRaw[$fieldName]);
+            $child->setVariable('value', $entity[$fieldName]);
 
             echo $this->render($child);
         }
     ?>
     <td>
         <a class="btn btn-primary btn-xs"
-           href="<?= $this->url($viewModel->getVariable('readRoute'), ['id' => $entity->getId()]) ?>">
+           href="<?= $this->url($viewModel->getVariable('readRoute'), ['id' => $entity['id']]) ?>">
             <i class="fa fa-pencil"></i>
             Edit
         </a>
-        <button class="delete-btn btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteConfirmation"
-           data-href="<?= $this->url($viewModel->getVariable('deleteRoute'), ['id' => $entity->getId()]) ?>" data-summary="#<?=$entity->getId()?>">
+        <a class="btn btn-danger btn-xs"
+           href="<?= $this->url($viewModel->getVariable('deleteRoute'), ['id' => $entity['id']]) ?>">
             <i class="fa fa-times"></i>
             Delete
-        </button>
+        </a>
     </td>
 </tr>

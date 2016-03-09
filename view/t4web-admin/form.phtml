@@ -1,17 +1,17 @@
 <?php
-/** @var T4webAdmin\View\Model\FormViewModel $formViewModel */
 $formViewModel = $this->viewModel()->getCurrent();
 
 $errors = $formViewModel->getVariable('errors');
+
 $values = $formViewModel->getVariable('values');
+$criteria = $formViewModel->getVariable('criteria');
 $controller = $formViewModel->getVariable('controller', 'create');
 $submitText = $formViewModel->getVariable('submitText', 'Create');
-$submitRouteOptions = ['controller' => $controller];
 
-if (isset($values['id'])) {
-    $submitRouteOptions = ['id' => $values['id']];
+$submitRouteOptions = [];
+if (isset($criteria['id'])) {
+    $submitRouteOptions = ['id' => $criteria['id']];
 }
-
 ?>
 
 <form
@@ -33,6 +33,8 @@ if (isset($values['id'])) {
     </div>
     <div class="box-footer">
         <button type="submit" class="btn btn-success" style="margin: 10px 10px"><?= $submitText ?></button>
-        <a class="btn btn-default" href="<?= $this->url($formViewModel->getVariable('cancelRoute')) ?>">Cancel</a>
+        <?php if ($formViewModel->getVariable('cancelRoute')): ?>
+            <a class="btn btn-default" href="<?= $this->url($formViewModel->getVariable('cancelRoute')) ?>">Cancel</a>
+        <?php endif; ?>
     </div>
 </form>

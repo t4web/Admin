@@ -1,0 +1,12 @@
+<?php
+$viewModel = $this->viewModel()->getCurrent();
+?>
+<aside class="main-sidebar">
+    <section class="sidebar">
+        <ul class="sidebar-menu">
+            <?php foreach($viewModel->getChildren() as $child): ?>
+                <?= $this->render($child); ?>
+            <?php endforeach; ?>
+        </ul>
+    </section>
+</aside>

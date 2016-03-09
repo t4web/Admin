@@ -1,0 +1,22 @@
+<?php
+$viewModel = $this->viewModel()->getCurrent();
+$label = $viewModel->getVariable('label');
+$route = $viewModel->getVariable('route');
+$icon = $viewModel->getVariable('icon');
+$children = $viewModel->getChildren();
+?>
+<li class="<?php if (!empty($children)) echo 'treeview'; ?>">
+    <a href="<?= $this->url($route) ?>">
+        <i class="fa <?= $icon ?>"></i> <span><?= $label ?></span>
+        <?php if (!empty($children)): ?>
+            <i class="fa fa-angle-left pull-right"></i>
+        <?php endif; ?>
+    </a>
+    <?php if (!empty($children)): ?>
+        <ul class="treeview-menu">
+            <?php foreach ($children as $child): ?>
+                <?= $this->render($child); ?>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+</li>

@@ -1,0 +1,8 @@
+<?php
+$viewModel = $this->viewModel()->getCurrent();
+$label = $viewModel->getVariable('label');
+$route = $viewModel->getVariable('route');
+?>
+<li>
+    <a href="<?= $this->url($route) ?>"><i class="fa fa-circle-o"></i> <?= $label ?></a>
+</li>
