@@ -1,0 +1,47 @@
+.photos-list > li {
+    width: 25%;
+    float: left;
+    padding: 10px;
+    text-align: center;
+}
+.photos-list > li > img {
+    max-width: 100%;
+    height: auto;
+}
+
+.photos-list{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.show-user .user-block {
+
+}
+.show-user .user-block .user-avatar {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 6px;
+    border-radius: 999999px;
+    background-color: #fff;
+    border: 1px solid #cfd5d7;
+    box-shadow: none;
+    box-sizing: border-box;
+    max-width: 212px;
+}
+.show-user .user-block .user-avatar img {
+    max-width: 200px;
+    border-radius: 999999px;
+    display: block;
+}
+.show-user .user-block hr {
+    border-bottom: 1px solid #ddd;
+}
+
+.show-user .user-block .info-item {
+    padding-top: 7px;
+}
+
+.show-user .direct-chat-messages {
+    height: auto;
+}
