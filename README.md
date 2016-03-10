@@ -10,7 +10,7 @@ Add this project in your composer.json:
 }
 ```
 
-Now tell composer to download Authentication by running the command:
+Now tell composer to download `T4web\Admin` by running the command:
 
 ```bash
 $ php composer.phar update
