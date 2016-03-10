@@ -46,7 +46,7 @@ $ cp -R vendor/t4web/admin/public/js public
 $ cp -R vendor/t4web/admin/public/img public
 ```
 
-Admin module
+## Introduction
 
 Problem: when you create entity, you must coding the same CRUD with different entity fields everytime for each entity. Typicaly CRUD Controllers:
 ```php
