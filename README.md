@@ -1,4 +1,38 @@
 # Admin
+
+## Installation
+
+Add this project in your composer.json:
+
+```json
+"require": {
+    "t4web/admin": "~2.0.0"
+}
+```
+
+Now tell composer to download `T4web\Admin` by running the command:
+
+```bash
+$ php composer.phar update
+```
+
+#### Post installation
+
+Enabling it in your `application.config.php`file.
+
+```php
+<?php
+return array(
+    'modules' => array(
+        // ...
+        'Sebaks\View',
+        'Sebaks\ZendMvcController',
+        'T4web\Admin',
+    ),
+    // ...
+);
+```
+
 Admin module
 
 Problem: when you create entity, you must coding the same CRUD with different entity fields everytime for each entity. Typicaly CRUD Controllers:
