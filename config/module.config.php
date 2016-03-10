@@ -45,9 +45,7 @@ return [
         'contents' => [
             'admin' => [
                 'template' => 't4web-admin/index/index.phtml',
-                'variables' => [
-                    'layout' => 'admin',
-                ],
+                'layout' => 'admin',
             ]
         ],
         'blocks' => [
