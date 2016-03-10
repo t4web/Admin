@@ -100,6 +100,9 @@ return [
             't4web-admin-list-table-row-column' => [
                 'template' => 't4web-admin/list-table-row-column',
             ],
+            't4web-admin-list-table-row-column-value-label' => [
+                'template' => 't4web-admin/list-table-row-column-value-label',
+            ],
             't4web-admin-read' => [
                 'template' => 't4web-admin/entity-read',
                 'viewModel' => 'T4web\Admin\ViewModel\EntityReadViewModel',
