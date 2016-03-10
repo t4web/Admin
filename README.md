@@ -33,6 +33,19 @@ return array(
 );
 ```
 
+#### Css, Js, fonts and images
+
+For normal working Admin module (and beautiful view), you can copy assets to your public:
+
+```shell
+$ mkdir public/css
+$ mkdir public/js
+$ mkdir public/img
+$ cp -R vendor/t4web/admin/public/css public
+$ cp -R vendor/t4web/admin/public/js public
+$ cp -R vendor/t4web/admin/public/img public
+```
+
 Admin module
 
 Problem: when you create entity, you must coding the same CRUD with different entity fields everytime for each entity. Typicaly CRUD Controllers:
