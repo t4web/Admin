@@ -74,9 +74,12 @@ Almost all backend contain: Dashboard, ability to managing content or custom ent
 content contain: lists (with filters and pagers) and create\read\update forms. This solution provide this. With
 `T4web\Admin` you can build CRUD for your Entities quickly and easy.
 
+For template building we use [sebaks\view](https://github.com/sebaks/view)
+
 We build backend for managing Users (for example) for describe configuration `T4web\Admin`.
 
 After install we can see empty backend page on uri /admin
 ![empty backend page](http://teamforweb.com/var/admin-1.jpg)
 
 #### Main menu
+
