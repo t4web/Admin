@@ -83,3 +83,27 @@ After install we can see empty backend page on uri /admin
 
 #### Main menu
 
+For customize main menu, you can override `t4web-admin-sidebar-menu` for example in your `config/autoload/global.php`:
+
+```php
+'sebaks-view' => [
+    'blocks' => [
+        't4web-admin-sidebar-menu' => [
+            'template' => 't4web-admin/sidebar-menu',
+            'children' => [
+                'users-menu-item' => [
+                    'template' => 't4web-admin/sidebar-menu-item',
+                    'variables' => [
+                        'label' => 'Users',
+                        'route' => 'users-list',
+                        'icon' => 'fa-users',
+                    ],
+                ],
+            ],
+        ],
+    ],
+],
+```
+
+Result:
+![Admin menu item](http://teamforweb.com/var/admin-menu-item.jpg)
