@@ -1,5 +1,7 @@
 # Admin
 
+Skeleton for your ZF2 Application backend (Admin part). Build on [Admin LTE v2.0.5](https://github.com/almasaeed2010/AdminLTE)
+
 ## Installation
 
 Add this project in your composer.json:
@@ -44,6 +46,18 @@ $ mkdir public/img
 $ cp -R vendor/t4web/admin/public/css public
 $ cp -R vendor/t4web/admin/public/js public
 $ cp -R vendor/t4web/admin/public/img public
+```
+
+#### Original theme
+
+For inspiration and build you custom backend you may download whole theme to `public/theme`
+
+```shell
+$ mkdir public/theme
+$ cd public/theme
+$ wget https://github.com/almasaeed2010/AdminLTE/archive/v2.0.5.tar.gz
+$ tar -zxvf v2.0.5.tar.gz
+$ rm v2.0.5.tar.gz
 ```
 
 ## Introduction
