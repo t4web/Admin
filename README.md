@@ -86,6 +86,21 @@ After install we can see empty backend page on uri /admin
 For customize main menu, you can override `t4web-admin-sidebar-menu` for example in your `config/autoload/global.php`:
 
 ```php
+'router' => [
+    'routes' => [
+        'users-list' => [
+            'type' => 'Zend\Mvc\Router\Http\Literal',
+            'options' => [
+                'route'    => '/admin/users/list',
+                'defaults' => [
+                    'controller' => 'Application\Controller\Index',
+                    'action'     => 'index',
+                ],
+            ],
+        ],
+    ],
+],
+
 'sebaks-view' => [
     'blocks' => [
         't4web-admin-sidebar-menu' => [
