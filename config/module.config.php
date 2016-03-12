@@ -141,6 +141,9 @@ return [
             't4web-admin-form-element-text' => [
                 'template' => 't4web-admin/form-element-text',
             ],
+            't4web-admin-form-element-textarea' => [
+                'template' => 't4web-admin/form-element-textarea',
+            ],
             't4web-admin-form-element-select' => [
                 'template' => 't4web-admin/form-element-select',
             ],
