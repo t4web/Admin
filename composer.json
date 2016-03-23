@@ -17,10 +17,10 @@
     "require": {
         "php": ">=5.5",
         "zendframework/zend-modulemanager": "~2.5.0",
-        "t4web/paginator": "dev-master",
-        "sebaks/view": "dev-master",
-        "sebaks/controller": "dev-master",
-        "sebaks/zend-mvc-controller": "dev-master"
+        "t4web/paginator": "~0.0.1",
+        "sebaks/view": "~0.0.1",
+        "sebaks/controller": "~0.1.0",
+        "sebaks/zend-mvc-controller": "~0.1.0"
     },
     "autoload": {
         "psr-4": {
