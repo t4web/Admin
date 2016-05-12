@@ -17,7 +17,6 @@
     "require": {
         "php": ">=5.5",
         "zendframework/zend-modulemanager": "~2.5.0",
-        "t4web/paginator": "~0.0.1",
         "sebaks/view": "dev-master",
         "sebaks/controller": "~0.1.0",
         "sebaks/zend-mvc-controller": "~0.1.0"
