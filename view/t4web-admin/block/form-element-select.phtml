@@ -1,0 +1,46 @@
+<?php
+/** @var Zend\View\Model\ViewModel $viewModel */
+$viewModel = $this->viewModel()->getCurrent();
+$errors = $viewModel->getVariable('errors', []);
+
+$label = $viewModel->getVariable('label');
+if (!$label) {
+    $label = ucfirst($viewModel->getVariable('name', 'Select option'));
+}
+
+$name = $viewModel->getVariable('name');
+$selected = $viewModel->getVariable('value');
+$options = $viewModel->getVariable('options');
+$class = $viewModel->getVariable('class', '');
+$horizontal = $viewModel->getVariable('horizontal');
+
+$disabled = '';
+$disabled = $viewModel->getVariable('disabled');
+if ($disabled) {
+    $disabled = 'disabled=""';
+}
+
+?>
+
+<div class="form-group <?= (!empty($errors)) ? 'has-error' : ''; ?> <?=$class?>">
+    <label class="<?= (!empty($horizontal)) ? 'col-sm-4 control-label' : ''; ?>"><?= $label ?></label>
+    <?php if (!empty($horizontal)): ?>
+        <div class="col-sm-8">
+    <?php endif; ?>
+    <select <?= $disabled ?> name="<?= $name ?>" class="form-control">
+        <?php foreach ($options as $value => $option): ?>
+<!--            --><?//= var_dump($value,$option, $selected) ?>
+            <option value="<?=$value?>" <?= ($selected == $value) ? ' selected' : ''; ?>><?= $option ?></option>
+        <?php endforeach; ?>
+    </select>
+    <?php if (!empty($errors)): ?>
+        <?php if (is_array($errors)): ?>
+            <p class="help-block"><?=implode('<br/> ', $errors);?></p>
+        <?php else: ?>
+            <p class="help-block"><?=$errors?></p>
+        <?php endif; ?>
+    <?php endif; ?>
+    <?php if (!empty($horizontal)): ?>
+        </div>
+    <?php endif; ?>
+</div>

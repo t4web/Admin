@@ -1,0 +1,12 @@
+<?php
+$viewModel = $this->viewModel()->getCurrent();
+$value = $viewModel->getVariable('value');
+$iconValueMap = $viewModel->getVariable('iconValueMap', []);
+$icon = 'warning';
+if (isset($iconValueMap[$value])) {
+    $icon = $iconValueMap[$value];
+}
+?>
+<td>
+    <i class="fa fa-fw fa-<?= $icon ?>"></i>
+</td>

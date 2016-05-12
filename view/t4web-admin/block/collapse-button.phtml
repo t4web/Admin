@@ -1,0 +1,21 @@
+<?php
+$viewModel = $this->viewModel()->getCurrent();
+$target = $viewModel->getVariable('target', '');
+$color = $viewModel->getVariable('color', 'default');
+$size = $viewModel->getVariable('size');
+if ($size !== null) {
+    $size = "btn-$size";
+}
+
+$icon = $viewModel->getVariable('icon');
+$text = $viewModel->getVariable('text', 'Default');
+?>
+<button class="btn btn-<?= $color ?> <?= $size ?>"
+        type="button"
+        data-toggle="collapse"
+        data-target="#<?= $target ?>">
+    <?php if ($icon !== null): ?>
+        <i class="fa fa-<?= $icon ?>"></i>
+    <?php endif; ?>
+    <?= $text ?>
+</button>

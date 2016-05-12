@@ -1,0 +1,24 @@
+<?php
+/** @var \Zend\View\Model\ViewModel $viewModel */
+$viewModel = $this->viewModel()->getCurrent();
+$color = $viewModel->getVariable('color', 'default');
+$size = $viewModel->getVariable('size');
+if ($size !== null) {
+    $size = "btn-$size";
+}
+$href = '#';
+$routeName = $viewModel->getVariable('routeName');
+if ($routeName !== null) {
+    $routeParams = $viewModel->getVariable('routeParams', []);
+    $href = $this->url($routeName, $routeParams);
+}
+$icon = $viewModel->getVariable('icon');
+$text = $viewModel->getVariable('text', 'Default');
+?>
+<a class="btn btn-<?= $color ?> <?= $size ?>"
+   href="<?= $href ?>">
+    <?php if ($icon !== null): ?>
+        <i class="fa fa-<?= $icon ?>"></i>
+    <?php endif; ?>
+    <?= $text ?>
+</a>

@@ -1,0 +1,8 @@
+<?php
+/** @var \Zend\View\Model\ViewModel $viewModel */
+$viewModel = $this->viewModel()->getCurrent();
+$buttonViews = $viewModel->getChildrenByCaptureTo('button');
+?>
+<td>
+    <?php foreach ($buttonViews as $view) echo $this->render($view); ?>
+</td>

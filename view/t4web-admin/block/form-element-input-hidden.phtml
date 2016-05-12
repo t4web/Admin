@@ -1,0 +1,8 @@
+<?php
+/** @var Zend\View\Model\ViewModel $viewModel */
+$viewModel = $this->viewModel()->getCurrent();
+
+$name = $viewModel->getVariable('name');
+$value = $viewModel->getVariable('value');
+?>
+<input name="<?= $name ?>" type="hidden" value="<?= $value ?>">

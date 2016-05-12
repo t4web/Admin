@@ -1,0 +1,12 @@
+<?php
+/** @var \Zend\View\Model\ViewModel $viewModel */
+$viewModel = $this->viewModel()->getCurrent();
+$itemViews = $viewModel->getChildrenByCaptureTo('item');
+?>
+<aside class="main-sidebar">
+    <section class="sidebar">
+        <ul class="sidebar-menu">
+            <?php foreach ($itemViews as $view) echo $this->render($view); ?>
+        </ul>
+    </section>
+</aside>

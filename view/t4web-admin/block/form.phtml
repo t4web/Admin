@@ -1,0 +1,32 @@
+<?php
+/** @var \Zend\View\Model\ViewModel $viewModel */
+$viewModel = $this->viewModel()->getCurrent();
+
+$method =  $viewModel->getVariable('method', 'get');
+$action = '';
+if ($viewModel->getVariable('actionRoute')) {
+    $action = $this->url(
+        $viewModel->getVariable('actionRoute'),
+        $viewModel->getVariable('actionRouteOptions', [])
+    );
+}
+$enctype = $viewModel->getVariable('enctype', 'application/x-www-form-urlencoded');
+$elementsViews = $viewModel->getChildrenByCaptureTo('form-element');
+$buttonsViews = $viewModel->getChildrenByCaptureTo('form-button');
+
+$horizontal = $viewModel->getVariable('horizontal');
+if (!empty($horizontal)) {
+    foreach ($elementsViews as $view) {
+        /** @var \Zend\View\Model\ViewModel $view */
+        $view->setVariable('horizontal', true);
+    }
+}
+?>
+<form class="<?= (!empty($horizontal)) ? 'form-horizontal' : ''; ?>" method="<?= $method ?>" action="<?= $action ?>" enctype="<?= $enctype ?>">
+    <div class="box-body">
+        <?php foreach ($elementsViews as $view) echo $this->render($view); ?>
+    </div>
+    <div class="box-footer">
+        <?php foreach ($buttonsViews as $view) echo $this->render($view); ?>
+    </div>
+</form>

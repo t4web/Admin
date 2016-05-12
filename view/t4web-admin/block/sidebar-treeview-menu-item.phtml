@@ -1,0 +1,19 @@
+<?php
+
+$viewModel = $this->viewModel()->getCurrent();
+$label = $viewModel->getVariable('label');
+$route = $viewModel->getVariable('route');
+$currentRoute = $viewModel->getVariable('currentRoute');
+$requestUri = $viewModel->getVariable('requestUri');
+
+$href = '#';
+
+if ($route !== null) {
+    $routeParams = $viewModel->getVariable('routeParams', []);
+    $routeOptions = $viewModel->getVariable('routeOptions', []);
+    $href = $this->url($route, $routeParams, $routeOptions);
+}
+?>
+<li class="<?php if ($href == $requestUri) echo 'active'; ?>">
+    <a href="<?= $href ?>"><i class="fa fa-circle-o"></i> <?= $label ?></a>
+</li>

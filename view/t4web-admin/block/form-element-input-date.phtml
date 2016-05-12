@@ -1,0 +1,54 @@
+<?php
+
+$this->headScript()->appendFile($this->basePath() . '/js/admin/lib/datepicker/bootstrap-datepicker.js');
+$this->headLink()->appendStylesheet($this->basePath() . '/js/admin/lib/datepicker/datepicker3.css');
+
+$this->headScript()->appendFile($this->basePath() . '/js/admin/date.js');
+
+/** @var Zend\View\Model\ViewModel $viewModel */
+$viewModel = $this->viewModel()->getCurrent();
+
+$errors = $viewModel->getVariable('errors', []);
+
+$label = $viewModel->getVariable('label');
+if (!$label) {
+    $label = ucfirst($viewModel->getVariable('name', 'Input text'));
+}
+
+$name = $viewModel->getVariable('name');
+
+$placeholder = $viewModel->getVariable('placeholder');
+if (!$placeholder) {
+    $placeholder = 'Enter ' . strtolower($label);
+}
+
+$value = $viewModel->getVariable('value');
+$class = $viewModel->getVariable('class');
+$withMonth = $viewModel->getVariable('withMonth');
+$horizontal = $viewModel->getVariable('horizontal');
+
+?>
+
+<div class="form-group <?= (!empty($errors)) ? 'has-error' : ''; ?> <?= $class ?>">
+
+    <label class="<?= (!empty($horizontal)) ? 'col-sm-4 control-label' : ''; ?>"><?= $label ?></label>
+    <?php if (!empty($horizontal)): ?>
+    <div class="col-sm-8">
+        <?php endif; ?>
+    <div class="input-group">
+        <div class="input-group-addon">
+            <i class="fa fa-calendar"></i>
+        </div>
+        <input type="text" class="form-control pull-right datepicker" id="<?= $name ?>" name="<?= $name ?>" value="<?= $value ?>" placeholder="<?= $placeholder ?>"/>
+    </div>
+    <?php if (!empty($errors)): ?>
+        <?php if (is_array($errors)): ?>
+            <p class="help-block"><?= implode('<br/> ', $errors); ?></p>
+        <?php else: ?>
+            <p class="help-block"><?= $errors ?></p>
+        <?php endif; ?>
+    <?php endif; ?>
+    <?php if (!empty($horizontal)): ?>
+        </div>
+    <?php endif; ?>
+</div>

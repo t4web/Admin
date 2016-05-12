@@ -1,0 +1,43 @@
+<?php
+$viewModel = $this->viewModel()->getCurrent();
+$label = $viewModel->getVariable('label');
+$route = $viewModel->getVariable('route');
+$icon = $viewModel->getVariable('icon');
+$children = $viewModel->getChildrenByCaptureTo('treeview-item');
+$currentRoute = $viewModel->getVariable('currentRoute');
+
+$showChildMenu = false;
+foreach ($children as $child) {
+    if ($child->getVariable('route') == $currentRoute) {
+        $showChildMenu = true;
+        break;
+    }
+}
+
+if (empty($children) && $route == $currentRoute) {
+    $showChildMenu = true;
+}
+$href = '#';
+
+if ($route !== null) {
+    $routeParams = $viewModel->getVariable('routeParams', []);
+    $routeOptions = $viewModel->getVariable('routeOptions', []);
+    $href = $this->url($route, $routeParams, $routeOptions);
+}
+
+?>
+<li class="<?php if (!empty($children)) echo 'treeview'; ?> <?php if ($showChildMenu) echo 'active'; ?>">
+    <a href="<?= $href ?>">
+        <i class="fa <?= $icon ?>"></i> <span><?= $label ?></span>
+        <?php if (!empty($children)): ?>
+            <i class="fa fa-angle-left pull-right"></i>
+        <?php endif; ?>
+    </a>
+    <?php if (!empty($children)): ?>
+        <ul class="treeview-menu <?php if (($showChildMenu)) echo 'menu-open'; ?>">
+            <?php foreach ($children as $child): ?>
+                <?= $this->render($child); ?>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+</li>

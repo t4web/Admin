@@ -1,0 +1,19 @@
+<?php
+$this->headScript()->appendFile(
+    '/js/admin/user-info.js'
+);
+/** @var \Zend\View\Model\ViewModel $viewModel */
+$viewModel = $this->viewModel()->getCurrent();
+$class = $viewModel->getVariable('class');
+$routeName = $viewModel->getVariable('routeName');
+$id = $viewModel->getVariable('entityId');
+$href = '#';
+
+if ($routeName !== null) {
+    $routeParams = $viewModel->getVariable('routeParams', []);
+    $routeParams = array_merge($routeParams, ['id' => $viewModel->getVariable('entityId')]);
+    $href = $this->url($routeName, $routeParams);
+}
+?>
+
+<td><a href="javascript:void(0);" data-id="<?= $id ?>" data-url="<?= $href ?>" class="<?= $class ?>"><?= $viewModel->getVariable('value') ?></a></td>

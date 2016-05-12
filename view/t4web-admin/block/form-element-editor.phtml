@@ -1,0 +1,50 @@
+<?php
+
+$this->headScript()->appendFile($this->basePath() . '/js/admin/lib/wysihtml5/bootstrap3-wysihtml5.all.min.js');
+$this->headLink()->appendStylesheet($this->basePath() . '/js/admin/lib/wysihtml5/bootstrap3-wysihtml5.min.css');
+$this->headScript()->appendFile($this->basePath() . '/js/admin/wysihtml5-editor.js');
+
+/** @var Zend\View\Model\ViewModel $viewModel */
+$viewModel = $this->viewModel()->getCurrent();
+
+$errors = $viewModel->getVariable('errors', []);
+
+$label = $viewModel->getVariable('label');
+if (!$label) {
+    $label = ucfirst($viewModel->getVariable('name', 'Input text'));
+}
+
+$name = $viewModel->getVariable('name');
+
+$placeholder = $viewModel->getVariable('placeholder');
+if (!$placeholder) {
+    $placeholder = 'Enter ' . strtolower($label);
+}
+
+$value = $viewModel->getVariable('value');
+$class = $viewModel->getVariable('class');
+$horizontal = $viewModel->getVariable('horizontal');
+
+$disabled = '';
+$disabled = $viewModel->getVariable('disabled');
+if ($disabled) {
+    $disabled = 'disabled=""';
+}
+?>
+<div class="form-group <?= (!empty($errors)) ? 'has-error' : ''; ?> <?= $class ?>">
+    <label class="<?= (!empty($horizontal)) ? 'col-sm-4 control-label' : ''; ?>"><?= $label ?></label>
+    <?php if (!empty($horizontal)): ?>
+        <div class="col-sm-8">
+    <?php endif; ?>
+    <textarea name="<?= $name ?>" <?= $disabled ?> class="form-control wysihtml5-editor" rows="5" placeholder="<?= $placeholder ?>"><?= $value ?></textarea>
+    <?php if (!empty($errors)): ?>
+        <?php if (is_array($errors)): ?>
+            <p class="help-block"><?= implode('<br/> ', $errors); ?></p>
+        <?php else: ?>
+            <p class="help-block"><?= $errors ?></p>
+        <?php endif; ?>
+    <?php endif; ?>
+    <?php if (!empty($horizontal)): ?>
+        </div>
+    <?php endif; ?>
+</div>

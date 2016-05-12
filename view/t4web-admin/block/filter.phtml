@@ -1,0 +1,68 @@
+<?php
+/** @var \Zend\View\Model\ViewModel $viewModel */
+$viewModel = $this->viewModel()->getCurrent();
+
+$method =  $viewModel->getVariable('method', 'get');
+$action = '';
+if ($viewModel->getVariable('actionRoute')) {
+    $action = $this->url(
+        $viewModel->getVariable('actionRoute'),
+        $viewModel->getVariable('actionRouteOptions', [])
+    );
+}
+$enctype = $viewModel->getVariable('enctype', 'application/x-www-form-urlencoded');
+$elementsViews = $viewModel->getChildrenByCaptureTo('form-element');
+$buttonsViews = $viewModel->getChildrenByCaptureTo('form-button');
+
+$horizontal = $viewModel->getVariable('horizontal');
+if (!empty($horizontal)) {
+    foreach ($elementsViews as $view) {
+        /** @var \Zend\View\Model\ViewModel $view */
+        $view->setVariable('horizontal', true);
+    }
+}
+
+$count = count($elementsViews);
+$inOneRow = $count / 3;
+$surplus = $count % 3;
+
+if ($surplus) {
+    $inOneRow = floor($inOneRow) + 1;
+}
+
+$elementsViewsOne = [];
+$elementsViewsTwo = [];
+$elementsViewsThree = [];
+
+if ($count < 2) {
+    $elementsViewsOne = $elementsViews;
+} else {
+    $arrayChunk = array_chunk($elementsViews, $inOneRow);
+    $elementsViewsOne = $arrayChunk['0'];
+    $elementsViewsTwo = $arrayChunk['1'];
+    $elementsViewsThree = $arrayChunk['2'];
+}
+?>
+<div class="box box-info">
+    <div class="box-header with-border">
+        <i class="fa fa-search"></i>
+        <h3 class="box-title">Filter</h3>
+    </div>
+    <form class=<?= (!empty($horizontal)) ? 'form-horizontal' : ''; ?> method="<?= $method ?>" action="<?= $action ?>" enctype="<?= $enctype ?>">
+        <div class="box-body">
+
+            <div class="col-md-4">
+                <?php foreach ($elementsViewsOne as $i => $view) echo $this->render($view); ?>
+            </div>
+            <div class="col-md-4">
+                <?php foreach ($elementsViewsTwo as $view) echo $this->render($view); ?>
+            </div>
+            <div class="col-md-4">
+                <?php foreach ($elementsViewsThree as $view) echo $this->render($view); ?>
+            </div>
+        </div>
+        <div class="box-footer">
+            <?php foreach ($buttonsViews as $view) echo $this->render($view); ?>
+        </div>
+    </form>
+</div>

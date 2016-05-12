@@ -17,7 +17,7 @@
     "require": {
         "php": ">=5.5",
         "zendframework/zend-modulemanager": "~2.5.0",
-        "sebaks/view": "dev-master",
+        "sebaks/view": "~0.1.0",
         "sebaks/controller": "~0.1.0",
         "sebaks/zend-mvc-controller": "~0.1.0"
     },

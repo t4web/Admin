@@ -1,0 +1,34 @@
+<?php
+/** @var \Zend\View\Model\ViewModel $viewModel */
+$viewModel = $this->viewModel()->getCurrent();
+$tabsViews = $viewModel->getChildrenByCaptureTo('tab');
+$formsViews = $viewModel->getChildrenByCaptureTo('form');
+?>
+<section class="content-header">
+    <h1><?= $viewModel->getVariable('title', 'Edit entity') ?></h1>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <?php foreach ($tabsViews as $tabView) echo $this->render($tabView); ?>
+                </ul>
+                <div class="tab-content">
+                    <?php foreach ($formsViews as $formView): ?>
+                        <?php
+                        /** @var \Zend\View\Model\ViewModel $viewModel */
+                        $view = $this->viewModel()->getCurrent();
+                        $tabId = $formView->getVariable('tabId');
+                        $selected = $formView->getVariable('selected');
+                        ?>
+                        <div id="<?= $tabId ?>" class="tab-pane <?= $selected ?>">
+                            <?= $this->render($formView); ?>
+                        </div>
+                    <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

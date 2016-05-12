@@ -1,0 +1,23 @@
+<?php
+$viewModel = $this->viewModel()->getCurrent();
+$icon = $viewModel->getVariable('icon');
+?>
+<section class="content-header">
+    <h1><i class="fa <?= $icon ?>"></i> <?= $viewModel->getVariable('title', 'List of entities') ?></h1>
+</section>
+<section class="content">
+
+    <?= $this->filter ?>
+
+    <div class="box-body text-right">
+        <?= $this->renderChildModel('button-new-entity') ?>
+    </div>
+    <div class="box">
+        <div class="box-body no-padding">
+            <?= $this->table ?>
+        </div>
+        <div class="box-footer">
+            <?= $this->paginator ?>
+        </div>
+    </div>
+</section>

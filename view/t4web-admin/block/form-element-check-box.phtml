@@ -1,0 +1,41 @@
+<?php
+/** @var Zend\View\Model\ViewModel $viewModel */
+$viewModel = $this->viewModel()->getCurrent();
+$errors = $viewModel->getVariable('errors', []);
+
+$label = $viewModel->getVariable('label');
+if (!$label) {
+    $label = ucfirst($viewModel->getVariable('name', 'Select option'));
+}
+
+$name = $viewModel->getVariable('name');
+$class = $viewModel->getVariable('class');
+$value = $viewModel->getVariable('value', 0);
+$hiddenValue = $viewModel->getVariable('hiddenValue');
+$horizontal = $viewModel->getVariable('horizontal');
+
+$disabled = '';
+$disabled = $viewModel->getVariable('disabled');
+if ($disabled) {
+    $disabled = 'disabled=""';
+}
+?>
+
+<div class="form-group <?= (!empty($errors)) ? 'has-error' : ''; ?> <?=$class?>">
+    <div class="checkbox <?= (!empty($horizontal)) ? 'col-sm-offset-4 col-sm-8' : ''; ?>">
+        <label>
+        <?php if (isset($hiddenValue)): ?>
+            <input type="hidden" name="<?= $name ?>" value="<?= $hiddenValue ?>">
+        <?php endif; ?>
+            <input <?= $disabled ?> name="<?= $name ?>" type="checkbox" <?php if ($value == 1) echo 'checked="checked"'  ?> value="1">
+            <?= $label ?>
+        <?php if (!empty($errors)): ?>
+            <?php if (is_array($errors)): ?>
+                <p class="help-block"><?=implode('<br/> ', $errors);?></p>
+            <?php else: ?>
+                <p class="help-block"><?=$errors?></p>
+            <?php endif; ?>
+        <?php endif; ?>
+        </label>
+    </div>
+</div>

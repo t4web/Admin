@@ -1,0 +1,33 @@
+<?php
+$this->headScript()->appendFile(
+    '/js/admin/table-td-input.js'
+);
+
+/** @var \Zend\View\Model\ViewModel $viewModel */
+$viewModel = $this->viewModel()->getCurrent();
+$color = $viewModel->getVariable('color', 'default');
+$text = $viewModel->getVariable('text', 'Save');
+$size = $viewModel->getVariable('size', 'sm');
+$routeName = $viewModel->getVariable('routeName');
+
+$href = '';
+if ($routeName !== null) {
+    $routeParams = $viewModel->getVariable('routeParams', []);
+    $routeParams = array_merge($routeParams, ['id' => $viewModel->getVariable('entityId'), 'lang' => $viewModel->getVariable('hiddenValue')]);
+    $href = $this->url($routeName, $routeParams);
+}
+
+$inputName = $viewModel->getVariable('inputName', 'value');
+$inputHiddenName = $viewModel->getVariable('inputHiddenName', '');
+?>
+<td>
+    <div class="input-group input-group-<?= $size ?>">
+        <input name="<?= $inputName ?>" type="text" value="<?= $viewModel->getVariable('value') ?>" class="form-control">
+        <input name="<?= $inputHiddenName ?>" type="hidden" value="<?= $viewModel->getVariable('hiddenValue', '') ?>" class="form-control">
+        <span class="input-group-btn ">
+            <button id="<?= $inputName ?>" data-entity-id="<?= $viewModel->getVariable('entityId') ?>" data-url="<?= $href ?>" class="btn btn-<?= $color ?> btn-flat table-td-input" type="button">
+                <?= $text ?>
+            </button>
+        </span>
+    </div>
+</td>

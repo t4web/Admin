@@ -1,0 +1,46 @@
+<?php
+/** @var \Zend\View\Model\ViewModel $viewModel */
+$viewModel = $this->viewModel()->getCurrent();
+$tdViews = $viewModel->getChildrenByCaptureTo('table-td');
+$trCollapseViews = $viewModel->getChildrenByCaptureTo('table-tr-collapse');
+?>
+
+<tr><?php foreach ($tdViews as $view) echo $this->render($view) ?></tr>
+<?php foreach ($trCollapseViews as $view): ?>
+
+    <?php if ($view->getVariable('values')): ?>
+            <tr>
+                <td colspan="100" style="margin: 0; padding: 0">
+                    <div class="collapse" id="<?= $view->getVariable('target') ?>">
+                        <div class="well">
+                            <?php foreach ($view->getVariable('values') as $value): ?>
+                                <label><?= ($view->getVariable('labels')[$value]) ?></label>
+                                <?php if (!empty($view->getVariable('jsonPrettyPrint')[$value])): ?>
+                                    <pre><?= json_encode(json_decode($view->getVariable($value)), JSON_PRETTY_PRINT) ?></pre>
+                                <?php else: ?>
+                                    <pre><?= $view->getVariable($value) ?></pre>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+    <?php else: ?>
+        <tr>
+            <td colspan="100" style="margin: 0; padding: 0">
+                <div class="collapse" id="<?= $view->getVariable('target') ?>">
+                    <div class="well">
+                        <?php if (!empty($view->getVariable('jsonPrettyPrint'))): ?>
+                            <pre><?= json_encode(json_decode($view->getVariable('value')), JSON_PRETTY_PRINT) ?></pre>
+                            <?php else: ?>
+                            <pre><?= $view->getVariable('value')?></pre>
+                        <?php endif; ?>
+
+                    </div>
+                </div>
+            </td>
+        </tr>
+    <?php endif; ?>
+
+<?php endforeach; ?>
+

@@ -1,0 +1,14 @@
+<?php
+/** @var \Zend\View\Model\ViewModel $viewModel */
+$viewModel = $this->viewModel()->getCurrent();
+$trHeadViews = $viewModel->getChildrenByCaptureTo('table-head-row');
+$trBodyViews = $viewModel->getChildrenByCaptureTo('table-body-row');
+?>
+<table class="table">
+    <thead>
+        <?php foreach ($trHeadViews as $view) echo $this->render($view); ?>
+    </thead>
+    <tbody>
+        <?php foreach ($trBodyViews as $view) echo $this->render($view); ?>
+    </tbody>
+</table>

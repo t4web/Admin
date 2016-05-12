@@ -1,0 +1,18 @@
+<?php
+$viewModel = $this->viewModel()->getCurrent();
+$value = $viewModel->getVariable('value');
+$colorValueMap = $viewModel->getVariable('colorValueMap', []);
+$textValueMap = $viewModel->getVariable('textValueMap', []);
+
+$color = 'default';
+if (isset($colorValueMap[$value])) {
+    $color = $colorValueMap[$value];
+}
+$text = $value;
+if (isset($textValueMap[$value])) {
+    $text = $textValueMap[$value];
+}
+?>
+<td>
+    <span class="label label-<?= $color ?>"><?= $text ?></span>
+</td>

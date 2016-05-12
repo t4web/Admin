@@ -1,0 +1,5 @@
+<?php
+/** @var \Zend\View\Model\ViewModel $viewModel */
+$viewModel = $this->viewModel()->getCurrent();
+?>
+<th width="<?= $viewModel->getVariable('width') ?>"><?= $viewModel->getVariable('value') ?></th>
