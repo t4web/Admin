@@ -28,8 +28,8 @@ $viewModel = $this->viewModel()->getCurrent();
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-    <script src="/js/admin/lib/html5shiv.js"></script>
-    <script src="/js/admin/lib/respond.min.js"></script>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
 </head>
 <body class="skin-blue">
@@ -55,7 +55,7 @@ $viewModel = $this->viewModel()->getCurrent();
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery 2.1.3 -->
+<!-- jQuery 2.2.0 -->
 <script src="/js/admin/lib/jQuery/jQuery-2.2.0.min.js"></script>
 <!-- Bootstrap 3.3.2 JS -->
 <script src="/css/admin/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
@@ -64,7 +64,8 @@ $viewModel = $this->viewModel()->getCurrent();
 <!-- FastClick -->
 <script src='/js/admin/lib/fastclick/fastclick.min.js'></script>
 <!-- AdminLTE App -->
-<script src="/js/admin/app.js" type="text/javascript"></script>
+<script src="/js/admin/app.min.js" type="text/javascript"></script>
+
 <?= $this->headScript(); ?>
 <?= $this->inlineScript(); ?>
 
