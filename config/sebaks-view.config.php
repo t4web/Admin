@@ -109,7 +109,7 @@ return [
         't4web-admin-paginator' => [
             'template' => 't4web-admin/block/paginator',
             'data' => [
-                'fromGlobal' => 'criteria'
+                'fromGlobal' => 'validCriteria'
             ]
         ],
     ],
