@@ -24,9 +24,9 @@ if (!empty($horizontal)) {
 ?>
 <form class="<?= (!empty($horizontal)) ? 'form-horizontal' : ''; ?>" method="<?= $method ?>" action="<?= $action ?>" enctype="<?= $enctype ?>">
     <div class="box-body">
-        <?php foreach ($elementsViews as $view) echo $this->render($view); ?>
+        <?=$this->{'form-element'}?>
     </div>
     <div class="box-footer">
-        <?php foreach ($buttonsViews as $view) echo $this->render($view); ?>
+        <?=$this->{'form-button'}?>
     </div>
 </form>
