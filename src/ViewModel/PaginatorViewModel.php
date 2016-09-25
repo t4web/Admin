@@ -16,32 +16,32 @@ class PaginatorViewModel extends ZendViewModel
     /**
      * @var array
      */
-    private $criteria;
+    protected $criteria;
 
     /**
      * @var RepositoryInterface
      */
-    private $repository;
+    protected $repository;
 
     /**
      * @var ZendPaginator
      */
-    private $zendPaginator;
+    protected $zendPaginator;
 
     /**
      * @var int
      */
-    private $currentPage;
+    protected $currentPage;
 
     /**
      * @var int
      */
-    private $count;
+    protected $count;
 
     /**
      * @var int
      */
-    private $itemsCountPerPage;
+    protected $itemsCountPerPage;
 
     /**
      * @param RepositoryInterface $repository
